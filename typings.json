@@ -1,0 +1,15 @@
+{
+  "name": "ntask-api",
+  "dependencies": {},
+  "globalDependencies": {
+    "bluebird": "registry:dt/bluebird#2.0.0+20160701023356",
+    "express": "registry:dt/express#4.0.0+20160708185218",
+    "express-serve-static-core": "registry:dt/express-serve-static-core#4.0.0+20160715232503",
+    "lodash": "registry:dt/lodash#3.10.0+20160619033623",
+    "mime": "registry:dt/mime#0.0.0+20160316155526",
+    "node": "registry:dt/node#6.0.0+20160709114037",
+    "sequelize": "registry:dt/sequelize#3.4.1+20160622054214",
+    "serve-static": "registry:dt/serve-static#0.0.0+20160606155157",
+    "validator": "registry:dt/validator#4.5.1+20160316155526"
+  }
+}

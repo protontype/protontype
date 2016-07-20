@@ -1,0 +1,22 @@
+{
+  "name": "ntask-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "tsc": "tsc",
+    "node-start": "nodemon dist/Main.js",
+    "start": "concurrent \"npm run tsc\" \"npm run node-start\" ",
+    "postinstall": "typings install",
+    "clean": "rm dist -r"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "consign": "^0.1.2",
+    "express": "^4.14.0"
+  },
+  "devDependencies": {
+    "concurrently": "^2.2.0"
+  }
+}
