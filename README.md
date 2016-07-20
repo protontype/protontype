@@ -1,0 +1,1 @@
+Exemplo de API REST usando Node, Express, Sequelize e Type Script
