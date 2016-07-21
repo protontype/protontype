@@ -1,23 +1,29 @@
 <html>
 <script src="https://npmcdn.com/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/vue.resource/0.9.3/vue-resource.min.js"></script>
-<style>
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-</style>
-<div id="routes">
-    <span>NTask API TEste</span>
-    <table style="border: 1px solid black">
-        <tr>
-            <th>Rotas Usando VueJS</th>
-        </tr>
-        <tr v-for="route in routes">
-            <td> {{ route.path }}</td>
-        </tr>
-    </table>
-</div>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.2/semantic.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.2/semantic.min.css">
+
+<body>
+    <div id="routes" class="ui container">
+        <table class="ui green selectable celled table ">
+            <thead class="center aligned">
+                <tr>
+                    <th>NTask API TEste</th>
+                </tr>
+                <tr>
+                    <th>Lista de Rotas Usando VueJS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="route in routes">
+                    <td class="selectable"> <a href="http://localhost:3000{{ route.path }}"> {{ route.path }} </a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
 <script>
 new Vue({
     el: '#routes',
@@ -25,12 +31,10 @@ new Vue({
         routes: []
     },
     ready() {
-        console.log("Ready!!");
-        // GET /someUrl
         this.$http.get('http://localhost:3000/routes').then((response) => {
             this.$set('routes', response.json());
         }, (response) => {
-            console.log("ERROR!");
+            console.log("ERROR! ");
         });
 
     }
