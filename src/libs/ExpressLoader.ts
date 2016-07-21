@@ -1,6 +1,9 @@
 import * as Express from "express"
 import { Middlewares } from '../libs/Middlewares';
 
+/**
+ * @author Humberto Machado
+ */
 export class ExpressLoader {
     private expressApp: any;
     private middlewares: Middlewares;

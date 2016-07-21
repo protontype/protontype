@@ -15,7 +15,9 @@ export abstract class ExpressRouter {
         this.express.get("/", (req, res) =>
             res.json({ status: "NTask API TEste" }));
         this.express.get("/routes", (req, res) =>
-            res.json({ routes: this.printRoutes() }));
+            // res.render("../routes"));
+            res.sendfile('./src/views/routes.html')
+        );
     }
 
     private printRoutes(): string[] {
