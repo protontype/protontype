@@ -4,14 +4,14 @@
 export abstract class ExpressRouter {
     protected express: any;
 
-    public abstract start();
+    public abstract start(): void;
 
     constructor(express: any) {
         this.express = express;
         this.defaultRoutes();
     }
 
-    private defaultRoutes() {
+    private defaultRoutes(): void {
         this.express.get("/", (req, res) =>
             res.json({ status: "NTask API TEste" }));
         this.express.get("/routes", (req, res) =>
