@@ -33,17 +33,6 @@ new Vue({
             console.log("ERROR!");
         });
 
-    },
-    methods:
-    {
-        fetchRoutes: function()
-        {
-            this.$http.get('/routes', function(data)
-            {
-                this.routes = data;
-                console.log("Atualizei as rotas");
-            });
-        }
     }
 })
 </script>
