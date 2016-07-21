@@ -15,6 +15,16 @@ export abstract class ExpressRouter {
         this.express.get("/", (req, res) =>
             res.json({ status: "NTask API TEste" }));
         this.express.get("/routes", (req, res) =>
-            res.json({ routes: this.express._router.stack }));
+            res.json({ routes: this.printRoutes() }));
+    }
+
+    private printRoutes(): string[] {
+        let routes: string[] = [];
+        this.express._router.stack.forEach(r => {
+            if (r.route && r.route.path) {
+                routes.push(r.route.path);
+            }
+        });
+        return routes;
     }
 }
