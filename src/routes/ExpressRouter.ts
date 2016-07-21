@@ -13,18 +13,19 @@ export abstract class ExpressRouter {
 
     private defaultRoutes(): void {
         this.express.get("/", (req, res) =>
-            res.json({ status: "NTask API TEste" }));
+            res.sendFile('routes.html', {"root": "./src/views"})
+        );
+
         this.express.get("/routes", (req, res) =>
-            // res.render("../routes"));
-            res.sendfile('./src/views/routes.html')
+            res.json(this.listRoutes())
         );
     }
 
-    private printRoutes(): string[] {
-        let routes: string[] = [];
+    private listRoutes(): Object[] {
+        let routes: Object[] = [];
         this.express._router.stack.forEach(r => {
             if (r.route && r.route.path) {
-                routes.push(r.route.path);
+                routes.push({path: r.route.path});
             }
         });
         return routes;

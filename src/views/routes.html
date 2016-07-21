@@ -1,22 +1,51 @@
 <html>
 <script src="https://npmcdn.com/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/vue.resource/0.9.3/vue-resource.min.js"></script>
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+</style>
 <div id="routes">
-            <ul>
-                <li v-for="todo in todos">
-                {{ todo.text }}
-                </li>
-            </ul>
-            </div>
+    <span>NTask API TEste</span>
+    <table style="border: 1px solid black">
+        <tr>
+            <th>Rotas Usando VueJS</th>
+        </tr>
+        <tr v-for="route in routes">
+            <td> {{ route.path }}</td>
+        </tr>
+    </table>
+</div>
 <script>
 new Vue({
-  el: '#routes',
-  data: {
-    todos: [
-      { text: 'Learn JavaScript' },
-      { text: 'Learn Vue.js' },
-      { text: 'Build Something Awesome' }
-    ]
-  }
+    el: '#routes',
+    data: {
+        routes: []
+    },
+    ready() {
+        console.log("Ready!!");
+        // GET /someUrl
+        this.$http.get('http://localhost:3000/routes').then((response) => {
+            this.$set('routes', response.json());
+        }, (response) => {
+            console.log("ERROR!");
+        });
+
+    },
+    methods:
+    {
+        fetchRoutes: function()
+        {
+            this.$http.get('/routes', function(data)
+            {
+                this.routes = data;
+                console.log("Atualizei as rotas");
+            });
+        }
+    }
 })
 </script>
+
 </html>
