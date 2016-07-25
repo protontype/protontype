@@ -1,3 +1,4 @@
+import { ExpressApplication } from './../libs/ExpressApplication';
 /**
  * Express routes configurations
  */
@@ -6,8 +7,8 @@ export abstract class ExpressRouter {
 
     public abstract start(): void;
 
-    constructor(express: any) {
-        this.express = express;
+    constructor(expressApplication: ExpressApplication) {
+        this.express = expressApplication.getExpress();
         this.defaultRoutes();
     }
 

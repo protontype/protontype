@@ -1,3 +1,4 @@
+import { ExpressApplication } from './../libs/ExpressApplication';
 import { ExpressRouter } from './ExpressRouter';
 import { Tasks } from '../models/Tasks';
 
@@ -7,9 +8,9 @@ import { Tasks } from '../models/Tasks';
 export class TasksRouter extends ExpressRouter {
     private tasks: Tasks;
 
-    constructor(express: any){
+    constructor(express: ExpressApplication){
         super(express);
-        this.tasks = new Tasks();
+        this.tasks = new Tasks(express.getDB());
     }
 
     public start(): void {

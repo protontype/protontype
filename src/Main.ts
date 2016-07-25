@@ -1,9 +1,9 @@
-import { ExpressLoader } from './libs/ExpressLoader';
+import { ExpressApplication } from './libs/ExpressApplication';
 import { TasksRouter }  from './routes/TasksRouter';
 
-let expressLoader = new ExpressLoader();
-let app = expressLoader.bootstrap();
+let expressApplication = new ExpressApplication();
+expressApplication.bootstrap();
 
-new TasksRouter(app).start();
+new TasksRouter(expressApplication).start();
 
 
