@@ -1,9 +1,11 @@
 import { ExpressApplication } from './libs/ExpressApplication';
-import { TasksRouter }  from './routes/TasksRouter';
+import { DefaultRouter } from './routes/DefaultRouter';
+import { TasksRouter } from './routes/TasksRouter';
 
-let expressApplication = new ExpressApplication();
-expressApplication.bootstrap();
-
-new TasksRouter(expressApplication).start();
+let expressApp = new ExpressApplication();
+expressApp
+   .addRouter(new DefaultRouter(expressApp))
+   .addRouter(new TasksRouter(expressApp))
+   .bootstrap();
 
 

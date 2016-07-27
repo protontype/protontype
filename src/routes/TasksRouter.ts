@@ -13,6 +13,7 @@ export class TasksRouter extends ExpressRouter {
         this.tasks = new Tasks(express.getDB());
     }
 
+
     public start(): void {
         this.addTaskRoutes();
         console.log(">>> Rotas para Tasks carregadas <<<");
