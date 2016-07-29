@@ -4,7 +4,6 @@ import { ExpressApplication } from './../libs/ExpressApplication';
  */
 export abstract class ExpressRouter {
     protected express: any;
-
     public abstract start(): void;
 
     constructor(expressApplication: ExpressApplication) {

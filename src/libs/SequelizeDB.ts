@@ -20,3 +20,5 @@ export class SequelizeDB {
     }
 
 }
+
+exports = Sequelize;

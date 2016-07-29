@@ -10,7 +10,7 @@ export class ExpressApplication {
     private express: any;
     private middlewares: Middlewares;
     private db: SequelizeDB;
-    private routers: Array<ExpressRouter> = new Array<ExpressRouter>();
+    private routers: ExpressRouter[] = [];
 
     /**
      * Create express application instance and middlewares
