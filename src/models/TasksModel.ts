@@ -1,44 +1,43 @@
-import { SequelizeDB } from './../libs/SequelizeDB';
-import * as Sequelize from 'sequelize';
+import {SequelizeModel} from "./SequelizeModel";
+import {SequelizeDB} from "../libs/SequelizeDB";
+import {UsersModel} from "./UsersModel";
+import {Model} from '../libs/SequelizeModelLoader';
 
-export class TasksModel {
-    private Task: any;
+@Model(new TasksModel())
+export class TasksModel implements SequelizeModel {
     public static MODEL_NAME = "Tasks";
+    private Tasks: any;
 
-    constructor(sequelizeDB: SequelizeDB) {
-        let sequelize = sequelizeDB.getSequelize();
-        this.Task = sequelize.define(TasksModel.MODEL_NAME, {
+    public getModelName(): string {
+        return TasksModel.MODEL_NAME;
+    }
+
+    public defineModel(sequelize: any, DataType: any): any {
+        this.Tasks = sequelize.define(this.getModelName(), {
             id: {
-                type: Sequelize.INTEGER,
+                type: DataType.INTEGER,
                 primaryKey: true,
                 autoIncrement: true
             },
             title: {
-                type: Sequelize.STRING,
+                type: DataType.STRING,
                 allowNull: false,
                 validate: {
                     notEmpty: true
                 }
             },
             done: {
-                type: Sequelize.BOOLEAN,
+                type: DataType.BOOLEAN,
                 allowNull: false,
                 defaultValue: false
             }
-        }, {
-                classMethods: {
-                    associate: (models) => {
-                        this.Task.belongsTo(models.Users);
-                    }
-                }
-            });
+        }, {});
+
+        return this.Tasks;
     }
 
-    public findAll(params: Object): any {
-        return this.Task.findAll(params);
-    }
-
-    public getTask(): any {
-        return this.Task;
+    public associate(sequelizeDB: SequelizeDB): void {
+        this.Tasks.belongsTo(sequelizeDB.getModel(new UsersModel()));
+        console.log('Associado models a TASK');
     }
 }

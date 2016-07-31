@@ -6,13 +6,12 @@ import { TasksModel } from '../models/TasksModel';
  * Rotas para Taks
  */
 export class TasksRouter extends ExpressRouter {
-    private taskModel: TasksModel;
+    private task: any;
 
-    constructor(expressApplication: ExpressApplication){
+    constructor(expressApplication: ExpressApplication) {
         super(expressApplication);
-        this.taskModel = new TasksModel(expressApplication.getDB());
+        this.task = expressApplication.getSequelizeDB().getModel(new TasksModel());
     }
-
 
     public start(): void {
         this.addTaskRoutes();
@@ -21,7 +20,7 @@ export class TasksRouter extends ExpressRouter {
 
     private addTaskRoutes(): void {
         this.express.get("/tasks", (req, res) => {
-            this.taskModel.findAll({})
+            this.task.findAll({})
                 .then((tasks) => {
                     res.json({tasks: tasks});
                 });

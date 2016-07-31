@@ -1,50 +1,53 @@
-import { SequelizeDB } from './../libs/SequelizeDB';
-import * as Sequelize from 'sequelize';
+import {SequelizeModel} from "./SequelizeModel";
+import {SequelizeDB} from "../libs/SequelizeDB";
+import {TasksModel} from "./TasksModel";
+import {Model} from '../libs/SequelizeModelLoader';
 
-export class UsersModel {
-    private User: any;
+@Model(new UsersModel())
+export class UsersModel implements SequelizeModel {
     public static MODEL_NAME = "Users";
+    private User:any;
 
-    constructor(sequelizeDB: SequelizeDB) {
-        let sequelize = sequelizeDB.getSequelize();
+    public defineModel(sequelize:any, DataType:any):any {
         this.User = sequelize.define(UsersModel.MODEL_NAME, {
             id: {
-                type: Sequelize.INTEGER,
+                type: DataType.INTEGER,
                 primaryKey: true,
                 autoIncrement: true
             },
             name: {
-                type: Sequelize.STRING,
+                type: DataType.STRING,
                 allowNull: false,
                 validate: {
                     notEmpty: true
                 }
             },
             password: {
-                type: Sequelize.STRING,
+                type: DataType.STRING,
                 allowNull: false,
                 validate: {
                     notEmpty: true
                 }
             },
             email: {
-                type: Sequelize.STRING,
+                type: DataType.STRING,
                 unique: true,
                 allowNull: false,
                 validate: {
                     notEmpty: true
                 }
             }
-        }, {
-                classMethods: {
-                    associate: (models) => {
-                        this.User.hasMany(models.Tasks);
-                    }
-                }
-            });
+        }, {});
+
+        return this.User;
     }
 
-    public getUser(): any {
-        return this.User;
+    associate(sequelizeDB:SequelizeDB):void {
+        this.User.hasMany(sequelizeDB.getModel(new TasksModel()));
+        console.log('Associado models a USER');
+    }
+
+    public getModelName():string {
+        return UsersModel.MODEL_NAME;
     }
 }

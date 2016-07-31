@@ -9,7 +9,7 @@ import { ExpressRouter } from '../routes/ExpressRouter';
 export class ExpressApplication {
     private express: any;
     private middlewares: Middlewares;
-    private db: SequelizeDB;
+    private sequelizeDB: SequelizeDB;
     private routers: ExpressRouter[] = [];
 
     /**
@@ -18,7 +18,7 @@ export class ExpressApplication {
     constructor() {
         this.express = Express();
         this.middlewares = new Middlewares(this.express);
-        this.db = new SequelizeDB();
+        this.sequelizeDB = new SequelizeDB();
     }
 
     /**
@@ -28,10 +28,10 @@ export class ExpressApplication {
     public bootstrap(): any {
         this.middlewares.startMiddlewares();
         let port: number = this.express.get("port");
-        this.db.getSequelize().sync().done(() => {
+        this.sequelizeDB.getDB().sequelize.sync().done(() => {
             this.startRoutes();
             this.express.listen(port, () => console.log(`NTask API - porta ${port}`));
-        })
+        });
         return this.express;
     }
 
@@ -50,7 +50,7 @@ export class ExpressApplication {
         return this.express;
     }
 
-    public getDB(): any {
-        return this.db;
+    public getSequelizeDB(): SequelizeDB {
+        return this.sequelizeDB;
     }
 }
