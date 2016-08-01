@@ -1,6 +1,5 @@
 import {GOLBAL_CFG} from './Config';
 import * as Sequelize from "sequelize"
-import {Model} from "sequelize";
 import {SequelizeModelLoader} from "./SequelizeModelLoader";
 import {SequelizeModel} from "../models/SequelizeModel";
 

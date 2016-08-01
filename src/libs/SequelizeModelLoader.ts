@@ -22,8 +22,15 @@ export class SequelizeModelLoader {
     }
 }
 
-export function Model(model: SequelizeModel) {
+export function Model(config: ModelConfig){
     return function (constructor: Function) {
-        SequelizeModelLoader.modelsList.push(model);
+        constructor.prototype.name = config.name;
+        constructor.prototype.definition = config.definition;
+        SequelizeModelLoader.modelsList.push(constructor.prototype);
     }
+}
+
+interface ModelConfig {
+    name: string;
+    definition: {}
 }
