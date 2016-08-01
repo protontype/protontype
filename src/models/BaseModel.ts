@@ -9,11 +9,11 @@ export abstract class BaseModel implements SequelizeModel {
     protected name: string;
     protected definition: {};
 
-    protected getModelName(): string {
+    public getModelName(): string {
         return this.name;
     }
 
-    protected defineModel(sequelize: any, DataType: any): any {
+    public defineModel(sequelize: any, DataType: any): any {
         this.model = sequelize.define(this.getModelName(), this.definition, {});
         return this.model;
     }

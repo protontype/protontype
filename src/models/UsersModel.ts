@@ -1,33 +1,33 @@
 import {SequelizeDB} from "../libs/SequelizeDB";
 import {TasksModel} from "./TasksModel";
 import {Model} from '../libs/SequelizeModelLoader';
-import * as DataType from "sequelize"
+import * as DataTypes from "sequelize"
 import {BaseModel} from "./BaseModel";
 
 @Model({
     name: 'Users',
     definition: {
         id: {
-            type: DataType.INTEGER,
+            type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
         name: {
-            type: DataType.STRING,
+            type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 notEmpty: true
             }
         },
         password: {
-            type: DataType.STRING,
+            type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 notEmpty: true
             }
         },
         email: {
-            type: DataType.STRING,
+            type: DataTypes.STRING,
             unique: true,
             allowNull: false,
             validate: {
