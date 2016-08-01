@@ -1,7 +1,5 @@
 import {SequelizeDB} from "./SequelizeDB";
 import {SequelizeModel} from "../models/SequelizeModel";
-import {TasksModel} from "../models/TasksModel";
-import {UsersModel} from "../models/UsersModel";
 /**
  * Created by beto_ on 29/07/2016.
  */

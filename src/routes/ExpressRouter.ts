@@ -9,4 +9,8 @@ export abstract class ExpressRouter {
     constructor(expressApplication: ExpressApplication) {
         this.express = expressApplication.getExpress();
     }
+
+    protected sendErrorMessage(res: any, error: any): void {
+        res.status(412).json({msg: error.message})
+    }
 }

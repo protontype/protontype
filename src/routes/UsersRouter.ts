@@ -19,12 +19,42 @@ export class UsersRouter extends ExpressRouter {
     }
 
     private addTaskRoutes(): void {
-        this.express.get("/users", (req, res) => {
-            this.users.findAll({})
-                .then((users) => {
-                    res.json({users: users});
-                });
-        });
+        this.express.route("/users")
+            .get((req, res) => {
+                this.users.findAll({})
+                    .then(result => res.json(result))
+                    .catch(error => this.sendErrorMessage(res, error));
+            })
+            .post((req, res) => {
+                this.users.create(req.body)
+                    .then(result => res.json(result))
+                    .catch(error => this.sendErrorMessage(res, error));
+            });
+
+        this.express.route("/users/:id")
+            .get((req, res) => {
+                this.users.findOne({where: req.params})
+                    .then(result => {
+                        if (result) {
+                            res.json(result);
+                        } else {
+                            res.sendStatus(404);
+                        }
+                    })
+                    .catch(error => this.sendErrorMessage(res, error));
+
+            })
+            .put((req, res) => {
+                this.users.update(req.body, {where: req.params})
+                    .then(result => res.sendStatus(204))
+                    .catch(error => this.sendErrorMessage(res, error));
+
+            })
+            .delete((req, res) => {
+                this.users.destroy({where: req.params})
+                    .then(result => res.sendStatus(204))
+                    .catch(error => this.sendErrorMessage(res, error));
+            });
     }
 }
 
