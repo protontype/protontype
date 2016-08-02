@@ -30,8 +30,8 @@ export class SequelizeDB {
         return this.models;
     }
 
-    public getModel(model: SequelizeModel): any {
-        return this.models[model.getModelName()];
+    public getModel(modelName: string): any {
+        return this.models[modelName];
     }
 
     public addModel(name: string, model: any): void {

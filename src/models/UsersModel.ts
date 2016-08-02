@@ -5,7 +5,7 @@ import * as DataTypes from "sequelize"
 import {BaseModel} from "./BaseModel";
 
 @Model({
-    name: 'Users',
+    name: UsersModel.MODEL_NAME,
     definition: {
         id: {
             type: DataTypes.INTEGER,
@@ -37,8 +37,10 @@ import {BaseModel} from "./BaseModel";
     }
 })
 export class UsersModel extends BaseModel {
+    public static MODEL_NAME = 'Users';
+
     public associate(sequelizeDB:SequelizeDB):void {
-        this.model.hasMany(sequelizeDB.getModel(new TasksModel()));
+        this.model.hasMany(sequelizeDB.getModel(TasksModel.MODEL_NAME));
         console.log('Associado models a USER');
     }
 }

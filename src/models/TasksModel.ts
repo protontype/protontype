@@ -5,7 +5,7 @@ import * as DataTypes from "sequelize"
 import {BaseModel} from "./BaseModel";
 
 @Model({
-    name: 'Tasks',
+    name: TasksModel.MODEL_NAME,
     definition: {
         id: {
             type: DataTypes.INTEGER,
@@ -27,8 +27,10 @@ import {BaseModel} from "./BaseModel";
     }
 })
 export class TasksModel extends BaseModel {
+    public static MODEL_NAME = 'Tasks';
+
     public associate(sequelizeDB: SequelizeDB): void {
-        this.model.belongsTo(sequelizeDB.getModel(new UsersModel()));
+        this.model.belongsTo(sequelizeDB.getModel(UsersModel.MODEL_NAME));
         console.log('Associado models a TASK');
     }
 }

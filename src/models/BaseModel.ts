@@ -13,7 +13,7 @@ export abstract class BaseModel implements SequelizeModel {
         return this.name;
     }
 
-    public defineModel(sequelize: any, DataType: any): any {
+    public defineModel(sequelize: any, DataTypes: any): any {
         this.model = sequelize.define(this.getModelName(), this.definition, {});
         return this.model;
     }

@@ -1,16 +1,19 @@
 import { ExpressApplication } from './../libs/ExpressApplication';
-import { ExpressRouter } from './ExpressRouter';
+import { ExpressRouter, Router } from './ExpressRouter';
 import {UsersModel} from "../models/UsersModel";
 
 /**
  * Rotas para Users
  */
+@Router({
+    modelName: UsersModel.MODEL_NAME
+})
 export class UsersRouter extends ExpressRouter {
-    private users: any;
+    // private users: any;
 
     constructor(expressApplication: ExpressApplication) {
         super(expressApplication);
-        this.users = expressApplication.getSequelizeDB().getModel(new UsersModel());
+        // this.users = expressApplication.getSequelizeDB().getModel(new UsersModel());
     }
 
     public start(): void {
@@ -21,19 +24,19 @@ export class UsersRouter extends ExpressRouter {
     private addTaskRoutes(): void {
         this.express.route("/users")
             .get((req, res) => {
-                this.users.findAll({})
+                this.model.findAll({})
                     .then(result => res.json(result))
                     .catch(error => this.sendErrorMessage(res, error));
             })
             .post((req, res) => {
-                this.users.create(req.body)
+                this.model.create(req.body)
                     .then(result => res.json(result))
                     .catch(error => this.sendErrorMessage(res, error));
             });
 
         this.express.route("/users/:id")
             .get((req, res) => {
-                this.users.findOne({where: req.params})
+                this.model.findOne({where: req.params})
                     .then(result => {
                         if (result) {
                             res.json(result);
@@ -45,13 +48,13 @@ export class UsersRouter extends ExpressRouter {
 
             })
             .put((req, res) => {
-                this.users.update(req.body, {where: req.params})
+                this.model.update(req.body, {where: req.params})
                     .then(result => res.sendStatus(204))
                     .catch(error => this.sendErrorMessage(res, error));
 
             })
             .delete((req, res) => {
-                this.users.destroy({where: req.params})
+                this.model.destroy({where: req.params})
                     .then(result => res.sendStatus(204))
                     .catch(error => this.sendErrorMessage(res, error));
             });
