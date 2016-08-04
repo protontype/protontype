@@ -9,11 +9,9 @@ import {TasksModel} from '../models/TasksModel';
     modelName: TasksModel.MODEL_NAME
 })
 export class TasksRouter extends ExpressRouter {
-    // private tasks:any;
 
     constructor(expressApplication:ExpressApplication) {
         super(expressApplication);
-        // this.tasks = expressApplication.getSequelizeDB().getModel(new TasksModel());
     }
 
     public start():void {
