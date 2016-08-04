@@ -9,11 +9,9 @@ import {UsersModel} from "../models/UsersModel";
     modelName: UsersModel.MODEL_NAME
 })
 export class UsersRouter extends ExpressRouter {
-    // private users: any;
 
     constructor(expressApplication: ExpressApplication) {
         super(expressApplication);
-        // this.users = expressApplication.getSequelizeDB().getModel(new UsersModel());
     }
 
     public start(): void {
