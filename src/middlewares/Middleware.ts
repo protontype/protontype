@@ -1,3 +1,4 @@
+import {ExpressApplication} from "../libs/ExpressApplication";
 /**
  * Created by beto_ on 05/08/2016.
  */

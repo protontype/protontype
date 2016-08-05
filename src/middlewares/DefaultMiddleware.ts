@@ -1,11 +1,13 @@
 import {Middleware} from "./Middleware";
 import * as bodyParser from 'body-parser';
+import {Config} from "../libs/Config";
+
 
 /**
  * Created by beto_ on 05/08/2016.
  */
 export class DefaultMiddleware extends Middleware {
-    private port: number = 3000;
+    private port: number = Config.port;
     private jsonSpaces: number = 2;
 
     public configMiddlewares(): void {

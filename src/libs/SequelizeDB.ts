@@ -1,18 +1,18 @@
-import {GOLBAL_CFG} from "./Config";
+import {Config} from "./Config";
 import * as Sequelize from "sequelize";
 import {SequelizeModelLoader} from "./SequelizeModelLoader";
 
 export class SequelizeDB {
-    private sequelize :any = null;
+    private sequelize: any = null;
     private models: any = {};
 
     constructor() {
         if (this.sequelize == null) {
             this.sequelize = new Sequelize(
-                GOLBAL_CFG.database,
-                GOLBAL_CFG.username,
-                GOLBAL_CFG.password,
-                GOLBAL_CFG.params
+                Config.database.name,
+                Config.database.username,
+                Config.database.password,
+                Config.database.params
             );
             SequelizeModelLoader.loadModels(this);
         }

@@ -1,8 +1,7 @@
 {
-  "name": "ntask-api",
+  "name": "typed-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "tsc": "tsc",
     "node-start": "nodemon dist/Main.js",
