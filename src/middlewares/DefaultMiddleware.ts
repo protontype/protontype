@@ -1,15 +1,14 @@
+import {Middleware} from "./Middleware";
 import * as bodyParser from 'body-parser';
 
-export class Middlewares {
-    private express: any;
+/**
+ * Created by beto_ on 05/08/2016.
+ */
+export class DefaultMiddleware extends Middleware {
     private port: number = 3000;
     private jsonSpaces: number = 2;
 
-    constructor(express: any) {
-        this.express = express;
-    }
-
-    public startMiddlewares() {
+    public configMiddlewares(): void {
         this.express.set("port", this.port);
         this.express.set("json spaces", this.jsonSpaces);
         this.express.use(bodyParser.json());
@@ -17,7 +16,6 @@ export class Middlewares {
             delete req.body.id;
             next();
         })
-        // this.express.set('views', './src/views');
-        // this.express.set('view engine', 'html');
     }
+
 }

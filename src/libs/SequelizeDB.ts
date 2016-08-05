@@ -1,7 +1,6 @@
-import {GOLBAL_CFG} from './Config';
-import * as Sequelize from "sequelize"
+import {GOLBAL_CFG} from "./Config";
+import * as Sequelize from "sequelize";
 import {SequelizeModelLoader} from "./SequelizeModelLoader";
-import {SequelizeModel} from "../models/SequelizeModel";
 
 export class SequelizeDB {
     private sequelize :any = null;

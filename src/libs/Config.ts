@@ -10,7 +10,7 @@ export const GOLBAL_CFG: GolbalConfig = {
             underscored: true
         }
     }
-}
+};
 
 interface GolbalConfig {
     database: string;
