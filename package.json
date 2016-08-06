@@ -2,13 +2,13 @@
   "name": "typed-api",
   "version": "1.0.0",
   "description": "",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
-    "tsc": "tsc",
-    "node-start": "nodemon dist/Main.js",
-    "start": "concurrent \"npm run tsc\" \"npm run node-start\" ",
+    "start": "tsc",
     "postinstall": "typings install"
   },
-  "author": "",
+  "author": "Humberto Machado",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.15.2",
