@@ -38,7 +38,7 @@ export class SequelizeDB {
     }
 }
 
-interface DB {
+export interface DB {
     sequelize: any;
     Sequelize: any;
 }

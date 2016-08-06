@@ -10,7 +10,7 @@ if (fs.existsSync(filePath)) {
     console.log("Não foi encontrado o arquivo taconfig.json");
 }
 
-interface GolbalConfig {
+export interface GolbalConfig {
     port: number;
     database: DatabaseConfig;
 }

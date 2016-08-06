@@ -30,7 +30,7 @@ export function Model(config: ModelConfig){
     }
 }
 
-interface ModelConfig {
+export interface ModelConfig {
     name: string;
     definition: {}
 }

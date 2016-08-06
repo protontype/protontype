@@ -26,6 +26,6 @@ export function Router(config: RouterConfig){
     }
 }
 
-interface RouterConfig {
+export interface RouterConfig {
     modelName: string;
 }
