@@ -1,31 +1,24 @@
-import { ExpressApplication } from './../libs/ExpressApplication';
-
 /**
  * Express routes configurations
  */
 export abstract class ExpressRouter {
-    protected express: any;
-    protected modelName: string;
-    protected model: any;
-
-    constructor(expressApplication: ExpressApplication) {
-        this.express = expressApplication.getExpress();
-        this.model = expressApplication.getSequelizeDB().getModel(this.modelName);
+    constructor() {
+        console.log(`>>>> Configurado rotas para ${this.getBaseUrl()} <<<<`);
     }
 
-    protected sendErrorMessage(res: any, error: any): void {
+    abstract getBaseUrl(): string;
+
+    public sendErrorMessage(res: any, error: any): void {
         res.status(412).json({msg: error.message})
     }
-
-    public abstract start(): void;
 }
 
-export function Router(config: RouterConfig){
+export function Router(config?: RouterConfig) {
     return function (constructor: Function) {
-       constructor.prototype.modelName = config.modelName;
+        constructor.prototype.baseUrl = config.baseUrl;
     }
 }
 
 export interface RouterConfig {
-    modelName: string;
+    baseUrl: string;
 }

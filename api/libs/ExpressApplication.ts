@@ -2,6 +2,8 @@ import {SequelizeDB} from "./SequelizeDB";
 import * as Express from "express";
 import {ExpressRouter} from "../routes/ExpressRouter";
 import {Middleware} from "../middlewares/Middleware";
+import {RouteConfigLoader, RouteConfig} from "./RouteConfigLoader";
+import {Method} from "../routes/Method";
 
 /**
  * @author Humberto Machado
@@ -17,7 +19,6 @@ export class ExpressApplication {
      */
     constructor() {
         this.express = Express();
-        // this.middlewares = new Middlewares(this.express);
         this.sequelizeDB = new SequelizeDB();
     }
 
@@ -29,7 +30,7 @@ export class ExpressApplication {
         this.configMiddlewares();
         let port: number = this.express.get("port");
         this.sequelizeDB.getDB().sequelize.sync().done(() => {
-            this.startRoutes();
+            this.configureRoutes();
             this.express.listen(port, () => console.log(`NTask API - porta ${port}`));
         });
         return this.express;
@@ -45,9 +46,34 @@ export class ExpressApplication {
         return this;
     }
 
-    private startRoutes(): void {
+    private configureRoutes(): void {
         this.routers.forEach(router => {
-            router.start();
+            var configs: RouteConfig[] = RouteConfigLoader.routeConfigs[router.getBaseUrl()];
+
+            configs.forEach(config => {
+                switch (config.method) {
+                    case Method.GET:
+                        this.express.get(router.getBaseUrl() + config.endpoint, (req, res) => {
+                            config.routeFunction.call(router, req, res, this.sequelizeDB.getModel(config.modelName));
+                        });
+                        break;
+                    case Method.POST:
+                        this.express.post(router.getBaseUrl() + config.endpoint, (req, res) => {
+                            config.routeFunction.call(router, req, res, this.sequelizeDB.getModel(config.modelName));
+                        });
+                        break;
+                    case Method.PUT:
+                        this.express.put(router.getBaseUrl() + config.endpoint, (req, res) => {
+                            config.routeFunction.call(router, req, res, this.sequelizeDB.getModel(config.modelName));
+                        });
+                        break;
+                    case Method.DELETE:
+                        this.express.delete(router.getBaseUrl() + config.endpoint, (req, res) => {
+                            config.routeFunction.call(router, req, res, this.sequelizeDB.getModel(config.modelName));
+                        });
+                        break;
+                }
+            });
         });
     }
 
