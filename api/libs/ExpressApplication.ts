@@ -48,32 +48,35 @@ export class ExpressApplication {
 
     private configureRoutes(): void {
         this.routers.forEach(router => {
+            router.init(this);
             var configs: RouteConfig[] = RouteConfigLoader.routeConfigs[router.getBaseUrl()];
 
-            configs.forEach(config => {
-                switch (config.method) {
-                    case Method.GET:
-                        this.express.get(router.getBaseUrl() + config.endpoint, (req, res) => {
-                            config.routeFunction.call(router, req, res, this.sequelizeDB.getModel(config.modelName));
-                        });
-                        break;
-                    case Method.POST:
-                        this.express.post(router.getBaseUrl() + config.endpoint, (req, res) => {
-                            config.routeFunction.call(router, req, res, this.sequelizeDB.getModel(config.modelName));
-                        });
-                        break;
-                    case Method.PUT:
-                        this.express.put(router.getBaseUrl() + config.endpoint, (req, res) => {
-                            config.routeFunction.call(router, req, res, this.sequelizeDB.getModel(config.modelName));
-                        });
-                        break;
-                    case Method.DELETE:
-                        this.express.delete(router.getBaseUrl() + config.endpoint, (req, res) => {
-                            config.routeFunction.call(router, req, res, this.sequelizeDB.getModel(config.modelName));
-                        });
-                        break;
-                }
-            });
+            if (configs != null) {
+                configs.forEach(config => {
+                    switch (config.method) {
+                        case Method.GET:
+                            this.express.get(router.getBaseUrl() + config.endpoint, (req, res) => {
+                                config.routeFunction.call(router, req, res, this.sequelizeDB.getModel(config.modelName));
+                            });
+                            break;
+                        case Method.POST:
+                            this.express.post(router.getBaseUrl() + config.endpoint, (req, res) => {
+                                config.routeFunction.call(router, req, res, this.sequelizeDB.getModel(config.modelName));
+                            });
+                            break;
+                        case Method.PUT:
+                            this.express.put(router.getBaseUrl() + config.endpoint, (req, res) => {
+                                config.routeFunction.call(router, req, res, this.sequelizeDB.getModel(config.modelName));
+                            });
+                            break;
+                        case Method.DELETE:
+                            this.express.delete(router.getBaseUrl() + config.endpoint, (req, res) => {
+                                config.routeFunction.call(router, req, res, this.sequelizeDB.getModel(config.modelName));
+                            });
+                            break;
+                    }
+                });
+            }
         });
     }
 
