@@ -28,7 +28,6 @@ export function Model(config: ModelConfig){
         constructor.prototype.name = config.name;
         constructor.prototype.definition = config.definition;
         SequelizeModelLoader.modelsList.push(constructor.prototype);
-        console.log('Modelei');
     }
 }
 

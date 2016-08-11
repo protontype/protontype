@@ -5,6 +5,7 @@ import { ExpressApplication } from './../libs/ExpressApplication';
  */
 export abstract class ExpressRouter {
     protected express: any;
+    protected expressApplication: ExpressApplication;
 
     constructor() {
         console.log(`>>>> Configurado rotas para ${this.getBaseUrl()} <<<<`);
@@ -12,6 +13,7 @@ export abstract class ExpressRouter {
 
     public init(expressApplication: ExpressApplication) {
         this.express = expressApplication.getExpress();
+        this.expressApplication = expressApplication;
     }
 
     abstract getBaseUrl(): string;
@@ -29,4 +31,10 @@ export function Router(config?: RouterConfig) {
 
 export interface RouterConfig {
     baseUrl: string;
+}
+
+export interface RouteFunctionParams {
+    request: any,
+    response: any,
+    model: any
 }
