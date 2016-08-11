@@ -2,6 +2,9 @@ import {Config} from "./Config";
 import * as Sequelize from "sequelize";
 import {SequelizeModelLoader} from "./SequelizeModelLoader";
 
+/**
+ * @author Humberto Machado
+ */
 export class SequelizeDB {
     private sequelize: any = null;
     private models: any = {};

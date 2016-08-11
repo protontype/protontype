@@ -1,6 +1,6 @@
 import {SequelizeDB} from "../libs/SequelizeDB";
 /**
- * Created by beto_ on 29/07/2016.
+ * @author Humberto Machado
  */
 export interface SequelizeModel {
     defineModel(sequelize: any, DataType: any): any;

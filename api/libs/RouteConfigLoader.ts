@@ -1,6 +1,7 @@
 import {Method} from "../routes/Method";
+
 /**
- * Created by beto_ on 09/08/2016.
+ * @author Humberto Machado
  */
 export class RouteConfigLoader {
     public static routeConfigs: any = {};

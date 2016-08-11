@@ -2,7 +2,7 @@ import {SequelizeModel} from "./SequelizeModel";
 import {SequelizeDB} from "../libs/SequelizeDB";
 
 /**
- * Created by humberto.machado on 01/08/2016.
+ * @author Humberto Machado
  */
 export abstract class BaseModel implements SequelizeModel {
     protected model: any;

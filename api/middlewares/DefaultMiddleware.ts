@@ -1,10 +1,8 @@
 import {Middleware} from "./Middleware";
 import * as bodyParser from 'body-parser';
 import {Config} from "../libs/Config";
-
-
 /**
- * Created by beto_ on 05/08/2016.
+ * @author Humberto Machado
  */
 export class DefaultMiddleware extends Middleware {
     private port: number = Config.port;

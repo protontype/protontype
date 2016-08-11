@@ -1,9 +1,9 @@
 import {SequelizeDB} from "./SequelizeDB";
 import {SequelizeModel} from "../models/SequelizeModel";
+
 /**
- * Created by beto_ on 29/07/2016.
+ * @author Humberto Machado
  */
-    
 export class SequelizeModelLoader {
     //Injected by @Model
     public static modelsList: any[] = [];

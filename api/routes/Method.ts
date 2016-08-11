@@ -1,5 +1,5 @@
 /**
- * Created by beto_ on 06/08/2016.
+ * @author Humberto Machado
  */
 export enum Method {
     GET,

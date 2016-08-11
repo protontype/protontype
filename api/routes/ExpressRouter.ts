@@ -1,5 +1,6 @@
 import { ExpressApplication } from './../libs/ExpressApplication';
 /**
+ * @author Humberto Machado
  * Express routes configurations
  */
 export abstract class ExpressRouter {
@@ -9,7 +10,7 @@ export abstract class ExpressRouter {
         console.log(`>>>> Configurado rotas para ${this.getBaseUrl()} <<<<`);
     }
 
-    init(expressApplication: ExpressApplication) {
+    public init(expressApplication: ExpressApplication) {
         this.express = expressApplication.getExpress();
     }
 

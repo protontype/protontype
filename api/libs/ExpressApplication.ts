@@ -82,6 +82,7 @@ export class ExpressApplication {
 
     private configMiddlewares(): void {
         this.middlewares.forEach(middleware => {
+            middleware.init(this);
             middleware.configMiddlewares();
         })
     }
