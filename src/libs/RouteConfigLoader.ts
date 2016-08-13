@@ -11,8 +11,11 @@ export class RouteConfigLoader {
         if (routeConfigs == null) {
             routeConfigs = [];
         }
-        routeConfigs.push(config);
-        this.routeConfigs[baseUrl] = routeConfigs;
+
+        if (routeConfigs.filter(route => route.method == config.method && route.endpoint == config.endpoint).length == 0) {
+            routeConfigs.push(config);
+            this.routeConfigs[baseUrl] = routeConfigs;
+        }
     }
 
 }
