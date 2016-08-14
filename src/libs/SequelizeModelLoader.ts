@@ -13,7 +13,7 @@ export class SequelizeModelLoader {
             sequelizeDB.addModel(model.getModelName(), 
                 model.defineModel(sequelizeDB.getDB().sequelize, sequelizeDB.getDB().Sequelize));
 
-            console.log(`Carregado model ${model.getModelName()}`)
+            console.log(`Model loaded: ${model.getModelName()}`)
         });
 
         this.modelsList.forEach((model: SequelizeModel) => {

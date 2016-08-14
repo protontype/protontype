@@ -8,7 +8,7 @@ export abstract class ExpressRouter {
     protected expressApplication: ExpressApplication;
 
     constructor() {
-        console.log(`>>>> Configurado rotas para ${this.getBaseUrl()} <<<<`);
+        console.log(`>>>> Configured routes to ${this.getBaseUrl()} <<<<`);
     }
 
     public init(expressApplication: ExpressApplication) {
