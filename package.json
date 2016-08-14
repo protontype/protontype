@@ -1,6 +1,6 @@
 {
   "name": "typed-api",
-  "version": "1.0.0",
+  "version": "0.1.0-beta",
   "description": "",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -8,14 +8,24 @@
     "start": "tsc",
     "postinstall": "typings install"
   },
-  "author": "Humberto Machado",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/hunters/typed-api"
+  },
+  "homepage": "https://gitlab.com/hunters/typed-api",
+  "keywords": [
+    "typescript",
+    "express",
+    "sequelize",
+    "rest"
+  ],
+  "author": "Humberto Machado <betolinck@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "sequelize": "^3.23.6",
-    "sqlite3": "^3.1.4",
-    "vue": "^1.0.26"
+    "sqlite3": "^3.1.4"
   },
   "devDependencies": {
     "concurrently": "^2.2.0",

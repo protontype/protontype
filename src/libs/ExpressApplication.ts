@@ -31,7 +31,7 @@ export class ExpressApplication {
         let port: number = this.express.get("port");
         this.sequelizeDB.getDB().sequelize.sync().done(() => {
             this.configureRoutes();
-            this.express.listen(port, () => console.log(`NTask API - porta ${port}`));
+            this.express.listen(port, () => console.log(`Listen port ${port}`));
         });
         return this.express;
     }

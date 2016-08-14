@@ -1,5 +1,15 @@
-Exemplo de API REST usando Node, Express, Sequelize e Type Script.
+Typed API
+---------
 
-Instalando e testando o projeto:
-1) npm install
-2) npm start
+Um simples microframework feito em Typescript para criação de APIs REST usando Exress e ORM Sequelize. 
+
+Contribuição
+------------
+**Instalando e compilando o projeto**
+ 1. npm install
+ 2. npm start
+ 3. npm link
+
+Uso
+---
+Exemplo de uso : https://gitlab.com/hunters/typed-api-example
