@@ -213,4 +213,17 @@ No decorator ***@Route*** o parâmetro **modelName** é opcional como no exemplo
     
 **Obs**: *Caso tenha configurações de rotas com endpoints repetidos a primeira a ser carregada será usada, as outras serão ignoradas.*
 
+**Iniciando aplicação**
+
+    import {ExpressApplication} from "typed-api/dist/libs/ExpressApplication";
+    import {DefaultMiddleware} from "typed-api/dist/middlewares/DefaultMiddleware";
+    import {TasksRouter} from "./routes/TasksRouter";
+    
+    let expressApp = new ExpressApplication();
+    expressApp
+        .addMiddleware(new DefaultMiddleware())
+        .addRouter(new TasksRouter())
+        .bootstrap();
+
+
 **Exemplo completo de uso** : https://gitlab.com/hunters/typed-api-example
