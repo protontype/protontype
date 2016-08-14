@@ -14,10 +14,10 @@ Uso
 ---
 **Prerequisitos**
 
- - body-parser: "^1.15.2"
- - express: "^4.14.0"
- - sequelize: "^3.23.6"
- - sqlite3: "^3.1.4"
+ - body-parser
+ - express
+ - sequelize
+ - sqlite3
 
 **Configurando aplicação**
 Criar um arquivo chamado **taconfig.json** na raiz do projeto.
