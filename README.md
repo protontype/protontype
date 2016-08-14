@@ -20,6 +20,7 @@ Uso
  - sqlite3
 
 **Configurando aplicação**
+
 Criar um arquivo chamado **taconfig.json** na raiz do projeto.
 
     taconfig.json:
@@ -43,6 +44,7 @@ As configurações podem ser acessada através da classe ***Config***:
 import {`Config`} from "../libs/Config";
 
 **Criando Models**
+
 Para criar um Model, deve-se criar uma classe que *extends* de ***BaseModel***.
 O mapeamento do banco de dados é feita a através da anotação ***@Model*** que possui os seguntes parâmetros:
 
@@ -88,6 +90,7 @@ Exemplo:
     }
 
 **Criando Middlewares**
+
 Criar classe que *extends* Middleware e implementar o método ***configMiddlewares()***
 
 Exemplo:
