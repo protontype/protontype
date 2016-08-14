@@ -12,7 +12,7 @@ Contribuição
 
 Uso
 ---
-**Prerequisitos**
+**Dependências**
 
  - body-parser
  - express
