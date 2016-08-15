@@ -1,4 +1,5 @@
 import { ExpressApplication } from './../libs/ExpressApplication';
+import {BaseModel} from "../models/BaseModel";
 /**
  * @author Humberto Machado
  * Express routes configurations
@@ -17,6 +18,7 @@ export abstract class ExpressRouter {
     }
 
     abstract getBaseUrl(): string;
+    abstract getModelInstances(): BaseModel[];
 
     public sendErrorMessage(res: any, error: any): void {
         res.status(412).json({ msg: error.message })

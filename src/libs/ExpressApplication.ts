@@ -4,6 +4,7 @@ import {ExpressRouter} from "../routes/ExpressRouter";
 import {Middleware} from "../middlewares/Middleware";
 import {RouteConfigLoader, RouteConfig} from "./RouteConfigLoader";
 import {Method} from "../routes/Method";
+import {DefaultMiddleware} from "../middlewares/DefaultMiddleware";
 
 /**
  * @author Humberto Machado
@@ -81,6 +82,7 @@ export class ExpressApplication {
     }
 
     private configMiddlewares(): void {
+        new DefaultMiddleware().init(this).configMiddlewares();
         this.middlewares.forEach(middleware => {
             middleware.init(this);
             middleware.configMiddlewares();
