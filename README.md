@@ -225,8 +225,7 @@ Exemplo:
     
     export class TasksRouter extends BaseCrudRouter {
         public getBaseUrl(): string {
-            return '/congregation';
-        }
+            return '/tasks';
     
         public getModelInstances(): BaseModel[] {
             return [new TasksModel()];
