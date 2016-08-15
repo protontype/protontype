@@ -96,12 +96,12 @@ Criar classe que *extends* Middleware e implementar o método ***configMiddlewar
 Exemplo:
 
     import {Middleware} from "./Middleware";
-import * as bodyParser from 'body-parser';
-import {Config} from "../libs/Config";
-
-export class DefaultMiddleware extends Middleware {
-    private port: number = Config.port;
-    private jsonSpaces: number = 2;
+    import * as bodyParser from 'body-parser';
+    import {Config} from "../libs/Config";
+    
+    export class DefaultMiddleware extends Middleware {
+        private port: number = Config.port;
+        private jsonSpaces: number = 2;
 
     public configMiddlewares(): void {
         this.express.set("port", this.port);
@@ -119,6 +119,7 @@ export class DefaultMiddleware extends Middleware {
  - Criar uma classe que *extends* ***ExpressRouter***
  - Será preciso implementar o método `getBaseUrl(): string` informando a
    URL base das rotas criadas na classe.
+ - Implementar o médoto `getModelInstances(): BaseModel[]` informando as instancias dos Models usados no Router.
  - Criar métodos (funções) anotados com ***@Route***.
 	 - Todo método ***@Route*** deve ter o formato: `nomeMetodo(req, res, model)`
 
@@ -129,16 +130,15 @@ Exemplo:
     import {Method} from "typed-api/dist/routes/Method";
     import {Route} from "typed-api/dist/libs/RouteConfigLoader";
     
-    /**
-     * @author Humberto Machado
-     * Router example using decorator @Route and model
-     */
     export class TasksRouter extends ExpressRouter {
     
         public getBaseUrl(): string {
             return '/tasks';
         }
-    
+        
+	    public getModelInstances(): BaseModel[] {
+            return [new TasksModel()];
+        }
         @Route({
             method: Method.GET,
             endpoint: '/',
@@ -212,6 +212,34 @@ No decorator ***@Route*** o parâmetro **modelName** é opcional como no exemplo
     }
     
 **Obs**: *Caso tenha configurações de rotas com endpoints repetidos a primeira a ser carregada será usada, as outras serão ignoradas.*
+
+**BaseCrudRouter**
+
+A classe BaseCrudRouter provê as operações básicas de CRUD, sem a necessidade de implementação adicional.
+
+Exemplo:
+
+    import {BaseCrudRouter} from "typed-api/dist/routes/BaseCrudRouter";
+    import {TasksModel} from "../models/TasksModel";
+    import {BaseModel} from "typed-api/dist/models/BaseModel";
+    
+    export class TasksRouter extends BaseCrudRouter {
+        public getBaseUrl(): string {
+            return '/congregation';
+        }
+    
+        public getModelInstances(): BaseModel[] {
+            return [new TasksModel()];
+        }
+    }
+
+Esta classe já proverá as rotas:
+
+ - **GET /** - Lista todos registros
+ - **POST /** - Cria um registro
+ - **GET /:id** - Consulta um registro
+ - **PUT /:id** - Atualiza um registro
+ - **DELETE /:id** - Remove um registro
 
 **Iniciando aplicação**
 
