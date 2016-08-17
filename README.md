@@ -256,7 +256,7 @@ _______________
         .bootstrap();
 
 
-Confifuração Compilador Typescript
+Configuração Compilador Typescript
 ----------------------------------
 
 As seguintes configurações no ***tsconfig.json*** são necessárias para o funcionamento.

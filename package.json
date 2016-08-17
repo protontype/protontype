@@ -1,5 +1,5 @@
 {
-  "name": "typed-api",
+  "name": "protontype-api",
   "version": "0.1.0-beta",
   "description": "",
   "main": "dist/index.js",
