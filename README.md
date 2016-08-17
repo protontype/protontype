@@ -1,5 +1,5 @@
-Typed API
----------
+ProtonType API
+--------------
 
 Um simples microframework feito em Typescript para criação de APIs REST usando Exress e ORM Sequelize. 
 
@@ -253,4 +253,4 @@ Esta classe já proverá as rotas:
         .bootstrap();
 
 
-**Exemplo completo de uso** : https://gitlab.com/hunters/typed-api-example
+**Exemplo completo de uso** : https://github.com/linck/protontype-api-example
