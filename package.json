@@ -10,9 +10,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/hunters/typed-api"
+    "url": "https://github.com/linck/protontype-api"
   },
-  "homepage": "https://gitlab.com/hunters/typed-api",
+  "homepage": "https://github.com/linck/protontype-api",
   "keywords": [
     "typescript",
     "express",
