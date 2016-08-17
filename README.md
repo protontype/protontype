@@ -1,10 +1,12 @@
-ProtonType API
---------------
+ProtonType API - Beta
+---------------------
 
 Um simples microframework feito em Typescript para criação de APIs REST usando Exress e ORM Sequelize. 
 
 Contribuição
 ------------
+Fique à vontade para contribuir com seus códigos!! :D
+
 **Instalando e compilando o projeto**
  1. npm install
  2. npm start
@@ -13,6 +15,7 @@ Contribuição
 Uso
 ---
 **Dependências**
+_______________
 
  - body-parser
  - express
@@ -20,14 +23,14 @@ Uso
  - sqlite3
 
 **Configurando aplicação**
+_______________
+Criar um arquivo chamado **proton.json** na raiz do projeto.
+*proton.json*:
 
-Criar um arquivo chamado **taconfig.json** na raiz do projeto.
-
-    taconfig.json:
     {
       "port": "3000",
       "database": {
-        "name": "ntask",
+        "name": "tasks-api",
         "username": " ",
         "password": "",
         "params": {
@@ -44,7 +47,7 @@ As configurações podem ser acessada através da classe ***Config***:
 import {`Config`} from "../libs/Config";
 
 **Criando Models**
-
+_______________
 Para criar um Model, deve-se criar uma classe que *extends* de ***BaseModel***.
 O mapeamento do banco de dados é feita a através da anotação ***@Model*** que possui os seguntes parâmetros:
 
@@ -90,7 +93,7 @@ Exemplo:
     }
 
 **Criando Middlewares**
-
+_______________
 Criar classe que *extends* Middleware e implementar o método ***configMiddlewares()***
 
 Exemplo:
@@ -115,7 +118,7 @@ Exemplo:
 }
 
 **Criando Routers**
-
+_______________
  - Criar uma classe que *extends* ***ExpressRouter***
  - Será preciso implementar o método `getBaseUrl(): string` informando a
    URL base das rotas criadas na classe.
@@ -214,7 +217,7 @@ No decorator ***@Route*** o parâmetro **modelName** é opcional como no exemplo
 **Obs**: *Caso tenha configurações de rotas com endpoints repetidos a primeira a ser carregada será usada, as outras serão ignoradas.*
 
 **BaseCrudRouter**
-
+_______________
 A classe BaseCrudRouter provê as operações básicas de CRUD, sem a necessidade de implementação adicional.
 
 Exemplo:
@@ -241,7 +244,7 @@ Esta classe já proverá as rotas:
  - **DELETE /:id** - Remove um registro
 
 **Iniciando aplicação**
-
+_______________
     import {ExpressApplication} from "typed-api/dist/libs/ExpressApplication";
     import {DefaultMiddleware} from "typed-api/dist/middlewares/DefaultMiddleware";
     import {TasksRouter} from "./routes/TasksRouter";
@@ -253,4 +256,22 @@ Esta classe já proverá as rotas:
         .bootstrap();
 
 
-**Exemplo completo de uso** : https://github.com/linck/protontype-api-example
+Confifuração Compilador Typescript
+----------------------------------
+
+As seguintes configurações no ***tsconfig.json*** são necessárias para o funcionamento.
+
+    {
+      "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true
+        ...
+      }
+    }
+
+
+**Exemplo de uso** 
+-------------------------
+https://github.com/linck/protontype-api-example

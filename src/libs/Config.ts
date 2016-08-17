@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 
-let filePath: string = path.join(".", "taconfig.json");
+let filePath: string = path.join(".", "proton.json");
 
 export var Config: GolbalConfig;
 if (fs.existsSync(filePath)) {
