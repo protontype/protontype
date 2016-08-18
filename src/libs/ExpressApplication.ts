@@ -57,22 +57,22 @@ export class ExpressApplication {
                     switch (config.method) {
                         case Method.GET:
                             this.express.get(router.getBaseUrl() + config.endpoint, (req, res) => {
-                                config.routeFunction.call(router, req, res, this.sequelizeDB.getModel(config.modelName));
+                                config.routeFunction.call(router, req, res, this.getModel(config.modelName));
                             });
                             break;
                         case Method.POST:
                             this.express.post(router.getBaseUrl() + config.endpoint, (req, res) => {
-                                config.routeFunction.call(router, req, res, this.sequelizeDB.getModel(config.modelName));
+                                config.routeFunction.call(router, req, res, this.getModel(config.modelName));
                             });
                             break;
                         case Method.PUT:
                             this.express.put(router.getBaseUrl() + config.endpoint, (req, res) => {
-                                config.routeFunction.call(router, req, res, this.sequelizeDB.getModel(config.modelName));
+                                config.routeFunction.call(router, req, res, this.getModel(config.modelName));
                             });
                             break;
                         case Method.DELETE:
                             this.express.delete(router.getBaseUrl() + config.endpoint, (req, res) => {
-                                config.routeFunction.call(router, req, res, this.sequelizeDB.getModel(config.modelName));
+                                config.routeFunction.call(router, req, res, this.getModel(config.modelName));
                             });
                             break;
                     }
@@ -95,5 +95,9 @@ export class ExpressApplication {
 
     public getSequelizeDB(): SequelizeDB {
         return this.sequelizeDB;
+    }
+
+    public getModel(modelName: string): any {
+        return this.sequelizeDB.getModel(modelName);
     }
 }

@@ -7,7 +7,7 @@ export var Config: GolbalConfig;
 if (fs.existsSync(filePath)) {
     Config = JSON.parse(fs.readFileSync(filePath, {encoding: 'utf8'}).toString());
 } else {
-    console.log("Não foi encontrado o arquivo taconfig.json");
+    console.log("Configuration file proton.json not found ");
 }
 
 export interface GolbalConfig {

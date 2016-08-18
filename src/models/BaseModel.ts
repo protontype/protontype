@@ -1,3 +1,4 @@
+import { ExpressApplication } from '../libs/ExpressApplication';
 import {SequelizeModel} from "./SequelizeModel";
 import {SequelizeDB} from "../libs/SequelizeDB";
 

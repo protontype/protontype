@@ -23,6 +23,10 @@ export abstract class ExpressRouter {
     public sendErrorMessage(res: any, error: any): void {
         res.status(412).json({ msg: error.message })
     }
+
+    public getModel(modelName: string) {
+        return this.expressApplication.getModel(modelName);
+    }
 }
 
 export function Router(config?: RouterConfig) {
