@@ -1,4 +1,5 @@
 import {Method} from "../routes/Method";
+import {ExpressRouter} from "../routes/ExpressRouter";
 
 /**
  * @author Humberto Machado
@@ -17,7 +18,6 @@ export class RouteConfigLoader {
             this.routeConfigs[baseUrl] = routeConfigs;
         }
     }
-
 }
 
 //Decorators

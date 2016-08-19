@@ -1,5 +1,6 @@
 import { ExpressApplication } from './../libs/ExpressApplication';
 import {BaseModel} from "../models/BaseModel";
+import {SequelizeModel} from "../models/SequelizeModel";
 /**
  * @author Humberto Machado
  * Express routes configurations
@@ -24,8 +25,8 @@ export abstract class ExpressRouter {
         res.status(412).json({ msg: error.message })
     }
 
-    public getModel(modelName: string) {
-        return this.expressApplication.getModel(modelName);
+    public getModel<T extends SequelizeModel>(modelName: string): T {
+        return <T> this.expressApplication.getModel(modelName);
     }
 }
 

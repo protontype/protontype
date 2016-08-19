@@ -6,11 +6,11 @@ import {SequelizeModel} from "../models/SequelizeModel";
  */
 export class SequelizeModelLoader {
     //Injected by @Model
-    public static modelsList: any[] = [];
+    public static modelsList: SequelizeModel[] = [];
 
     public static loadModels(sequelizeDB: SequelizeDB): void {
         this.modelsList.forEach((model: SequelizeModel) => {
-            sequelizeDB.addModel(model.getModelName(), 
+            sequelizeDB.addModel(model.getModelName(),
                 model.defineModel(sequelizeDB.getDB().sequelize, sequelizeDB.getDB().Sequelize));
 
             console.log(`Model loaded: ${model.getModelName()}`)
