@@ -11,7 +11,7 @@ import {SequelizeModel} from "../models/SequelizeModel";
  * @author Humberto Machado
  */
 export class ExpressApplication {
-    private express: any;
+    private express: Express.Application;
     private middlewares: Middleware[] = [];
     private sequelizeDB: SequelizeDB;
     private routers: ExpressRouter[] = [];

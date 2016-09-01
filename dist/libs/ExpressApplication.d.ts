@@ -1,6 +1,7 @@
 import { SequelizeDB } from "./SequelizeDB";
 import { ExpressRouter } from "../routes/ExpressRouter";
 import { Middleware } from "../middlewares/Middleware";
+import { SequelizeModel } from "../models/SequelizeModel";
 /**
  * @author Humberto Machado
  */
@@ -24,4 +25,5 @@ export declare class ExpressApplication {
     private configMiddlewares();
     getExpress(): any;
     getSequelizeDB(): SequelizeDB;
+    getModel(modelName: string): SequelizeModel;
 }

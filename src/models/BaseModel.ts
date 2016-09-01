@@ -1,9 +1,6 @@
 import {SequelizeModel} from "./SequelizeModel";
 import {SequelizeDB} from "../libs/SequelizeDB";
-import {FindOptions} from "sequelize";
-import {CreateOptions} from "sequelize";
-import {UpdateOptions} from "sequelize";
-import {DestroyOptions} from "sequelize";
+import * as Sequelize from "sequelize"
 
 /**
  * @author Humberto Machado
@@ -31,23 +28,25 @@ export abstract class BaseModel implements SequelizeModel {
         return this.nativeInstance;
     }
 
-    public find(params: FindOptions): any {
+    public find(params: Sequelize.FindOptions): any {
         return this.nativeInstance.findAll(params);
     }
 
-    public create(object: CreateOptions): any {
+    public create(object: Sequelize.CreateOptions): any {
         return this.nativeInstance.create(object);
     }
 
-    public findOne(params: FindOptions): any {
+    public findOne(params: Sequelize.FindOptions): any {
         return this.nativeInstance.findOne(params);
     }
 
-    public update(object: Object, params: UpdateOptions): any {
+    public update(object: Object, params: Sequelize.UpdateOptions): any {
         return this.nativeInstance.update(object, params);
     }
 
-    public destroy(params: DestroyOptions): any {
+    public destroy(params: Sequelize.DestroyOptions): any {
         return this.nativeInstance.destroy(params);
     }
 }
+
+export var DataTypes: Sequelize.DataTypes;

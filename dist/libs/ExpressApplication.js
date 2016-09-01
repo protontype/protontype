@@ -49,22 +49,22 @@ var ExpressApplication = (function () {
                     switch (config.method) {
                         case Method_1.Method.GET:
                             _this.express.get(router.getBaseUrl() + config.endpoint, function (req, res) {
-                                config.routeFunction.call(router, req, res, _this.sequelizeDB.getModel(config.modelName));
+                                config.routeFunction.call(router, req, res, _this.getModel(config.modelName));
                             });
                             break;
                         case Method_1.Method.POST:
                             _this.express.post(router.getBaseUrl() + config.endpoint, function (req, res) {
-                                config.routeFunction.call(router, req, res, _this.sequelizeDB.getModel(config.modelName));
+                                config.routeFunction.call(router, req, res, _this.getModel(config.modelName));
                             });
                             break;
                         case Method_1.Method.PUT:
                             _this.express.put(router.getBaseUrl() + config.endpoint, function (req, res) {
-                                config.routeFunction.call(router, req, res, _this.sequelizeDB.getModel(config.modelName));
+                                config.routeFunction.call(router, req, res, _this.getModel(config.modelName));
                             });
                             break;
                         case Method_1.Method.DELETE:
                             _this.express.delete(router.getBaseUrl() + config.endpoint, function (req, res) {
-                                config.routeFunction.call(router, req, res, _this.sequelizeDB.getModel(config.modelName));
+                                config.routeFunction.call(router, req, res, _this.getModel(config.modelName));
                             });
                             break;
                     }
@@ -85,6 +85,9 @@ var ExpressApplication = (function () {
     };
     ExpressApplication.prototype.getSequelizeDB = function () {
         return this.sequelizeDB;
+    };
+    ExpressApplication.prototype.getModel = function (modelName) {
+        return this.sequelizeDB.getModel(modelName);
     };
     return ExpressApplication;
 }());

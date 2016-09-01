@@ -14,6 +14,9 @@ var ExpressRouter = (function () {
     ExpressRouter.prototype.sendErrorMessage = function (res, error) {
         res.status(412).json({ msg: error.message });
     };
+    ExpressRouter.prototype.getModel = function (modelName) {
+        return this.expressApplication.getModel(modelName);
+    };
     return ExpressRouter;
 }());
 exports.ExpressRouter = ExpressRouter;
