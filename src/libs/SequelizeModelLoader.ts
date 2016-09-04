@@ -1,5 +1,6 @@
 import {SequelizeDB} from "./SequelizeDB";
 import {SequelizeModel} from "../models/SequelizeModel";
+import * as Sequelize from "sequelize"
 
 /**
  * @author Humberto Machado
@@ -33,5 +34,5 @@ export function Model(config: ModelConfig){
 
 export interface ModelConfig {
     name: string;
-    definition: {}
+    definition: Sequelize.DefineAttributes
 }

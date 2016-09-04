@@ -7,7 +7,7 @@ import {SequelizeModel} from "../models/SequelizeModel";
  * @author Humberto Machado
  */
 export class SequelizeDB {
-    private sequelize: any = null;
+    private sequelize: Sequelize.Sequelize = null;
     private models: any = {};
 
     constructor() {

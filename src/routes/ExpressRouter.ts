@@ -1,12 +1,13 @@
 import { ExpressApplication } from './../libs/ExpressApplication';
 import {BaseModel} from "../models/BaseModel";
 import {SequelizeModel} from "../models/SequelizeModel";
+import * as Express from "express";
 /**
  * @author Humberto Machado
  * Express routes configurations
  */
 export abstract class ExpressRouter {
-    protected express: any;
+    protected express: Express.Application;
     protected expressApplication: ExpressApplication;
 
     constructor() {

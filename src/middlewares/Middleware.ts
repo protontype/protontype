@@ -1,9 +1,10 @@
 import {ExpressApplication} from "../libs/ExpressApplication";
+import * as Express from "express";
 /**
  * @author Humberto Machado
  */
 export abstract class Middleware {
-    protected express: any;
+    protected express: Express.Application;
     protected expressApplication: ExpressApplication;
 
     public init(expressApplication: ExpressApplication): Middleware {

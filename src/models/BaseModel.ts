@@ -7,15 +7,15 @@ import * as Sequelize from "sequelize"
  */
 export abstract class BaseModel implements SequelizeModel {
     //Sequelize Model native instance. @see http://docs.sequelizejs.com/en/latest/docs/models-usage/
-    protected nativeInstance: any;
+    protected nativeInstance: Sequelize.Model<any, any>;
     protected name: string;
-    protected definition: {};
+    protected definition: Sequelize.DefineAttributes;
 
     public getModelName(): string {
         return this.name;
     }
 
-    public defineModel(sequelize: any, DataTypes: any): any {
+    public defineModel(sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes): any {
         this.nativeInstance = sequelize.define(this.getModelName(), this.definition, {});
         return this;
     }

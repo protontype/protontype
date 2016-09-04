@@ -90,7 +90,7 @@ export class ExpressApplication {
         })
     }
 
-    public getExpress(): any {
+    public getExpress(): Express.Application {
         return this.express;
     }
 
