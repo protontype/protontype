@@ -24,27 +24,27 @@ export abstract class BaseModel implements SequelizeModel {
         //Hook Method
     }
 
-    public getNativeInstance(): any {
+    public getNativeInstance(): Sequelize.Model<any, any> {
         return this.nativeInstance;
     }
 
-    public find(params: Sequelize.FindOptions): any {
+    public find(params: Sequelize.FindOptions): Promise<any> {
         return this.nativeInstance.findAll(params);
     }
 
-    public create(object: Sequelize.CreateOptions): any {
+    public create(object: Sequelize.CreateOptions): Promise<any> {
         return this.nativeInstance.create(object);
     }
 
-    public findOne(params: Sequelize.FindOptions): any {
+    public findOne(params: Sequelize.FindOptions): Promise<any> {
         return this.nativeInstance.findOne(params);
     }
 
-    public update(object: Object, params: Sequelize.UpdateOptions): any {
+    public update(object: Object, params: Sequelize.UpdateOptions): Promise<any> {
         return this.nativeInstance.update(object, params);
     }
 
-    public destroy(params: Sequelize.DestroyOptions): any {
+    public destroy(params: Sequelize.DestroyOptions): Promise<any> {
         return this.nativeInstance.destroy(params);
     }
 }
