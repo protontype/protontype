@@ -29,19 +29,19 @@ export abstract class BaseCrudRouter extends ExpressRouter {
     }
 
     public findAll(req, res, model: SequelizeModel) {
-        model.find({})
+        model.getInstance().find({})
             .then(result => res.json(result))
             .catch(error => super.sendErrorMessage(res, error));
     }
 
     public create(req, res, model: SequelizeModel) {
-        model.create(req.body)
+        model.getInstance().create(req.body)
             .then(result => res.json(result))
             .catch(error => this.sendErrorMessage(res, error));
     }
 
     public findOne(req, res, model: SequelizeModel) {
-        model.findOne({where: req.params})
+        model.getInstance().findOne({where: req.params})
             .then(result => {
                 if (result) {
                     res.json(result);
@@ -53,13 +53,13 @@ export abstract class BaseCrudRouter extends ExpressRouter {
     }
 
     public update(req, res, model: SequelizeModel) {
-        model.update(req.body, {where: req.params})
+        model.getInstance().update(req.body, {where: req.params})
             .then(result => res.sendStatus(204))
             .catch(error => this.sendErrorMessage(res, error));
     }
 
     public destroy(req, res, model: SequelizeModel) {
-        model.destroy({where: req.params})
+        model.getInstance().destroy({where: req.params})
             .then(result => res.sendStatus(204))
             .catch(error => this.sendErrorMessage(res, error));
     }
