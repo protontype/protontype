@@ -29,7 +29,7 @@ export abstract class BaseCrudRouter extends ExpressRouter {
     }
 
     public findAll(req, res, model: SequelizeModel) {
-        model.getInstance().find({})
+        model.getInstance().findAll({})
             .then(result => res.json(result))
             .catch(error => super.sendErrorMessage(res, error));
     }
