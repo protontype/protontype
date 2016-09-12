@@ -16,7 +16,7 @@ export class SequelizeDB {
                 Config.database.name,
                 Config.database.username,
                 Config.database.password,
-                Config.database.params
+                Config.database.options
             );
             SequelizeModelLoader.loadModels(this);
         }

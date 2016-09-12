@@ -51,7 +51,7 @@ export class ExpressApplication {
     private configureRoutes(): void {
         this.routers.forEach(router => {
             router.init(this);
-            var configs: RouteConfig[] = RouteConfigLoader.routeConfigs[router.getBaseUrl()];
+            var configs: RouteConfig[] = RouteConfigLoader.routesConfigsByUrl[router.getBaseUrl()];
 
             if (configs != null) {
                 configs.forEach(config => {

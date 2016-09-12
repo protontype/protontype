@@ -5,17 +5,17 @@ import {ExpressRouter} from "../routes/ExpressRouter";
  * @author Humberto Machado
  */
 export class RouteConfigLoader {
-    public static routeConfigs: any = {};
+    public static routesConfigsByUrl: { [key: string]: RouteConfig[] } = {};
 
     public static addRouteConfig(baseUrl: string, config: RouteConfig) {
-        let routeConfigs: RouteConfig[] = this.routeConfigs[baseUrl];
-        if (routeConfigs == null) {
-            routeConfigs = [];
+        let routes: RouteConfig[] = this.routesConfigsByUrl[baseUrl];
+        if (routes == null) {
+            routes = [];
         }
 
-        if (routeConfigs.filter(route => route.method == config.method && route.endpoint == config.endpoint).length == 0) {
-            routeConfigs.push(config);
-            this.routeConfigs[baseUrl] = routeConfigs;
+        if (routes.filter(route => route.method == config.method && route.endpoint == config.endpoint).length == 0) {
+            routes.push(config);
+            this.routesConfigsByUrl[baseUrl] = routes;
         }
     }
 }

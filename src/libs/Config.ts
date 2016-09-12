@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import * as Sequelize from "sequelize";
 
 let filePath: string = path.join(".", "proton.json");
 
@@ -19,13 +20,7 @@ export interface DatabaseConfig {
     name: string;
     username: string;
     password: string;
-    params: DBParams;
-}
-
-export interface DBParams {
-    dialect: string;
-    storage: string;
-    define: DBDefine;
+    options: Sequelize.Options;
 }
 
 export interface DBDefine {
