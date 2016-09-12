@@ -22,11 +22,8 @@ export class SequelizeDB {
         }
     }
 
-    public getDB(): DB {
-        return {
-            sequelize: this.sequelize,
-            Sequelize: Sequelize
-        }
+    public getInstance(): Sequelize.Sequelize {
+        return this.sequelize;
     }
 
     public getModels(): any {
@@ -40,9 +37,4 @@ export class SequelizeDB {
     public addModel(name: string, model: SequelizeModel): void {
         this.models[name] = model;
     }
-}
-
-export interface DB {
-    sequelize: any;
-    Sequelize: any;
 }

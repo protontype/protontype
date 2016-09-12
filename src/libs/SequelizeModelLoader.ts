@@ -11,8 +11,7 @@ export class SequelizeModelLoader {
 
     public static loadModels(sequelizeDB: SequelizeDB): void {
         this.modelsList.forEach((model: SequelizeModel) => {
-            sequelizeDB.addModel(model.getModelName(),
-                model.defineModel(sequelizeDB.getDB().sequelize, sequelizeDB.getDB().Sequelize));
+            sequelizeDB.addModel(model.getModelName(), model.defineModel(sequelizeDB.getInstance()));
 
             console.log(`Model loaded: ${model.getModelName()}`)
         });
@@ -24,7 +23,7 @@ export class SequelizeModelLoader {
 }
 
 //Decorators
-export function Model(config: ModelConfig){
+export function Model(config: ModelConfig) {
     return function (constructor: Function) {
         constructor.prototype.name = config.name;
         constructor.prototype.definition = config.definition;
