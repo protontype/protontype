@@ -9,6 +9,7 @@ import * as Express from "express";
 export abstract class ExpressRouter {
     protected express: Express.Application;
     protected expressApplication: ExpressApplication;
+    protected router: Express.Router;
 
     constructor() {
         console.log(`>>>> Configured routes to ${this.getBaseUrl()} <<<<`);
@@ -16,6 +17,8 @@ export abstract class ExpressRouter {
 
     public init(expressApplication: ExpressApplication) {
         this.express = expressApplication.getExpress();
+        this.router = Express.Router();
+        this.express.use(this.getBaseUrl(), this.router);
         this.expressApplication = expressApplication;
     }
 
@@ -27,7 +30,11 @@ export abstract class ExpressRouter {
     }
 
     public getModel<T extends SequelizeModel>(modelName: string): T {
-        return <T> this.expressApplication.getModel(modelName);
+        return <T>this.expressApplication.getModel(modelName);
+    }
+
+    public getRouter(): Express.Router {
+        return this.router;
     }
 }
 

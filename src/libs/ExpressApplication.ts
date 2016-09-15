@@ -55,31 +55,39 @@ export class ExpressApplication {
 
             if (configs != null) {
                 configs.forEach(config => {
-                    switch (config.method) {
-                        case Method.GET:
-                            this.express.get(router.getBaseUrl() + config.endpoint, (req, res) => {
-                                config.routeFunction.call(router, req, res, this.getModel(config.modelName));
-                            });
-                            break;
-                        case Method.POST:
-                            this.express.post(router.getBaseUrl() + config.endpoint, (req, res) => {
-                                config.routeFunction.call(router, req, res, this.getModel(config.modelName));
-                            });
-                            break;
-                        case Method.PUT:
-                            this.express.put(router.getBaseUrl() + config.endpoint, (req, res) => {
-                                config.routeFunction.call(router, req, res, this.getModel(config.modelName));
-                            });
-                            break;
-                        case Method.DELETE:
-                            this.express.delete(router.getBaseUrl() + config.endpoint, (req, res) => {
-                                config.routeFunction.call(router, req, res, this.getModel(config.modelName));
-                            });
-                            break;
+                    if (config.method != null && config.endpoint != null) {
+                        this.createRoutesByMethod(config, router);
+                    } else {
+                        config.routeFunction.call(router);
                     }
                 });
             }
         });
+    }
+
+    private createRoutesByMethod(config: RouteConfig, router: ExpressRouter) {
+        switch (config.method) {
+            case Method.GET:
+                this.express.get(router.getBaseUrl() + config.endpoint, (req, res) => {
+                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                });
+                break;
+            case Method.POST:
+                this.express.post(router.getBaseUrl() + config.endpoint, (req, res) => {
+                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                });
+                break;
+            case Method.PUT:
+                this.express.put(router.getBaseUrl() + config.endpoint, (req, res) => {
+                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                });
+                break;
+            case Method.DELETE:
+                this.express.delete(router.getBaseUrl() + config.endpoint, (req, res) => {
+                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                });
+                break;
+        }
     }
 
     private configMiddlewares(): void {
@@ -88,6 +96,29 @@ export class ExpressApplication {
             middleware.init(this);
             middleware.configMiddlewares();
         })
+    }
+
+    public getRoutesList(): { method: string, path: string }[] {
+        let routeList: any[] = [];
+        this.express._router.stack.forEach(r => {
+            if (r.route && r.route.path) {
+                routeList.push({
+                    method: r.route.stack[0].method.toUpperCase(),
+                    path: r.route.path
+                });
+            }
+        });
+        this.routers.forEach((router: any) => {
+            router.getRouter().stack.forEach(r => {
+                if (r.route && r.route.path) {
+                    routeList.push({
+                        method: r.route.stack[0].method.toUpperCase(),
+                        path: router.getBaseUrl() + r.route.path
+                    });
+                }
+            });
+        });
+        return routeList;
     }
 
     public getExpress(): Express.Application {
@@ -100,5 +131,9 @@ export class ExpressApplication {
 
     public getModel(modelName: string): SequelizeModel {
         return this.sequelizeDB.getModel(modelName);
+    }
+
+    public getRouters(): ExpressRouter[]{
+        return this.routers;
     }
 }

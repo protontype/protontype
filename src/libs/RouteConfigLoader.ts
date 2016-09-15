@@ -21,21 +21,27 @@ export class RouteConfigLoader {
 }
 
 //Decorators
-export function Route(config: {endpoint: string, method: Method, modelName?: string}) {
+export function Route(config?: RouteDecoratorParams) {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
         RouteConfigLoader.addRouteConfig(target.getBaseUrl.apply(this),
             {
-                endpoint: config.endpoint,
-                method: config.method,
+                endpoint: config != null ? config.endpoint : null,
+                method: config != null ? config.method : null,
                 routeFunction: descriptor.value,
-                modelName: config.modelName
+                modelName: config != null ? config.modelName : null
             });
     };
 }
 
-export interface RouteConfig {
+export interface RouteDecoratorParams {
     endpoint: string;
     method: Method;
+    modelName?: string;
+}
+
+export interface RouteConfig {
+    endpoint?: string;
+    method?: Method;
     routeFunction: Function;
     modelName?: string;
 }
