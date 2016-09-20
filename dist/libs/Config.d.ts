@@ -1,3 +1,4 @@
+import * as Sequelize from "sequelize";
 export declare var Config: GolbalConfig;
 export interface GolbalConfig {
     port: number;
@@ -7,12 +8,7 @@ export interface DatabaseConfig {
     name: string;
     username: string;
     password: string;
-    params: DBParams;
-}
-export interface DBParams {
-    dialect: string;
-    storage: string;
-    define: DBDefine;
+    options: Sequelize.Options;
 }
 export interface DBDefine {
     underscored: boolean;

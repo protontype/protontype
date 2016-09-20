@@ -25,7 +25,7 @@ var ExpressApplication = (function () {
         var _this = this;
         this.configMiddlewares();
         var port = this.express.get("port");
-        this.sequelizeDB.getDB().sequelize.sync().done(function () {
+        this.sequelizeDB.getInstance().sync().done(function () {
             _this.configureRoutes();
             _this.express.listen(port, function () { return console.log("Application listen on port " + port); });
         });
@@ -43,34 +43,43 @@ var ExpressApplication = (function () {
         var _this = this;
         this.routers.forEach(function (router) {
             router.init(_this);
-            var configs = RouteConfigLoader_1.RouteConfigLoader.routeConfigs[router.getBaseUrl()];
+            var configs = RouteConfigLoader_1.RouteConfigLoader.routesConfigsByUrl[router.getBaseUrl()];
             if (configs != null) {
                 configs.forEach(function (config) {
-                    switch (config.method) {
-                        case Method_1.Method.GET:
-                            _this.express.get(router.getBaseUrl() + config.endpoint, function (req, res) {
-                                config.routeFunction.call(router, req, res, _this.getModel(config.modelName));
-                            });
-                            break;
-                        case Method_1.Method.POST:
-                            _this.express.post(router.getBaseUrl() + config.endpoint, function (req, res) {
-                                config.routeFunction.call(router, req, res, _this.getModel(config.modelName));
-                            });
-                            break;
-                        case Method_1.Method.PUT:
-                            _this.express.put(router.getBaseUrl() + config.endpoint, function (req, res) {
-                                config.routeFunction.call(router, req, res, _this.getModel(config.modelName));
-                            });
-                            break;
-                        case Method_1.Method.DELETE:
-                            _this.express.delete(router.getBaseUrl() + config.endpoint, function (req, res) {
-                                config.routeFunction.call(router, req, res, _this.getModel(config.modelName));
-                            });
-                            break;
+                    if (config.method != null && config.endpoint != null) {
+                        _this.createRoutesByMethod(config, router);
+                    }
+                    else {
+                        config.routeFunction.call(router);
                     }
                 });
             }
         });
+    };
+    ExpressApplication.prototype.createRoutesByMethod = function (config, router) {
+        var _this = this;
+        switch (config.method) {
+            case Method_1.Method.GET:
+                this.express.get(router.getBaseUrl() + config.endpoint, function (req, res) {
+                    config.routeFunction.call(router, req, res, _this.getModel(config.modelName));
+                });
+                break;
+            case Method_1.Method.POST:
+                this.express.post(router.getBaseUrl() + config.endpoint, function (req, res) {
+                    config.routeFunction.call(router, req, res, _this.getModel(config.modelName));
+                });
+                break;
+            case Method_1.Method.PUT:
+                this.express.put(router.getBaseUrl() + config.endpoint, function (req, res) {
+                    config.routeFunction.call(router, req, res, _this.getModel(config.modelName));
+                });
+                break;
+            case Method_1.Method.DELETE:
+                this.express.delete(router.getBaseUrl() + config.endpoint, function (req, res) {
+                    config.routeFunction.call(router, req, res, _this.getModel(config.modelName));
+                });
+                break;
+        }
     };
     ExpressApplication.prototype.configMiddlewares = function () {
         var _this = this;
@@ -80,6 +89,28 @@ var ExpressApplication = (function () {
             middleware.configMiddlewares();
         });
     };
+    ExpressApplication.prototype.getRoutesList = function () {
+        var routeList = [];
+        this.express._router.stack.forEach(function (r) {
+            if (r.route && r.route.path) {
+                routeList.push({
+                    method: r.route.stack[0].method.toUpperCase(),
+                    path: r.route.path
+                });
+            }
+        });
+        this.routers.forEach(function (router) {
+            router.getRouter().stack.forEach(function (r) {
+                if (r.route && r.route.path) {
+                    routeList.push({
+                        method: r.route.stack[0].method.toUpperCase(),
+                        path: router.getBaseUrl() + r.route.path
+                    });
+                }
+            });
+        });
+        return routeList;
+    };
     ExpressApplication.prototype.getExpress = function () {
         return this.express;
     };
@@ -88,6 +119,9 @@ var ExpressApplication = (function () {
     };
     ExpressApplication.prototype.getModel = function (modelName) {
         return this.sequelizeDB.getModel(modelName);
+    };
+    ExpressApplication.prototype.getRouters = function () {
+        return this.routers;
     };
     return ExpressApplication;
 }());

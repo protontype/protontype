@@ -32,19 +32,19 @@ var BaseCrudRouter = (function (_super) {
     };
     BaseCrudRouter.prototype.findAll = function (req, res, model) {
         var _this = this;
-        model.find({})
+        model.getInstance().findAll({})
             .then(function (result) { return res.json(result); })
             .catch(function (error) { return _super.prototype.sendErrorMessage.call(_this, res, error); });
     };
     BaseCrudRouter.prototype.create = function (req, res, model) {
         var _this = this;
-        model.create(req.body)
+        model.getInstance().create(req.body)
             .then(function (result) { return res.json(result); })
             .catch(function (error) { return _this.sendErrorMessage(res, error); });
     };
     BaseCrudRouter.prototype.findOne = function (req, res, model) {
         var _this = this;
-        model.findOne({ where: req.params })
+        model.getInstance().findOne({ where: req.params })
             .then(function (result) {
             if (result) {
                 res.json(result);
@@ -57,13 +57,13 @@ var BaseCrudRouter = (function (_super) {
     };
     BaseCrudRouter.prototype.update = function (req, res, model) {
         var _this = this;
-        model.update(req.body, { where: req.params })
+        model.getInstance().update(req.body, { where: req.params })
             .then(function (result) { return res.sendStatus(204); })
             .catch(function (error) { return _this.sendErrorMessage(res, error); });
     };
     BaseCrudRouter.prototype.destroy = function (req, res, model) {
         var _this = this;
-        model.destroy({ where: req.params })
+        model.getInstance().destroy({ where: req.params })
             .then(function (result) { return res.sendStatus(204); })
             .catch(function (error) { return _this.sendErrorMessage(res, error); });
     };

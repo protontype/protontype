@@ -1,4 +1,5 @@
 "use strict";
+var Express = require("express");
 /**
  * @author Humberto Machado
  * Express routes configurations
@@ -9,6 +10,8 @@ var ExpressRouter = (function () {
     }
     ExpressRouter.prototype.init = function (expressApplication) {
         this.express = expressApplication.getExpress();
+        this.router = Express.Router();
+        this.express.use(this.getBaseUrl(), this.router);
         this.expressApplication = expressApplication;
     };
     ExpressRouter.prototype.sendErrorMessage = function (res, error) {
@@ -16,6 +19,9 @@ var ExpressRouter = (function () {
     };
     ExpressRouter.prototype.getModel = function (modelName) {
         return this.expressApplication.getModel(modelName);
+    };
+    ExpressRouter.prototype.getRouter = function () {
+        return this.router;
     };
     return ExpressRouter;
 }());

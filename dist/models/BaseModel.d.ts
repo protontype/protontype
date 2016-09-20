@@ -5,17 +5,12 @@ import * as Sequelize from "sequelize";
  * @author Humberto Machado
  */
 export declare abstract class BaseModel implements SequelizeModel {
-    protected nativeInstance: any;
+    protected model: Sequelize.Model<any, any>;
     protected name: string;
-    protected definition: {};
+    protected definition: Sequelize.DefineAttributes;
     getModelName(): string;
-    defineModel(sequelize: any, DataTypes: any): any;
+    defineModel(sequelize: Sequelize.Sequelize): SequelizeModel;
     associate(sequelizeDB: SequelizeDB): void;
-    getNativeInstance(): any;
-    find(params: Sequelize.FindOptions): any;
-    create(object: Sequelize.CreateOptions): any;
-    findOne(params: Sequelize.FindOptions): any;
-    update(object: Object, params: Sequelize.UpdateOptions): any;
-    destroy(params: Sequelize.DestroyOptions): any;
+    getInstance(): Sequelize.Model<any, any>;
 }
 export declare var DataTypes: Sequelize.DataTypes;

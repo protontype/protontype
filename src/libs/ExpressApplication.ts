@@ -108,7 +108,7 @@ export class ExpressApplication {
                 });
             }
         });
-        this.routers.forEach((router: any) => {
+        this.routers.forEach(router => {
             router.getRouter().stack.forEach(r => {
                 if (r.route && r.route.path) {
                     routeList.push({
