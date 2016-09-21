@@ -13,6 +13,11 @@ export class DefaultMiddleware extends Middleware {
         this.express.set("json spaces", this.jsonSpaces);
         this.express.use(bodyParser.json());
         this.express.use((req, res, next) => {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+            res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+            res.setHeader('Access-Control-Allow-Credentials', 'true');
+
             delete req.body.id;
             next();
         })

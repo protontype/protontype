@@ -6,16 +6,16 @@ var RouteConfigLoader = (function () {
     function RouteConfigLoader() {
     }
     RouteConfigLoader.addRouteConfig = function (baseUrl, config) {
-        var routeConfigs = this.routeConfigs[baseUrl];
-        if (routeConfigs == null) {
-            routeConfigs = [];
+        var routes = this.routesConfigsByUrl[baseUrl];
+        if (routes == null) {
+            routes = [];
         }
-        if (routeConfigs.filter(function (route) { return route.method == config.method && route.endpoint == config.endpoint; }).length == 0) {
-            routeConfigs.push(config);
-            this.routeConfigs[baseUrl] = routeConfigs;
+        if (routes.filter(function (route) { return route.method == config.method && route.endpoint == config.endpoint; }).length == 0) {
+            routes.push(config);
+            this.routesConfigsByUrl[baseUrl] = routes;
         }
     };
-    RouteConfigLoader.routeConfigs = {};
+    RouteConfigLoader.routesConfigsByUrl = {};
     return RouteConfigLoader;
 }());
 exports.RouteConfigLoader = RouteConfigLoader;
@@ -23,10 +23,10 @@ exports.RouteConfigLoader = RouteConfigLoader;
 function Route(config) {
     return function (target, propertyKey, descriptor) {
         RouteConfigLoader.addRouteConfig(target.getBaseUrl.apply(this), {
-            endpoint: config.endpoint,
-            method: config.method,
+            endpoint: config != null ? config.endpoint : null,
+            method: config != null ? config.method : null,
             routeFunction: descriptor.value,
-            modelName: config.modelName
+            modelName: config != null ? config.modelName : null
         });
     };
 }

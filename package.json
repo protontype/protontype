@@ -1,6 +1,6 @@
 {
-  "name": "protontype-api",
-  "version": "0.1.0-beta",
+  "name": "protontype",
+  "version": "0.3.0-alpha",
   "description": "",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -10,9 +10,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/linck/protontype-api"
+    "url": "https://github.com/linck/protontype"
   },
-  "homepage": "https://github.com/linck/protontype-api",
+  "homepage": "https://github.com/linck/protontype",
   "keywords": [
     "typescript",
     "express",

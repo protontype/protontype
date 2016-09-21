@@ -10,15 +10,12 @@ var SequelizeDB = (function () {
         this.sequelize = null;
         this.models = {};
         if (this.sequelize == null) {
-            this.sequelize = new Sequelize(Config_1.Config.database.name, Config_1.Config.database.username, Config_1.Config.database.password, Config_1.Config.database.params);
+            this.sequelize = new Sequelize(Config_1.Config.database.name, Config_1.Config.database.username, Config_1.Config.database.password, Config_1.Config.database.options);
             SequelizeModelLoader_1.SequelizeModelLoader.loadModels(this);
         }
     }
-    SequelizeDB.prototype.getDB = function () {
-        return {
-            sequelize: this.sequelize,
-            Sequelize: Sequelize
-        };
+    SequelizeDB.prototype.getInstance = function () {
+        return this.sequelize;
     };
     SequelizeDB.prototype.getModels = function () {
         return this.models;

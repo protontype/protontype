@@ -7,7 +7,7 @@ var SequelizeModelLoader = (function () {
     }
     SequelizeModelLoader.loadModels = function (sequelizeDB) {
         this.modelsList.forEach(function (model) {
-            sequelizeDB.addModel(model.getModelName(), model.defineModel(sequelizeDB.getDB().sequelize, sequelizeDB.getDB().Sequelize));
+            sequelizeDB.addModel(model.getModelName(), model.defineModel(sequelizeDB.getInstance()));
             console.log("Model loaded: " + model.getModelName());
         });
         this.modelsList.forEach(function (model) {

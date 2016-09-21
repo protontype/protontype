@@ -1,3 +1,5 @@
+import * as Sequelize from "sequelize";
+import { SequelizeModel } from "../models/SequelizeModel";
 /**
  * @author Humberto Machado
  */
@@ -5,12 +7,8 @@ export declare class SequelizeDB {
     private sequelize;
     private models;
     constructor();
-    getDB(): DB;
+    getInstance(): Sequelize.Sequelize;
     getModels(): any;
-    getModel(modelName: string): any;
-    addModel(name: string, model: any): void;
-}
-export interface DB {
-    sequelize: any;
-    Sequelize: any;
+    getModel(modelName: string): SequelizeModel;
+    addModel(name: string, model: SequelizeModel): void;
 }

@@ -5,12 +5,13 @@ import {Middleware} from "../middlewares/Middleware";
 import {RouteConfigLoader, RouteConfig} from "./RouteConfigLoader";
 import {Method} from "../routes/Method";
 import {DefaultMiddleware} from "../middlewares/DefaultMiddleware";
+import {SequelizeModel} from "../models/SequelizeModel";
 
 /**
  * @author Humberto Machado
  */
 export class ExpressApplication {
-    private express: any;
+    private express: Express.Application;
     private middlewares: Middleware[] = [];
     private sequelizeDB: SequelizeDB;
     private routers: ExpressRouter[] = [];
@@ -27,10 +28,10 @@ export class ExpressApplication {
      * Initialize express application and load middlewares
      * @return express instance
      */
-    public bootstrap(): any {
+    public bootstrap(): Express.Application {
         this.configMiddlewares();
         let port: number = this.express.get("port");
-        this.sequelizeDB.getDB().sequelize.sync().done(() => {
+        this.sequelizeDB.getInstance().sync().done(() => {
             this.configureRoutes();
             this.express.listen(port, () => console.log(`Application listen on port ${port}`));
         });
@@ -50,35 +51,43 @@ export class ExpressApplication {
     private configureRoutes(): void {
         this.routers.forEach(router => {
             router.init(this);
-            var configs: RouteConfig[] = RouteConfigLoader.routeConfigs[router.getBaseUrl()];
+            var configs: RouteConfig[] = RouteConfigLoader.routesConfigsByUrl[router.getBaseUrl()];
 
             if (configs != null) {
                 configs.forEach(config => {
-                    switch (config.method) {
-                        case Method.GET:
-                            this.express.get(router.getBaseUrl() + config.endpoint, (req, res) => {
-                                config.routeFunction.call(router, req, res, this.sequelizeDB.getModel(config.modelName));
-                            });
-                            break;
-                        case Method.POST:
-                            this.express.post(router.getBaseUrl() + config.endpoint, (req, res) => {
-                                config.routeFunction.call(router, req, res, this.sequelizeDB.getModel(config.modelName));
-                            });
-                            break;
-                        case Method.PUT:
-                            this.express.put(router.getBaseUrl() + config.endpoint, (req, res) => {
-                                config.routeFunction.call(router, req, res, this.sequelizeDB.getModel(config.modelName));
-                            });
-                            break;
-                        case Method.DELETE:
-                            this.express.delete(router.getBaseUrl() + config.endpoint, (req, res) => {
-                                config.routeFunction.call(router, req, res, this.sequelizeDB.getModel(config.modelName));
-                            });
-                            break;
+                    if (config.method != null && config.endpoint != null) {
+                        this.createRoutesByMethod(config, router);
+                    } else {
+                        config.routeFunction.call(router);
                     }
                 });
             }
         });
+    }
+
+    private createRoutesByMethod(config: RouteConfig, router: ExpressRouter) {
+        switch (config.method) {
+            case Method.GET:
+                this.express.get(router.getBaseUrl() + config.endpoint, (req, res) => {
+                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                });
+                break;
+            case Method.POST:
+                this.express.post(router.getBaseUrl() + config.endpoint, (req, res) => {
+                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                });
+                break;
+            case Method.PUT:
+                this.express.put(router.getBaseUrl() + config.endpoint, (req, res) => {
+                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                });
+                break;
+            case Method.DELETE:
+                this.express.delete(router.getBaseUrl() + config.endpoint, (req, res) => {
+                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                });
+                break;
+        }
     }
 
     private configMiddlewares(): void {
@@ -89,11 +98,42 @@ export class ExpressApplication {
         })
     }
 
-    public getExpress(): any {
+    public getRoutesList(): { method: string, path: string }[] {
+        let routeList: any[] = [];
+        this.express._router.stack.forEach(r => {
+            if (r.route && r.route.path) {
+                routeList.push({
+                    method: r.route.stack[0].method.toUpperCase(),
+                    path: r.route.path
+                });
+            }
+        });
+        this.routers.forEach(router => {
+            router.getRouter().stack.forEach(r => {
+                if (r.route && r.route.path) {
+                    routeList.push({
+                        method: r.route.stack[0].method.toUpperCase(),
+                        path: router.getBaseUrl() + r.route.path
+                    });
+                }
+            });
+        });
+        return routeList;
+    }
+
+    public getExpress(): Express.Application {
         return this.express;
     }
 
     public getSequelizeDB(): SequelizeDB {
         return this.sequelizeDB;
+    }
+
+    public getModel(modelName: string): SequelizeModel {
+        return this.sequelizeDB.getModel(modelName);
+    }
+
+    public getRouters(): ExpressRouter[]{
+        return this.routers;
     }
 }

@@ -1,12 +1,15 @@
 import { ExpressApplication } from './../libs/ExpressApplication';
 import {BaseModel} from "../models/BaseModel";
+import {SequelizeModel} from "../models/SequelizeModel";
+import * as Express from "express";
 /**
  * @author Humberto Machado
  * Express routes configurations
  */
 export abstract class ExpressRouter {
-    protected express: any;
+    protected express: Express.Application;
     protected expressApplication: ExpressApplication;
+    protected router: Express.Router;
 
     constructor() {
         console.log(`>>>> Configured routes to ${this.getBaseUrl()} <<<<`);
@@ -14,6 +17,8 @@ export abstract class ExpressRouter {
 
     public init(expressApplication: ExpressApplication) {
         this.express = expressApplication.getExpress();
+        this.router = Express.Router();
+        this.express.use(this.getBaseUrl(), this.router);
         this.expressApplication = expressApplication;
     }
 
@@ -22,6 +27,14 @@ export abstract class ExpressRouter {
 
     public sendErrorMessage(res: any, error: any): void {
         res.status(412).json({ msg: error.message })
+    }
+
+    public getModel<T extends SequelizeModel>(modelName: string): T {
+        return <T>this.expressApplication.getModel(modelName);
+    }
+
+    public getRouter(): Express.Router {
+        return this.router;
     }
 }
 
