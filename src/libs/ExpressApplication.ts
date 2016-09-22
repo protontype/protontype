@@ -133,7 +133,7 @@ export class ExpressApplication {
         return this.sequelizeDB.getModel(modelName);
     }
 
-    public getRouters(): ExpressRouter[]{
+    public getRouters(): ExpressRouter[] {
         return this.routers;
     }
 }

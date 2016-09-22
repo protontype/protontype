@@ -6,7 +6,7 @@ let filePath: string = path.join(".", "proton.json");
 
 export var Config: GolbalConfig;
 if (fs.existsSync(filePath)) {
-    Config = JSON.parse(fs.readFileSync(filePath, {encoding: 'utf8'}).toString());
+    Config = JSON.parse(fs.readFileSync(filePath, { encoding: 'utf8' }).toString());
 } else {
     console.log("Configuration file proton.json not found ");
 }
