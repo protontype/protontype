@@ -6,6 +6,7 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "start": "npm run build",
     "legacy-typings": "typings install"
   },
   "repository": {
