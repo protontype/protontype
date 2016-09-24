@@ -10,7 +10,10 @@
     "removeComments": false,
     "noImplicitAny": false,
     "outDir": "dist",
-    "watch": true
+    "watch": true,
+    "lib": [
+      "es6"
+    ]
   },
   "exclude": [
     "node_modules",

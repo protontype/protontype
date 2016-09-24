@@ -31,7 +31,7 @@ export class ExpressApplication {
     public bootstrap(): Express.Application {
         this.configMiddlewares();
         let port: number = this.express.get("port");
-        this.sequelizeDB.getInstance().sync().done(() => {
+        this.sequelizeDB.getInstance().sync().then(() => {
             this.configureRoutes();
             this.express.listen(port, () => console.log(`Application listen on port ${port}`));
         });
