@@ -1,15 +1,10 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as Sequelize from "sequelize";
-
-let filePath: string = path.join(".", "proton.json");
+import {JsonLoader} from "jsontyped/dist/JsonLoader";
 
 export var Config: GolbalConfig;
-if (fs.existsSync(filePath)) {
-    Config = JSON.parse(fs.readFileSync(filePath, { encoding: 'utf8' }).toString());
-} else {
-    console.log("Configuration file proton.json not found ");
-}
+Config = JsonLoader.loadFile<GolbalConfig>(".", "proton.json");
 
 export interface GolbalConfig {
     port: number;

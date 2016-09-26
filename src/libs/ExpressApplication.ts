@@ -38,12 +38,12 @@ export class ExpressApplication {
         return this.express;
     }
 
-    public addRouter(router: ExpressRouter) {
+    public addRouter(router: ExpressRouter): this {
         this.routers.push(router);
         return this;
     }
 
-    public addMiddleware(middleware: Middleware) {
+    public addMiddleware(middleware: Middleware): this {
         this.middlewares.push(middleware);
         return this;
     }
@@ -65,7 +65,7 @@ export class ExpressApplication {
         });
     }
 
-    private createRoutesByMethod(config: RouteConfig, router: ExpressRouter) {
+    private createRoutesByMethod(config: RouteConfig, router: ExpressRouter): void {
         switch (config.method) {
             case Method.GET:
                 this.express.get(router.getBaseUrl() + config.endpoint, (req, res) => {
