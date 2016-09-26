@@ -1,5 +1,5 @@
-ProtonType API - Beta
-----------------
+ProtonType
+-------
 
 Um simples microframework feito em Typescript para criação de APIs REST usando Exress e ORM Sequelize. 
 
