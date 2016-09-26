@@ -25,7 +25,7 @@ var ExpressApplication = (function () {
         var _this = this;
         this.configMiddlewares();
         var port = this.express.get("port");
-        this.sequelizeDB.getInstance().sync().done(function () {
+        this.sequelizeDB.getInstance().sync().then(function () {
             _this.configureRoutes();
             _this.express.listen(port, function () { return console.log("Application listen on port " + port); });
         });

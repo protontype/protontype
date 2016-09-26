@@ -1,3 +1,4 @@
+/// <reference types="sequelize" />
 import * as Sequelize from "sequelize";
 import { SequelizeModel } from "../models/SequelizeModel";
 /**
