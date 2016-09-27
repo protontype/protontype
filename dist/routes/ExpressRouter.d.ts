@@ -1,4 +1,3 @@
-/// <reference types="express" />
 import { ExpressApplication } from './../libs/ExpressApplication';
 import { BaseModel } from "../models/BaseModel";
 import { SequelizeModel } from "../models/SequelizeModel";

@@ -1,4 +1,3 @@
-/// <reference types="express" />
 import { SequelizeDB } from "./SequelizeDB";
 import * as Express from "express";
 import { ExpressRouter } from "../routes/ExpressRouter";

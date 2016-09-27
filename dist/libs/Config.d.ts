@@ -1,4 +1,3 @@
-/// <reference types="sequelize" />
 import * as Sequelize from "sequelize";
 export declare var Config: GolbalConfig;
 export interface GolbalConfig {
