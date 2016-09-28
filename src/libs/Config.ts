@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as Sequelize from "sequelize";
-import {JsonLoader} from "jsontyped/dist/JsonLoader";
+import {JsonLoader} from "jsontyped";
 
 export var Config: GolbalConfig;
 Config = JsonLoader.loadFile<GolbalConfig>(".", "proton.json");
