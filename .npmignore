@@ -7,8 +7,6 @@
 /node_modules
 /bower_components
 
-/src
-
 # IDEs and editors
 /.idea
 .project
