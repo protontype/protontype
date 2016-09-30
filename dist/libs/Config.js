@@ -1,11 +1,4 @@
 "use strict";
-var fs = require("fs");
-var path = require("path");
-var filePath = path.join(".", "proton.json");
-if (fs.existsSync(filePath)) {
-    exports.Config = JSON.parse(fs.readFileSync(filePath, { encoding: 'utf8' }).toString());
-}
-else {
-    console.log("Configuration file proton.json not found ");
-}
+var jsontyped_1 = require("jsontyped");
+exports.Config = jsontyped_1.JsonLoader.loadFile(".", "proton.json");
 //# sourceMappingURL=Config.js.map

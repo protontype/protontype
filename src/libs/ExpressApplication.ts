@@ -31,19 +31,19 @@ export class ExpressApplication {
     public bootstrap(): Express.Application {
         this.configMiddlewares();
         let port: number = this.express.get("port");
-        this.sequelizeDB.getInstance().sync().done(() => {
+        this.sequelizeDB.getInstance().sync().then(() => {
             this.configureRoutes();
             this.express.listen(port, () => console.log(`Application listen on port ${port}`));
         });
         return this.express;
     }
 
-    public addRouter(router: ExpressRouter) {
+    public addRouter(router: ExpressRouter): this {
         this.routers.push(router);
         return this;
     }
 
-    public addMiddleware(middleware: Middleware) {
+    public addMiddleware(middleware: Middleware): this {
         this.middlewares.push(middleware);
         return this;
     }
@@ -65,7 +65,7 @@ export class ExpressApplication {
         });
     }
 
-    private createRoutesByMethod(config: RouteConfig, router: ExpressRouter) {
+    private createRoutesByMethod(config: RouteConfig, router: ExpressRouter): void {
         switch (config.method) {
             case Method.GET:
                 this.express.get(router.getBaseUrl() + config.endpoint, (req, res) => {
@@ -133,7 +133,7 @@ export class ExpressApplication {
         return this.sequelizeDB.getModel(modelName);
     }
 
-    public getRouters(): ExpressRouter[]{
+    public getRouters(): ExpressRouter[] {
         return this.routers;
     }
 }

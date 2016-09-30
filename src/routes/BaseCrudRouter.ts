@@ -7,7 +7,7 @@ import {SequelizeModel} from "../models/SequelizeModel";
  */
 export abstract class BaseCrudRouter extends ExpressRouter {
 
-    constructor(){
+    constructor() {
         super();
         this.addRoute(this.getBaseUrl(), '/', Method.GET, this.findAll);
         this.addRoute(this.getBaseUrl(), '/', Method.POST, this.create);
@@ -16,7 +16,7 @@ export abstract class BaseCrudRouter extends ExpressRouter {
         this.addRoute(this.getBaseUrl(), '/:id', Method.DELETE, this.destroy);
     }
 
-    private addRoute(baseUrl: string, endpoint: string, method: Method, routeFunction: Function){
+    private addRoute(baseUrl: string, endpoint: string, method: Method, routeFunction: Function) {
         this.getModelInstances().forEach(modelInstance => {
             RouteConfigLoader.addRouteConfig(baseUrl,
                 {
@@ -41,7 +41,7 @@ export abstract class BaseCrudRouter extends ExpressRouter {
     }
 
     public findOne(req, res, model: SequelizeModel) {
-        model.getInstance().findOne({where: req.params})
+        model.getInstance().findOne({ where: req.params })
             .then(result => {
                 if (result) {
                     res.json(result);
@@ -53,13 +53,13 @@ export abstract class BaseCrudRouter extends ExpressRouter {
     }
 
     public update(req, res, model: SequelizeModel) {
-        model.getInstance().update(req.body, {where: req.params})
+        model.getInstance().update(req.body, { where: req.params })
             .then(result => res.sendStatus(204))
             .catch(error => this.sendErrorMessage(res, error));
     }
 
     public destroy(req, res, model: SequelizeModel) {
-        model.getInstance().destroy({where: req.params})
+        model.getInstance().destroy({ where: req.params })
             .then(result => res.sendStatus(204))
             .catch(error => this.sendErrorMessage(res, error));
     }
