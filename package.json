@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "start": "npm run build",
-    "legacy-typings": "typings install"
+    "typings": "typings install"
   },
   "repository": {
     "type": "git",
@@ -27,11 +27,7 @@
     "express": "^4.14.0",
     "sequelize": "^3.23.6",
     "sqlite3": "^3.1.4",
-    "jsontyped": "^1.1.4",
-    "@types/body-parser": "0.0.33",
-    "@types/express": "^4.0.33",
-    "@types/node": "^6.0.41",
-    "@types/sequelize": "^3.4.35"
+    "jsontyped": "^1.1.4"
   },
   "devDependencies": {
     "concurrently": "^2.2.0",

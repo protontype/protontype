@@ -30,7 +30,7 @@ export abstract class ExpressRouter {
     }
 
     public getModel<T extends SequelizeModel>(modelName: string): T {
-        return <T>this.expressApplication.getModel(modelName);
+        return this.expressApplication.getModel<T>(modelName);
     }
 
     public getRouter(): Express.Router {

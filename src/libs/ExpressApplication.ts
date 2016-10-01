@@ -129,8 +129,8 @@ export class ExpressApplication {
         return this.sequelizeDB;
     }
 
-    public getModel(modelName: string): SequelizeModel {
-        return this.sequelizeDB.getModel(modelName);
+    public getModel<T extends SequelizeModel>(modelName: string): T {
+        return <T>this.sequelizeDB.getModel(modelName);
     }
 
     public getRouters(): ExpressRouter[] {
