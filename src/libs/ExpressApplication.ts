@@ -5,7 +5,7 @@ import {Middleware} from "../middlewares/Middleware";
 import {RouteConfigLoader, RouteConfig} from "./RouteConfigLoader";
 import {Method} from "../routes/Method";
 import {DefaultMiddleware} from "../middlewares/DefaultMiddleware";
-import {SequelizeModel} from "../models/SequelizeModel";
+import {BaseModel} from "../models/BaseModel";
 
 /**
  * @author Humberto Machado
@@ -129,7 +129,7 @@ export class ExpressApplication {
         return this.sequelizeDB;
     }
 
-    public getModel<T extends SequelizeModel>(modelName: string): T {
+    public getModel<T extends BaseModel>(modelName: string): T {
         return <T>this.sequelizeDB.getModel(modelName);
     }
 

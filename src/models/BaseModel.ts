@@ -1,11 +1,10 @@
-import {SequelizeModel} from "./SequelizeModel";
 import {SequelizeDB} from "../libs/SequelizeDB";
 import * as Sequelize from "sequelize"
 
 /**
  * @author Humberto Machado
  */
-export abstract class BaseModel implements SequelizeModel {
+export abstract class BaseModel {
     //Sequelize Model native instance. @see http://docs.sequelizejs.com/en/latest/docs/models-usage/
     protected model: Sequelize.Model<any, any>;
     protected name: string;
@@ -15,12 +14,16 @@ export abstract class BaseModel implements SequelizeModel {
         return this.name;
     }
 
-    public defineModel(sequelize: Sequelize.Sequelize): SequelizeModel {
+    public defineModel(sequelize: Sequelize.Sequelize): BaseModel {
         this.model = sequelize.define(this.getModelName(), this.definition, {});
         return this;
     }
 
     public associate(sequelizeDB: SequelizeDB): void {
+        //Hook Method
+    }
+
+    public configure(sequelizeDB: SequelizeDB) {
         //Hook Method
     }
 

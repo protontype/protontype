@@ -1,6 +1,5 @@
 import { ExpressApplication } from './../libs/ExpressApplication';
 import {BaseModel} from "../models/BaseModel";
-import {SequelizeModel} from "../models/SequelizeModel";
 import * as Express from "express";
 /**
  * @author Humberto Machado
@@ -29,7 +28,7 @@ export abstract class ExpressRouter {
         res.status(412).json({ msg: error.message })
     }
 
-    public getModel<T extends SequelizeModel>(modelName: string): T {
+    public getModel<T extends BaseModel>(modelName: string): T {
         return this.expressApplication.getModel<T>(modelName);
     }
 

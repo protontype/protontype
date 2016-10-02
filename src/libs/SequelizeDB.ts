@@ -1,7 +1,7 @@
 import {Config} from "./Config";
 import * as Sequelize from "sequelize";
 import {SequelizeModelLoader} from "./SequelizeModelLoader";
-import {SequelizeModel} from "../models/SequelizeModel";
+import {BaseModel} from "../models/BaseModel";
 
 /**
  * @author Humberto Machado
@@ -30,11 +30,11 @@ export class SequelizeDB {
         return this.models;
     }
 
-    public getModel(modelName: string): SequelizeModel {
+    public getModel(modelName: string): BaseModel {
         return this.models[modelName];
     }
 
-    public addModel(name: string, model: SequelizeModel): void {
+    public addModel(name: string, model: BaseModel): void {
         this.models[name] = model;
     }
 }

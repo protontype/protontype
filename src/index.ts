@@ -8,7 +8,6 @@ export * from "./middlewares/DefaultMiddleware";
 export * from "./middlewares/Middleware";
 
 export * from "./models/BaseModel";
-export * from "./models/SequelizeModel";
 
 export * from "./routes/BaseCrudRouter";
 export * from "./routes/ExpressRouter";
