@@ -26,7 +26,8 @@ function Route(config) {
             endpoint: config != null ? config.endpoint : null,
             method: config != null ? config.method : null,
             routeFunction: descriptor.value,
-            modelName: config != null ? config.modelName : null
+            modelName: config != null ? config.modelName : null,
+            useAuth: config != null ? config.useAuth : false
         });
     };
 }

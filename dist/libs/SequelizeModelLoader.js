@@ -12,6 +12,7 @@ var SequelizeModelLoader = (function () {
         });
         this.modelsList.forEach(function (model) {
             model.associate(sequelizeDB);
+            model.configure(sequelizeDB);
         });
     };
     //Injected by @Model

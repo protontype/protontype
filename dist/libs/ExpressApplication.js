@@ -31,14 +31,20 @@ var ExpressApplication = (function () {
         });
         return this.express;
     };
-    ExpressApplication.prototype.addRouter = function (router) {
-        this.routers.push(router);
-        return this;
+    /**
+     * Initilize all configured middlewares
+     */
+    ExpressApplication.prototype.configMiddlewares = function () {
+        var _this = this;
+        new DefaultMiddleware_1.DefaultMiddleware().init(this).configMiddlewares();
+        this.middlewares.forEach(function (middleware) {
+            middleware.init(_this);
+            middleware.configMiddlewares();
+        });
     };
-    ExpressApplication.prototype.addMiddleware = function (middleware) {
-        this.middlewares.push(middleware);
-        return this;
-    };
+    /**
+     * Initialize all configured routes annotated with @Route
+     */
     ExpressApplication.prototype.configureRoutes = function () {
         var _this = this;
         this.routers.forEach(function (router) {
@@ -60,35 +66,69 @@ var ExpressApplication = (function () {
         var _this = this;
         switch (config.method) {
             case Method_1.Method.GET:
-                this.express.get(router.getBaseUrl() + config.endpoint, function (req, res) {
+                this.express.get(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), function (req, res) {
                     config.routeFunction.call(router, req, res, _this.getModel(config.modelName));
                 });
                 break;
             case Method_1.Method.POST:
-                this.express.post(router.getBaseUrl() + config.endpoint, function (req, res) {
+                this.express.post(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), function (req, res) {
                     config.routeFunction.call(router, req, res, _this.getModel(config.modelName));
                 });
                 break;
             case Method_1.Method.PUT:
-                this.express.put(router.getBaseUrl() + config.endpoint, function (req, res) {
+                this.express.put(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), function (req, res) {
                     config.routeFunction.call(router, req, res, _this.getModel(config.modelName));
                 });
                 break;
             case Method_1.Method.DELETE:
-                this.express.delete(router.getBaseUrl() + config.endpoint, function (req, res) {
+                this.express.delete(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), function (req, res) {
                     config.routeFunction.call(router, req, res, _this.getModel(config.modelName));
                 });
                 break;
         }
     };
-    ExpressApplication.prototype.configMiddlewares = function () {
-        var _this = this;
-        new DefaultMiddleware_1.DefaultMiddleware().init(this).configMiddlewares();
-        this.middlewares.forEach(function (middleware) {
-            middleware.init(_this);
-            middleware.configMiddlewares();
-        });
+    /**
+     * Add authentication middleware implementations
+     */
+    ExpressApplication.prototype.withAuthMiddleware = function (authMiddleware) {
+        this.authMiddleware = authMiddleware;
+        this.authMiddleware.init(this).configMiddlewares();
+        return this;
     };
+    /**
+     * Used to route autentication.
+     */
+    ExpressApplication.prototype.authenticate = function (useAuth) {
+        if (this.authMiddleware != null && useAuth) {
+            return this.authMiddleware.authenticate();
+        }
+        else {
+            return function (req, res, next) { return next(); };
+        }
+    };
+    ExpressApplication.prototype.addRouter = function (router) {
+        this.routers.push(router);
+        return this;
+    };
+    ExpressApplication.prototype.addMiddleware = function (middleware) {
+        this.middlewares.push(middleware);
+        return this;
+    };
+    ExpressApplication.prototype.getExpress = function () {
+        return this.express;
+    };
+    ExpressApplication.prototype.getSequelizeDB = function () {
+        return this.sequelizeDB;
+    };
+    ExpressApplication.prototype.getModel = function (modelName) {
+        return this.sequelizeDB.getModel(modelName);
+    };
+    ExpressApplication.prototype.getRouters = function () {
+        return this.routers;
+    };
+    /**
+     * @return list of all configured routes in ExpressApplication
+     */
     ExpressApplication.prototype.getRoutesList = function () {
         var routeList = [];
         this.express._router.stack.forEach(function (r) {
@@ -110,18 +150,6 @@ var ExpressApplication = (function () {
             });
         });
         return routeList;
-    };
-    ExpressApplication.prototype.getExpress = function () {
-        return this.express;
-    };
-    ExpressApplication.prototype.getSequelizeDB = function () {
-        return this.sequelizeDB;
-    };
-    ExpressApplication.prototype.getModel = function (modelName) {
-        return this.sequelizeDB.getModel(modelName);
-    };
-    ExpressApplication.prototype.getRouters = function () {
-        return this.routers;
     };
     return ExpressApplication;
 }());

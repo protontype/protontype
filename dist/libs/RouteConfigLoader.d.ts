@@ -13,10 +13,12 @@ export interface RouteDecoratorParams {
     endpoint: string;
     method: Method;
     modelName?: string;
+    useAuth?: boolean;
 }
 export interface RouteConfig {
     endpoint?: string;
     method?: Method;
     routeFunction: Function;
     modelName?: string;
+    useAuth?: boolean;
 }

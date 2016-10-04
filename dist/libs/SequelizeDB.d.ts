@@ -1,5 +1,5 @@
 import * as Sequelize from "sequelize";
-import { SequelizeModel } from "../models/SequelizeModel";
+import { BaseModel } from "../models/BaseModel";
 /**
  * @author Humberto Machado
  */
@@ -9,6 +9,6 @@ export declare class SequelizeDB {
     constructor();
     getInstance(): Sequelize.Sequelize;
     getModels(): any;
-    getModel(modelName: string): SequelizeModel;
-    addModel(name: string, model: SequelizeModel): void;
+    getModel(modelName: string): BaseModel;
+    addModel(name: string, model: BaseModel): void;
 }

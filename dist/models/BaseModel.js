@@ -16,6 +16,9 @@ var BaseModel = (function () {
     BaseModel.prototype.associate = function (sequelizeDB) {
         //Hook Method
     };
+    BaseModel.prototype.configure = function (sequelizeDB) {
+        //Hook Method
+    };
     BaseModel.prototype.getInstance = function () {
         return this.model;
     };

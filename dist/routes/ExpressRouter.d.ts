@@ -1,6 +1,5 @@
 import { ExpressApplication } from './../libs/ExpressApplication';
 import { BaseModel } from "../models/BaseModel";
-import { SequelizeModel } from "../models/SequelizeModel";
 import * as Express from "express";
 /**
  * @author Humberto Machado
@@ -15,7 +14,7 @@ export declare abstract class ExpressRouter {
     abstract getBaseUrl(): string;
     abstract getModelInstances(): BaseModel[];
     sendErrorMessage(res: any, error: any): void;
-    getModel<T extends SequelizeModel>(modelName: string): T;
+    getModel<T extends BaseModel>(modelName: string): T;
     getRouter(): Express.Router;
 }
 export declare function Router(config?: RouterConfig): (constructor: Function) => void;
