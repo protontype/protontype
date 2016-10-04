@@ -1,5 +1,5 @@
-import {Method} from "../routes/Method";
-import {ExpressRouter} from "../routes/ExpressRouter";
+import { Method } from "../routes/Method";
+import { ExpressRouter } from "../routes/ExpressRouter";
 
 /**
  * @author Humberto Machado
@@ -28,7 +28,8 @@ export function Route(config?: RouteDecoratorParams) {
                 endpoint: config != null ? config.endpoint : null,
                 method: config != null ? config.method : null,
                 routeFunction: descriptor.value,
-                modelName: config != null ? config.modelName : null
+                modelName: config != null ? config.modelName : null,
+                useAuth: config != null ? config.useAuth : false
             });
     };
 }
@@ -37,6 +38,7 @@ export interface RouteDecoratorParams {
     endpoint: string;
     method: Method;
     modelName?: string;
+    useAuth?: boolean;
 }
 
 export interface RouteConfig {
@@ -44,4 +46,5 @@ export interface RouteConfig {
     method?: Method;
     routeFunction: Function;
     modelName?: string;
+    useAuth?: boolean;
 }

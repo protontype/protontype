@@ -4,8 +4,8 @@ export * from "./libs/SequelizeDB";
 export * from "./libs/SequelizeModelLoader";
 export * from "./libs/RouteConfigLoader";
 
-export * from "./middlewares/DefaultMiddleware";
 export * from "./middlewares/Middleware";
+export * from "./middlewares/AuthMiddleware";
 
 export * from "./models/BaseModel";
 

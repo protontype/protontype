@@ -1,11 +1,12 @@
-import {SequelizeDB} from "./SequelizeDB";
+import { SequelizeDB } from "./SequelizeDB";
 import * as Express from "express";
-import {ExpressRouter} from "../routes/ExpressRouter";
-import {Middleware} from "../middlewares/Middleware";
-import {RouteConfigLoader, RouteConfig} from "./RouteConfigLoader";
-import {Method} from "../routes/Method";
-import {DefaultMiddleware} from "../middlewares/DefaultMiddleware";
-import {BaseModel} from "../models/BaseModel";
+import { ExpressRouter } from "../routes/ExpressRouter";
+import { Middleware } from "../middlewares/Middleware";
+import { AuthMiddleware } from "../middlewares/AuthMiddleware";
+import { RouteConfigLoader, RouteConfig } from "./RouteConfigLoader";
+import { Method } from "../routes/Method";
+import { DefaultMiddleware } from "../middlewares/DefaultMiddleware";
+import { BaseModel } from "../models/BaseModel";
 
 /**
  * @author Humberto Machado
@@ -15,6 +16,7 @@ export class ExpressApplication {
     private middlewares: Middleware[] = [];
     private sequelizeDB: SequelizeDB;
     private routers: ExpressRouter[] = [];
+    private authMiddleware: AuthMiddleware;
 
     /**
      * Create express application instance and middlewares
@@ -38,16 +40,20 @@ export class ExpressApplication {
         return this.express;
     }
 
-    public addRouter(router: ExpressRouter): this {
-        this.routers.push(router);
-        return this;
+    /**
+     * Initilize all configured middlewares
+     */
+    private configMiddlewares(): void {
+        new DefaultMiddleware().init(this).configMiddlewares();
+        this.middlewares.forEach(middleware => {
+            middleware.init(this);
+            middleware.configMiddlewares();
+        });
     }
 
-    public addMiddleware(middleware: Middleware): this {
-        this.middlewares.push(middleware);
-        return this;
-    }
-
+    /**
+     * Initialize all configured routes annotated with @Route
+     */
     private configureRoutes(): void {
         this.routers.forEach(router => {
             router.init(this);
@@ -68,36 +74,77 @@ export class ExpressApplication {
     private createRoutesByMethod(config: RouteConfig, router: ExpressRouter): void {
         switch (config.method) {
             case Method.GET:
-                this.express.get(router.getBaseUrl() + config.endpoint, (req, res) => {
+                this.express.get(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
                     config.routeFunction.call(router, req, res, this.getModel(config.modelName));
                 });
                 break;
             case Method.POST:
-                this.express.post(router.getBaseUrl() + config.endpoint, (req, res) => {
+                this.express.post(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
                     config.routeFunction.call(router, req, res, this.getModel(config.modelName));
                 });
                 break;
             case Method.PUT:
-                this.express.put(router.getBaseUrl() + config.endpoint, (req, res) => {
+                this.express.put(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
                     config.routeFunction.call(router, req, res, this.getModel(config.modelName));
                 });
                 break;
             case Method.DELETE:
-                this.express.delete(router.getBaseUrl() + config.endpoint, (req, res) => {
+                this.express.delete(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
                     config.routeFunction.call(router, req, res, this.getModel(config.modelName));
                 });
                 break;
         }
     }
 
-    private configMiddlewares(): void {
-        new DefaultMiddleware().init(this).configMiddlewares();
-        this.middlewares.forEach(middleware => {
-            middleware.init(this);
-            middleware.configMiddlewares();
-        })
+    /**
+     * Add authentication middleware implementations
+     */
+    public withAuthMiddleware(authMiddleware: AuthMiddleware): this {
+        this.authMiddleware = authMiddleware;
+        this.authMiddleware.init(this).configMiddlewares();
+        return this;
     }
 
+    /**
+     * Used to route autentication.
+     */
+    private authenticate(useAuth: boolean): Express.Handler {
+        if (this.authMiddleware != null && useAuth) {
+            return this.authMiddleware.authenticate();
+        } else {
+            return (req, res, next) => next();
+        }
+    }
+
+    public addRouter(router: ExpressRouter): this {
+        this.routers.push(router);
+        return this;
+    }
+
+    public addMiddleware(middleware: Middleware): this {
+        this.middlewares.push(middleware);
+        return this;
+    }
+
+    public getExpress(): Express.Application {
+        return this.express;
+    }
+
+    public getSequelizeDB(): SequelizeDB {
+        return this.sequelizeDB;
+    }
+
+    public getModel<T extends BaseModel>(modelName: string): T {
+        return <T>this.sequelizeDB.getModel(modelName);
+    }
+
+    public getRouters(): ExpressRouter[] {
+        return this.routers;
+    }
+
+    /**
+     * @return list of all configured routes in ExpressApplication
+     */
     public getRoutesList(): { method: string, path: string }[] {
         let routeList: any[] = [];
         this.express._router.stack.forEach(r => {
@@ -119,21 +166,5 @@ export class ExpressApplication {
             });
         });
         return routeList;
-    }
-
-    public getExpress(): Express.Application {
-        return this.express;
-    }
-
-    public getSequelizeDB(): SequelizeDB {
-        return this.sequelizeDB;
-    }
-
-    public getModel<T extends BaseModel>(modelName: string): T {
-        return <T>this.sequelizeDB.getModel(modelName);
-    }
-
-    public getRouters(): ExpressRouter[] {
-        return this.routers;
     }
 }
