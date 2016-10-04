@@ -57,10 +57,10 @@ O mapeamento do banco de dados é feita a através da anotação ***@Model*** qu
 Exemplo:
 
     import * as DataTypes from "sequelize"
-    import {SequelizeDB} from "protontype/dist/libs/SequelizeDB";
-    import {BaseModel} from "protontype/dist/models/BaseModel";
+    import {SequelizeDB} from "protontype";
+    import {BaseModel} from "protontype";
     import {UsersModel} from "./UsersModel";
-    import {Model} from "protontype/dist/libs/SequelizeModelLoader";
+    import {Model} from "protontype";
     
     @Model({
         name: TasksModel.MODEL_NAME,
@@ -129,9 +129,9 @@ _______________
 Exemplo:
 
     import {TasksModel} from "../models/TasksModel";
-    import {ExpressRouter} from "protontype/dist/routes/ExpressRouter";
-    import {Method} from "protontype/dist/routes/Method";
-    import {Route} from "protontype/dist/libs/RouteConfigLoader";
+    import {ExpressRouter} from "protontype";
+    import {Method} from "protontype";
+    import {Route} from "protontype";
     
     export class TasksRouter extends ExpressRouter {
     
@@ -222,9 +222,9 @@ A classe BaseCrudRouter provê as operações básicas de CRUD, sem a necessidad
 
 Exemplo:
 
-    import {BaseCrudRouter} from "protontype/dist/routes/BaseCrudRouter";
+    import {BaseCrudRouter} from "protontype";
     import {TasksModel} from "../models/TasksModel";
-    import {BaseModel} from "protontype/dist/models/BaseModel";
+    import {BaseModel} from "protontype";
     
     export class TasksRouter extends BaseCrudRouter {
         public getBaseUrl(): string {
@@ -245,8 +245,8 @@ Esta classe já proverá as rotas:
 
 **Iniciando aplicação**
 _______________
-    import {ExpressApplication} from "protontype/dist/libs/ExpressApplication";
-    import {DefaultMiddleware} from "protontype/dist/middlewares/DefaultMiddleware";
+    import {ExpressApplication} from "protontype";
+    import {DefaultMiddleware} from "protontype";
     import {TasksRouter} from "./routes/TasksRouter";
     
     let expressApp = new ExpressApplication();
