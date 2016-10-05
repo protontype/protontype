@@ -34,6 +34,12 @@ export function Route(config?: RouteDecoratorParams) {
     };
 }
 
+export function UseAuth() {
+    return function (constructor: Function) {
+        constructor.prototype.useAuth = true;
+    }
+}
+
 export interface RouteDecoratorParams {
     endpoint: string;
     method: Method;

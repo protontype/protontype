@@ -6,24 +6,26 @@ import {BaseModel} from "../models/BaseModel";
  * Created by beto_ on 14/08/2016.
  */
 export abstract class BaseCrudRouter extends ExpressRouter {
+    private useAuth: boolean;
 
     constructor() {
         super();
-        this.addRoute(this.getBaseUrl(), '/', Method.GET, this.findAll);
-        this.addRoute(this.getBaseUrl(), '/', Method.POST, this.create);
-        this.addRoute(this.getBaseUrl(), '/:id', Method.GET, this.findOne);
-        this.addRoute(this.getBaseUrl(), '/:id', Method.PUT, this.update);
-        this.addRoute(this.getBaseUrl(), '/:id', Method.DELETE, this.destroy);
+        this.addRoute(this.getBaseUrl(), '/', Method.GET, this.findAll, this.useAuth);
+        this.addRoute(this.getBaseUrl(), '/', Method.POST, this.create, false);
+        this.addRoute(this.getBaseUrl(), '/:id', Method.GET, this.findOne, this.useAuth);
+        this.addRoute(this.getBaseUrl(), '/:id', Method.PUT, this.update, this.useAuth);
+        this.addRoute(this.getBaseUrl(), '/:id', Method.DELETE, this.destroy, this.useAuth);
     }
 
-    private addRoute(baseUrl: string, endpoint: string, method: Method, routeFunction: Function) {
+    private addRoute(baseUrl: string, endpoint: string, method: Method, routeFunction: Function, useAuth: boolean) {
         this.getModelInstances().forEach(modelInstance => {
             RouteConfigLoader.addRouteConfig(baseUrl,
                 {
                     endpoint: endpoint,
                     method: method,
                     routeFunction: routeFunction,
-                    modelName: modelInstance.getModelName()
+                    modelName: modelInstance.getModelName(),
+                    useAuth: useAuth
                 });
         });
     }
