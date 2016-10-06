@@ -1,5 +1,5 @@
-import {SequelizeDB} from "./SequelizeDB";
-import {BaseModel} from "../models/BaseModel";
+import { SequelizeDB } from "./SequelizeDB";
+import { BaseModel } from "../models/BaseModel";
 import * as Sequelize from "sequelize"
 
 /**
@@ -7,16 +7,16 @@ import * as Sequelize from "sequelize"
  */
 export class SequelizeModelLoader {
     //Injected by @Model
-    public static modelsList: BaseModel[] = [];
+    public static modelsList: BaseModel<any>[] = [];
 
     public static loadModels(sequelizeDB: SequelizeDB): void {
-        this.modelsList.forEach((model: BaseModel) => {
+        this.modelsList.forEach((model: BaseModel<any>) => {
             sequelizeDB.addModel(model.getModelName(), model.defineModel(sequelizeDB.getInstance()));
 
             console.log(`Model loaded: ${model.getModelName()}`)
         });
 
-        this.modelsList.forEach((model: BaseModel) => {
+        this.modelsList.forEach((model: BaseModel<any>) => {
             model.associate(sequelizeDB);
             model.configure(sequelizeDB);
         });

@@ -1,12 +1,12 @@
-import { SequelizeDB } from "./SequelizeDB";
-import * as Express from "express";
-import { ExpressRouter } from "../routes/ExpressRouter";
-import { Middleware } from "../middlewares/Middleware";
-import { AuthMiddleware } from "../middlewares/AuthMiddleware";
-import { RouteConfigLoader, RouteConfig } from "./RouteConfigLoader";
-import { Method } from "../routes/Method";
-import { DefaultMiddleware } from "../middlewares/DefaultMiddleware";
-import { BaseModel } from "../models/BaseModel";
+import { SequelizeDB } from './SequelizeDB';
+import { AuthMiddleware } from '../middlewares/AuthMiddleware';
+import { DefaultMiddleware } from '../middlewares/DefaultMiddleware';
+import { Middleware } from '../middlewares/Middleware';
+import { BaseModel, SequelizeBaseModelAttr } from '../models/BaseModel';
+import { ExpressRouter } from '../routes/ExpressRouter';
+import { Method } from '../routes/Method';
+import { RouteConfig, RouteConfigLoader } from './RouteConfigLoader';
+import * as Express from 'express';
 
 /**
  * @author Humberto Machado
@@ -134,7 +134,7 @@ export class ExpressApplication {
         return this.sequelizeDB;
     }
 
-    public getModel<T extends BaseModel>(modelName: string): T {
+    public getModel<T extends BaseModel<any>>(modelName: string): T {
         return <T>this.sequelizeDB.getModel(modelName);
     }
 

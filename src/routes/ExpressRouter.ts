@@ -22,13 +22,13 @@ export abstract class ExpressRouter {
     }
 
     abstract getBaseUrl(): string;
-    abstract getModelInstances(): BaseModel[];
+    abstract getModelInstances(): BaseModel<any>[];
 
     public sendErrorMessage(res: any, error: any): void {
         res.status(412).json({ msg: error.message })
     }
 
-    public getModel<T extends BaseModel>(modelName: string): T {
+    public getModel<T extends BaseModel<any>>(modelName: string): T {
         return this.expressApplication.getModel<T>(modelName);
     }
 

@@ -30,19 +30,19 @@ export abstract class BaseCrudRouter extends ExpressRouter {
         });
     }
 
-    public findAll(req, res, model: BaseModel) {
+    public findAll(req, res, model: BaseModel<any>) {
         model.getInstance().findAll({})
             .then(result => res.json(result))
             .catch(error => super.sendErrorMessage(res, error));
     }
 
-    public create(req, res, model: BaseModel) {
+    public create(req, res, model: BaseModel<any>) {
         model.getInstance().create(req.body)
             .then(result => res.json(result))
             .catch(error => this.sendErrorMessage(res, error));
     }
 
-    public findOne(req, res, model: BaseModel) {
+    public findOne(req, res, model: BaseModel<any>) {
         model.getInstance().findOne({ where: req.params })
             .then(result => {
                 if (result) {
@@ -54,13 +54,13 @@ export abstract class BaseCrudRouter extends ExpressRouter {
             .catch(error => this.sendErrorMessage(res, error));
     }
 
-    public update(req, res, model: BaseModel) {
+    public update(req, res, model: BaseModel<any>) {
         model.getInstance().update(req.body, { where: req.params })
             .then(result => res.sendStatus(204))
             .catch(error => this.sendErrorMessage(res, error));
     }
 
-    public destroy(req, res, model: BaseModel) {
+    public destroy(req, res, model: BaseModel<any>) {
         model.getInstance().destroy({ where: req.params })
             .then(result => res.sendStatus(204))
             .catch(error => this.sendErrorMessage(res, error));
