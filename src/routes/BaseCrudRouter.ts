@@ -1,7 +1,7 @@
-import {ExpressRouter} from "../routes/ExpressRouter";
-import {RouteConfigLoader} from "../libs/RouteConfigLoader";
-import {Method} from "./Method";
-import {BaseModel} from "../models/BaseModel";
+import { RouteConfigLoader } from '../libs/RouteConfigLoader';
+import { BaseModel } from '../models/BaseModel';
+import { ExpressRouter } from '../routes/ExpressRouter';
+import { Method } from './Method';
 /**
  * Created by beto_ on 14/08/2016.
  */

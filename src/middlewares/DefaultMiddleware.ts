@@ -1,6 +1,6 @@
-import {Middleware} from "./Middleware";
+import { Config } from '../libs/Config';
+import { Middleware } from './Middleware';
 import * as bodyParser from 'body-parser';
-import {Config} from "../libs/Config";
 /**
  * @author Humberto Machado
  */

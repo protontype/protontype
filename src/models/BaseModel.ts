@@ -1,5 +1,5 @@
-import {SequelizeDB} from "../libs/SequelizeDB";
-import * as Sequelize from "sequelize"
+import { SequelizeDB } from '../libs/SequelizeDB';
+import * as Sequelize from 'sequelize';
 
 /**
  * @author Humberto Machado

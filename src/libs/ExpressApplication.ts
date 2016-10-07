@@ -1,11 +1,11 @@
-import { SequelizeDB } from './SequelizeDB';
 import { AuthMiddleware } from '../middlewares/AuthMiddleware';
 import { DefaultMiddleware } from '../middlewares/DefaultMiddleware';
 import { Middleware } from '../middlewares/Middleware';
-import { BaseModel, SequelizeBaseModelAttr } from '../models/BaseModel';
+import { BaseModel } from '../models/BaseModel';
 import { ExpressRouter } from '../routes/ExpressRouter';
 import { Method } from '../routes/Method';
 import { RouteConfig, RouteConfigLoader } from './RouteConfigLoader';
+import { SequelizeDB } from './SequelizeDB';
 import * as Express from 'express';
 
 /**

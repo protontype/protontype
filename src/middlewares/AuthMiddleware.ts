@@ -1,4 +1,4 @@
-import {Middleware} from "./Middleware";
+import { Middleware } from './Middleware';
 import * as express from 'express';
 /**
  * @author Humberto Machado

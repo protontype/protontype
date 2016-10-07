@@ -1,7 +1,7 @@
-import { Config } from "./Config";
-import * as Sequelize from "sequelize";
-import { SequelizeModelLoader } from "./SequelizeModelLoader";
-import { BaseModel } from "../models/BaseModel";
+import { BaseModel } from '../models/BaseModel';
+import { Config } from './Config';
+import { SequelizeModelLoader } from './SequelizeModelLoader';
+import * as Sequelize from 'sequelize';
 
 /**
  * @author Humberto Machado

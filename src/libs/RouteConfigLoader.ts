@@ -1,5 +1,4 @@
-import { Method } from "../routes/Method";
-import { ExpressRouter } from "../routes/ExpressRouter";
+import { Method } from '../routes/Method';
 
 /**
  * @author Humberto Machado
