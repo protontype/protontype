@@ -35,5 +35,7 @@ export abstract class BaseModel<ModelAttributes extends SequelizeBaseModelAttr> 
 export var DataTypes: Sequelize.DataTypes = Sequelize;
 
 export interface SequelizeBaseModelAttr extends Sequelize.Instance<SequelizeBaseModelAttr> {
-    id: number
+    id: number,
+    created_at: Date,
+    updated_at: Date
 }
