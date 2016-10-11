@@ -17,7 +17,6 @@ export class SequelizeModelLoader {
         });
 
         this.modelsList.forEach((model: BaseModel<any>) => {
-            model.associate(sequelizeDB);
             model.configure(sequelizeDB);
         });
     }

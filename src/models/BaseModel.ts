@@ -19,12 +19,16 @@ export abstract class BaseModel<ModelAttributes extends SequelizeBaseModelAttr> 
         return this;
     }
 
-    public associate(sequelizeDB: SequelizeDB): void {
+    public configure(sequelizeDB: SequelizeDB) {
         //Hook Method
     }
 
-    public configure(sequelizeDB: SequelizeDB) {
-        //Hook Method
+    public belongsTo(sequelizeDB: SequelizeDB, modelName: string) {
+        this.model.belongsTo(sequelizeDB.getModel(modelName).getInstance());
+    }
+
+    public hasMany(sequelizeDB: SequelizeDB, modelName: string) {
+        this.model.hasMany(sequelizeDB.getModel(modelName).getInstance());
     }
 
     public getInstance(): Sequelize.Model<ModelAttributes, ModelAttributes> {
