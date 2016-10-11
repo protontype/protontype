@@ -9,6 +9,7 @@ export abstract class BaseModel<ModelAttributes extends SequelizeBaseModelAttr> 
     protected model: Sequelize.Model<ModelAttributes, ModelAttributes>;
     protected name: string;
     protected definition: Sequelize.DefineAttributes;
+    protected sequelizeDB: SequelizeDB;
 
     public getModelName(): string {
         return this.name;
@@ -19,20 +20,24 @@ export abstract class BaseModel<ModelAttributes extends SequelizeBaseModelAttr> 
         return this;
     }
 
-    public configure(sequelizeDB: SequelizeDB) {
+    public configure() {
         //Hook Method
     }
 
-    public belongsTo(sequelizeDB: SequelizeDB, modelName: string) {
-        this.model.belongsTo(sequelizeDB.getModel(modelName).getInstance());
+    public belongsTo( modelName: string) {
+        this.model.belongsTo(this.sequelizeDB.getModel(modelName).getInstance());
     }
 
-    public hasMany(sequelizeDB: SequelizeDB, modelName: string) {
-        this.model.hasMany(sequelizeDB.getModel(modelName).getInstance());
+    public hasMany(modelName: string) {
+        this.model.hasMany(this.sequelizeDB.getModel(modelName).getInstance());
     }
 
     public getInstance(): Sequelize.Model<ModelAttributes, ModelAttributes> {
         return this.model;
+    }
+
+    public setSequelizeDB(sequelizeDB: SequelizeDB) {
+        this.sequelizeDB = sequelizeDB;
     }
 }
 

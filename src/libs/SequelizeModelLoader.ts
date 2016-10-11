@@ -12,12 +12,12 @@ export class SequelizeModelLoader {
     public static loadModels(sequelizeDB: SequelizeDB): void {
         this.modelsList.forEach((model: BaseModel<any>) => {
             sequelizeDB.addModel(model.getModelName(), model.defineModel(sequelizeDB.getInstance()));
-
+            model.setSequelizeDB(sequelizeDB);
             console.log(`Model loaded: ${model.getModelName()}`)
         });
 
         this.modelsList.forEach((model: BaseModel<any>) => {
-            model.configure(sequelizeDB);
+            model.configure();
         });
     }
 }
