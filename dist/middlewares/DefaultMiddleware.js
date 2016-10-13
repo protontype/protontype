@@ -4,9 +4,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Middleware_1 = require("./Middleware");
+var Config_1 = require('../libs/Config');
+var Middleware_1 = require('./Middleware');
 var bodyParser = require('body-parser');
-var Config_1 = require("../libs/Config");
 /**
  * @author Humberto Machado
  */

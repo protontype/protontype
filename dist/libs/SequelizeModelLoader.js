@@ -8,11 +8,11 @@ var SequelizeModelLoader = (function () {
     SequelizeModelLoader.loadModels = function (sequelizeDB) {
         this.modelsList.forEach(function (model) {
             sequelizeDB.addModel(model.getModelName(), model.defineModel(sequelizeDB.getInstance()));
+            model.setSequelizeDB(sequelizeDB);
             console.log("Model loaded: " + model.getModelName());
         });
         this.modelsList.forEach(function (model) {
-            model.associate(sequelizeDB);
-            model.configure(sequelizeDB);
+            model.configure();
         });
     };
     //Injected by @Model
@@ -20,7 +20,11 @@ var SequelizeModelLoader = (function () {
     return SequelizeModelLoader;
 }());
 exports.SequelizeModelLoader = SequelizeModelLoader;
-//Decorators
+/**
+ * Decorator
+ *
+ * Define a Sequelize Model
+ */
 function Model(config) {
     return function (constructor) {
         constructor.prototype.name = config.name;

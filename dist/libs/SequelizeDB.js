@@ -1,7 +1,7 @@
 "use strict";
-var Config_1 = require("./Config");
-var Sequelize = require("sequelize");
-var SequelizeModelLoader_1 = require("./SequelizeModelLoader");
+var Config_1 = require('./Config');
+var SequelizeModelLoader_1 = require('./SequelizeModelLoader');
+var Sequelize = require('sequelize');
 /**
  * @author Humberto Machado
  */

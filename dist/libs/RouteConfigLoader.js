@@ -19,7 +19,12 @@ var RouteConfigLoader = (function () {
     return RouteConfigLoader;
 }());
 exports.RouteConfigLoader = RouteConfigLoader;
-//Decorators
+/**
+ * Decorator Route({..})
+ *
+ *  Configute route to express application
+ *
+ */
 function Route(config) {
     return function (target, propertyKey, descriptor) {
         RouteConfigLoader.addRouteConfig(target.getBaseUrl.apply(this), {

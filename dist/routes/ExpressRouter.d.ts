@@ -1,6 +1,6 @@
+import { BaseModel } from '../models/BaseModel';
 import { ExpressApplication } from './../libs/ExpressApplication';
-import { BaseModel } from "../models/BaseModel";
-import * as Express from "express";
+import * as Express from 'express';
 /**
  * @author Humberto Machado
  * Express routes configurations
@@ -12,9 +12,9 @@ export declare abstract class ExpressRouter {
     constructor();
     init(expressApplication: ExpressApplication): void;
     abstract getBaseUrl(): string;
-    abstract getModelInstances(): BaseModel[];
+    abstract getModelInstances(): BaseModel<any>[];
     sendErrorMessage(res: any, error: any): void;
-    getModel<T extends BaseModel>(modelName: string): T;
+    getModel<T extends BaseModel<any>>(modelName: string): T;
     getRouter(): Express.Router;
 }
 export declare function Router(config?: RouterConfig): (constructor: Function) => void;

@@ -4,9 +4,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var ExpressRouter_1 = require("../routes/ExpressRouter");
-var RouteConfigLoader_1 = require("../libs/RouteConfigLoader");
-var Method_1 = require("./Method");
+var RouteConfigLoader_1 = require('../libs/RouteConfigLoader');
+var ExpressRouter_1 = require('../routes/ExpressRouter');
+var Method_1 = require('./Method');
 /**
  * Created by beto_ on 14/08/2016.
  */
@@ -14,19 +14,20 @@ var BaseCrudRouter = (function (_super) {
     __extends(BaseCrudRouter, _super);
     function BaseCrudRouter() {
         _super.call(this);
-        this.addRoute(this.getBaseUrl(), '/', Method_1.Method.GET, this.findAll);
-        this.addRoute(this.getBaseUrl(), '/', Method_1.Method.POST, this.create);
-        this.addRoute(this.getBaseUrl(), '/:id', Method_1.Method.GET, this.findOne);
-        this.addRoute(this.getBaseUrl(), '/:id', Method_1.Method.PUT, this.update);
-        this.addRoute(this.getBaseUrl(), '/:id', Method_1.Method.DELETE, this.destroy);
+        this.addRoute(this.getBaseUrl(), '/', Method_1.Method.GET, this.findAll, this.useAuth);
+        this.addRoute(this.getBaseUrl(), '/', Method_1.Method.POST, this.create, false);
+        this.addRoute(this.getBaseUrl(), '/:id', Method_1.Method.GET, this.findOne, this.useAuth);
+        this.addRoute(this.getBaseUrl(), '/:id', Method_1.Method.PUT, this.update, this.useAuth);
+        this.addRoute(this.getBaseUrl(), '/:id', Method_1.Method.DELETE, this.destroy, this.useAuth);
     }
-    BaseCrudRouter.prototype.addRoute = function (baseUrl, endpoint, method, routeFunction) {
+    BaseCrudRouter.prototype.addRoute = function (baseUrl, endpoint, method, routeFunction, useAuth) {
         this.getModelInstances().forEach(function (modelInstance) {
             RouteConfigLoader_1.RouteConfigLoader.addRouteConfig(baseUrl, {
                 endpoint: endpoint,
                 method: method,
                 routeFunction: routeFunction,
-                modelName: modelInstance.getModelName()
+                modelName: modelInstance.getModelName(),
+                useAuth: useAuth
             });
         });
     };
@@ -70,4 +71,15 @@ var BaseCrudRouter = (function (_super) {
     return BaseCrudRouter;
 }(ExpressRouter_1.ExpressRouter));
 exports.BaseCrudRouter = BaseCrudRouter;
+/**
+ * Decorator @UseAuth()
+ *
+ * Indicates that a BaseCrudRouter uses the authentication middleware
+ */
+function UseAuth() {
+    return function (constructor) {
+        constructor.prototype.useAuth = true;
+    };
+}
+exports.UseAuth = UseAuth;
 //# sourceMappingURL=BaseCrudRouter.js.map

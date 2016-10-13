@@ -1,4 +1,4 @@
-import * as Sequelize from "sequelize";
+import * as sequelize from 'sequelize';
 export declare var Config: GlobalConfig;
 export interface GlobalConfig {
     port: number;
@@ -8,7 +8,7 @@ export interface DatabaseConfig {
     name: string;
     username: string;
     password: string;
-    options: Sequelize.Options;
+    options: sequelize.Options;
 }
 export interface DBDefine {
     underscored: boolean;

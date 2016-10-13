@@ -1,5 +1,5 @@
 "use strict";
-var Express = require("express");
+var Express = require('express');
 /**
  * @author Humberto Machado
  * Express routes configurations

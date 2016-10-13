@@ -1,4 +1,4 @@
-import { Middleware } from "./Middleware";
+import { Middleware } from './Middleware';
 /**
  * @author Humberto Machado
  */
