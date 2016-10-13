@@ -22,7 +22,11 @@ export class SequelizeModelLoader {
     }
 }
 
-//Decorators
+/**
+ * Decorator
+ * 
+ * Define a Sequelize Model
+ */
 export function Model(config: ModelConfig) {
     return function (constructor: Function) {
         constructor.prototype.name = config.name;

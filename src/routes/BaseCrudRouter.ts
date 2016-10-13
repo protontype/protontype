@@ -66,3 +66,14 @@ export abstract class BaseCrudRouter extends ExpressRouter {
             .catch(error => this.sendErrorMessage(res, error));
     }
 }
+
+/**
+ * Decorator @UseAuth()
+ * 
+ * Indicates that a BaseCrudRouter uses the authentication middleware
+ */
+export function UseAuth() {
+    return function (constructor: Function) {
+        constructor.prototype.useAuth = true;
+    }
+}

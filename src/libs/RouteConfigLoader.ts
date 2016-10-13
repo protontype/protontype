@@ -19,7 +19,12 @@ export class RouteConfigLoader {
     }
 }
 
-//Decorators
+/**
+ * Decorator Route({..})
+ * 
+ *  Configute route to express application 
+ *
+ */
 export function Route(config?: RouteDecoratorParams) {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
         RouteConfigLoader.addRouteConfig(target.getBaseUrl.apply(this),
@@ -33,12 +38,12 @@ export function Route(config?: RouteDecoratorParams) {
     };
 }
 
-export function UseAuth() {
-    return function (constructor: Function) {
-        constructor.prototype.useAuth = true;
-    }
-}
-
+/**
+ * @param endpoint Route endpoint
+ * @param method HTTP method (POST, GET, PUT ...
+ * @param modelName Model's name used in route. Optional
+ * @param useAuth Indicates if use authentications middleware in route
+ */
 export interface RouteDecoratorParams {
     endpoint: string;
     method: Method;
@@ -46,6 +51,13 @@ export interface RouteDecoratorParams {
     useAuth?: boolean;
 }
 
+/**
+ * @param endpoint Route endpoint
+ * @param method HTTP method (POST, GET, PUT ...
+ * @param routeFunction Function that contains business rules of route
+ * @param modelName Model's name used in route. Optional
+ * @param useAuth Indicates if use authentications middleware in route
+ */
 export interface RouteConfig {
     endpoint?: string;
     method?: Method;
