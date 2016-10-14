@@ -26,6 +26,7 @@
     "body-parser": "^1.15.2",
     "cors": "^2.8.1",
     "express": "^4.14.0",
+    "helmet": "^2.3.0",
     "jsontyped": "^1.1.4",
     "mysql": "^2.11.1",
     "mysql2": "^1.1.1",
