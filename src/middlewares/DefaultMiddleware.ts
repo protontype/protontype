@@ -1,6 +1,7 @@
 import { Config } from '../libs/Config';
 import { Middleware } from './Middleware';
 import * as bodyParser from 'body-parser';
+import * as cors from 'cors';
 /**
  * @author Humberto Machado
  */
@@ -11,12 +12,9 @@ export class DefaultMiddleware extends Middleware {
     public configMiddlewares(): void {
         this.express.set("port", this.port);
         this.express.set("json spaces", this.jsonSpaces);
+        this.express.use(cors(Config.cors));
         this.express.use(bodyParser.json());
         this.express.use((req, res, next) => {
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-            res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-            res.setHeader('Access-Control-Allow-Credentials', 'true');
             delete req.body.id;
             next();
         })
