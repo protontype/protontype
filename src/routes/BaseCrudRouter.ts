@@ -1,3 +1,5 @@
+import { read } from 'fs';
+import { create } from 'domain';
 import { RouteConfigLoader } from '../libs/RouteConfigLoader';
 import { BaseModel } from '../models/BaseModel';
 import { ExpressRouter } from '../routes/ExpressRouter';
@@ -6,15 +8,16 @@ import { Method } from './Method';
  * Created by beto_ on 14/08/2016.
  */
 export abstract class BaseCrudRouter extends ExpressRouter {
-    private useAuth: boolean;
+    private useAuth: UseAuthOptions;
 
     constructor() {
         super();
-        this.addRoute(this.getBaseUrl(), '/', Method.GET, this.findAll, this.useAuth);
-        this.addRoute(this.getBaseUrl(), '/', Method.POST, this.create, false);
-        this.addRoute(this.getBaseUrl(), '/:id', Method.GET, this.findOne, this.useAuth);
-        this.addRoute(this.getBaseUrl(), '/:id', Method.PUT, this.update, this.useAuth);
-        this.addRoute(this.getBaseUrl(), '/:id', Method.DELETE, this.destroy, this.useAuth);
+        console.log(this.useAuth);
+        this.addRoute(this.getBaseUrl(), '/', Method.GET, this.findAll, this.useAuth ? this.useAuth.read : false);
+        this.addRoute(this.getBaseUrl(), '/', Method.POST, this.create, this.useAuth ? this.useAuth.create : false);
+        this.addRoute(this.getBaseUrl(), '/:id', Method.GET, this.findOne, this.useAuth ? this.useAuth.read : false);
+        this.addRoute(this.getBaseUrl(), '/:id', Method.PUT, this.update, this.useAuth ? this.useAuth.update : false);
+        this.addRoute(this.getBaseUrl(), '/:id', Method.DELETE, this.destroy, this.useAuth ? this.useAuth.delete : false);
     }
 
     private addRoute(baseUrl: string, endpoint: string, method: Method, routeFunction: Function, useAuth: boolean) {
@@ -72,8 +75,19 @@ export abstract class BaseCrudRouter extends ExpressRouter {
  * 
  * Indicates that a BaseCrudRouter uses the authentication middleware
  */
-export function UseAuth() {
+export function UseAuth(options?: UseAuthOptions) {
     return function (constructor: Function) {
-        constructor.prototype.useAuth = true;
+        if (options) {
+            constructor.prototype.useAuth = options;
+        } else {
+            constructor.prototype.useAuth = { create: true, update: true, read: true, delete: true }
+        }
     }
+}
+
+export interface UseAuthOptions {
+    create: boolean;
+    read: boolean;
+    update: boolean;
+    delete: boolean;
 }
