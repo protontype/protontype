@@ -12,7 +12,6 @@ export abstract class BaseCrudRouter extends ExpressRouter {
 
     constructor() {
         super();
-        console.log(this.useAuth);
         this.addRoute(this.getBaseUrl(), '/', Method.GET, this.findAll, this.useAuth ? this.useAuth.read : false);
         this.addRoute(this.getBaseUrl(), '/', Method.POST, this.create, this.useAuth ? this.useAuth.create : false);
         this.addRoute(this.getBaseUrl(), '/:id', Method.GET, this.findOne, this.useAuth ? this.useAuth.read : false);
