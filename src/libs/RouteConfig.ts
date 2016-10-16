@@ -1,33 +1,18 @@
+import * as console from 'console';
+import { ExpressRouter } from '../routes/ExpressRouter';
 import { Method } from '../routes/Method';
+import { BaseModel } from "../models/BaseModel"
 
 /**
  * @author Humberto Machado
- */
-export class RouteConfigLoader {
-    public static routesConfigsByUrl: { [key: string]: RouteConfig[] } = {};
-
-    public static addRouteConfig(baseUrl: string, config: RouteConfig) {
-        let routes: RouteConfig[] = this.routesConfigsByUrl[baseUrl];
-        if (routes == null) {
-            routes = [];
-        }
-
-        if (routes.filter(route => route.method == config.method && route.endpoint == config.endpoint).length == 0) {
-            routes.push(config);
-            this.routesConfigsByUrl[baseUrl] = routes;
-        }
-    }
-}
-
-/**
  * Decorator Route({..})
  * 
  *  Configute route to express application 
  *
  */
 export function Route(config?: RouteDecoratorParams) {
-    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-        RouteConfigLoader.addRouteConfig(target.getBaseUrl.apply(this),
+    return function (target: ExpressRouter, propertyKey: string, descriptor: PropertyDescriptor) {
+        target.addRouteConfig(
             {
                 endpoint: config != null ? config.endpoint : null,
                 method: config != null ? config.method : null,
@@ -36,6 +21,22 @@ export function Route(config?: RouteDecoratorParams) {
                 useAuth: config != null ? config.useAuth : false
             });
     };
+}
+
+export function RouterClass(config: RouterConfig) {
+    return function (constructor: Function) {
+        constructor.prototype.baseUrl = config.baseUrl;
+        if (config.modelInstances) {
+            constructor.prototype.modelInstances = config.modelInstances;
+        } else {
+            constructor.prototype.modelInstances = [];
+        }
+    }
+}
+
+export interface RouterConfig {
+    baseUrl: string;
+    modelInstances?: BaseModel<any>[];
 }
 
 /**

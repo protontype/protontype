@@ -1,4 +1,5 @@
 import { SequelizeDB } from '../libs/SequelizeDB';
+import { AssociationsConfig } from '../libs/SequelizeModelConfig';
 import * as Sequelize from 'sequelize';
 /**
  * @author Humberto Machado
@@ -8,9 +9,11 @@ export declare abstract class BaseModel<ModelAttributes extends SequelizeBaseMod
     protected name: string;
     protected definition: Sequelize.DefineAttributes;
     protected sequelizeDB: SequelizeDB;
+    protected associations: AssociationsConfig[];
     getModelName(): string;
     defineModel(sequelize: Sequelize.Sequelize): BaseModel<ModelAttributes>;
     configure(): void;
+    configureAssociations(): void;
     belongsTo(modelName: string): void;
     hasMany(modelName: string): void;
     getInstance(): Sequelize.Model<ModelAttributes, ModelAttributes>;

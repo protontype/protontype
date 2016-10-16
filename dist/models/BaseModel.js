@@ -1,4 +1,5 @@
 "use strict";
+var SequelizeModelConfig_1 = require('../libs/SequelizeModelConfig');
 var Sequelize = require('sequelize');
 /**
  * @author Humberto Machado
@@ -15,6 +16,21 @@ var BaseModel = (function () {
     };
     BaseModel.prototype.configure = function () {
         //Hook Method
+    };
+    BaseModel.prototype.configureAssociations = function () {
+        var _this = this;
+        if (this.associations) {
+            this.associations.forEach(function (assoc) {
+                switch (assoc.type) {
+                    case SequelizeModelConfig_1.AssociationType.HAS_MANY:
+                        _this.hasMany(assoc.modelName);
+                        break;
+                    case SequelizeModelConfig_1.AssociationType.BELONGS_TO:
+                        _this.belongsTo(assoc.modelName);
+                        break;
+                }
+            });
+        }
     };
     BaseModel.prototype.belongsTo = function (modelName) {
         this.model.belongsTo(this.sequelizeDB.getModel(modelName).getInstance());

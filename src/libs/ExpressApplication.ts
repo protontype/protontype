@@ -4,7 +4,7 @@ import { Middleware } from '../middlewares/Middleware';
 import { BaseModel } from '../models/BaseModel';
 import { ExpressRouter } from '../routes/ExpressRouter';
 import { Method } from '../routes/Method';
-import { RouteConfig, RouteConfigLoader } from './RouteConfigLoader';
+import { RouteConfig } from './RouteConfig';
 import { SequelizeDB } from './SequelizeDB';
 import * as Express from 'express';
 
@@ -57,7 +57,7 @@ export class ExpressApplication {
     private configureRoutes(): void {
         this.routers.forEach(router => {
             router.init(this);
-            var configs: RouteConfig[] = RouteConfigLoader.routesConfigsByUrl[router.getBaseUrl()];
+            var configs: RouteConfig[] = router.getRouteConfigs();
 
             if (configs != null) {
                 configs.forEach(config => {

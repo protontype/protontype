@@ -1,6 +1,6 @@
 "use strict";
 var Config_1 = require('./Config');
-var SequelizeModelLoader_1 = require('./SequelizeModelLoader');
+var SequelizeModelConfig_1 = require('./SequelizeModelConfig');
 var Sequelize = require('sequelize');
 /**
  * @author Humberto Machado
@@ -11,7 +11,7 @@ var SequelizeDB = (function () {
         this.models = {};
         if (this.sequelize == null) {
             this.sequelize = new Sequelize(Config_1.Config.database.name, Config_1.Config.database.username, Config_1.Config.database.password, Config_1.Config.database.options);
-            SequelizeModelLoader_1.SequelizeModelLoader.loadModels(this);
+            SequelizeModelConfig_1.SequelizeModelConfig.loadModels(this);
         }
     }
     SequelizeDB.prototype.getInstance = function () {
