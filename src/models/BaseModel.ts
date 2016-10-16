@@ -1,4 +1,5 @@
 import { SequelizeDB } from '../libs/SequelizeDB';
+import { AssociationsConfig, AssociationType } from '../libs/SequelizeModelConfig';
 import * as Sequelize from 'sequelize';
 
 /**
@@ -10,6 +11,7 @@ export abstract class BaseModel<ModelAttributes extends SequelizeBaseModelAttr> 
     protected name: string;
     protected definition: Sequelize.DefineAttributes;
     protected sequelizeDB: SequelizeDB;
+    protected associations: AssociationsConfig[];
 
     public getModelName(): string {
         return this.name;
@@ -24,7 +26,23 @@ export abstract class BaseModel<ModelAttributes extends SequelizeBaseModelAttr> 
         //Hook Method
     }
 
-    public belongsTo( modelName: string) {
+    public configureAssociations() {
+        if (this.associations) {
+            this.associations.forEach(assoc => {
+                switch (assoc.type) {
+                    case AssociationType.HAS_MANY:
+                        this.hasMany(assoc.modelName);
+                        break;
+                    case AssociationType.BELONGS_TO:
+                        this.belongsTo(assoc.modelName);
+                        break;
+                }
+            })
+
+        }
+    }
+
+    public belongsTo(modelName: string) {
         this.model.belongsTo(this.sequelizeDB.getModel(modelName).getInstance());
     }
 

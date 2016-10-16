@@ -1,6 +1,6 @@
 import { BaseModel } from '../models/BaseModel';
 import { Config } from './Config';
-import { SequelizeModelLoader } from './SequelizeModelLoader';
+import { SequelizeModelConfig } from './SequelizeModelConfig';
 import * as Sequelize from 'sequelize';
 
 /**
@@ -18,7 +18,7 @@ export class SequelizeDB {
                 Config.database.password,
                 Config.database.options
             );
-            SequelizeModelLoader.loadModels(this);
+            SequelizeModelConfig.loadModels(this);
         }
     }
 
