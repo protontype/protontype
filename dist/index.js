@@ -5,8 +5,8 @@ function __export(m) {
 __export(require("./libs/Config"));
 __export(require("./libs/ExpressApplication"));
 __export(require("./libs/SequelizeDB"));
-__export(require("./libs/SequelizeModelLoader"));
-__export(require("./libs/RouteConfigLoader"));
+__export(require("./libs/SequelizeModelConfig"));
+__export(require("./libs/RouteConfig"));
 __export(require("./middlewares/Middleware"));
 __export(require("./middlewares/AuthMiddleware"));
 __export(require("./models/BaseModel"));

@@ -1,20 +1,19 @@
+import { ExpressRouter } from '../routes/ExpressRouter';
 import { Method } from '../routes/Method';
+import { BaseModel } from "../models/BaseModel";
 /**
  * @author Humberto Machado
- */
-export declare class RouteConfigLoader {
-    static routesConfigsByUrl: {
-        [key: string]: RouteConfig[];
-    };
-    static addRouteConfig(baseUrl: string, config: RouteConfig): void;
-}
-/**
  * Decorator Route({..})
  *
  *  Configute route to express application
  *
  */
-export declare function Route(config?: RouteDecoratorParams): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => void;
+export declare function Route(config?: RouteDecoratorParams): (target: ExpressRouter, propertyKey: string, descriptor: PropertyDescriptor) => void;
+export declare function RouterClass(config: RouterConfig): (constructor: Function) => void;
+export interface RouterConfig {
+    baseUrl: string;
+    modelInstances?: BaseModel<any>[];
+}
 /**
  * @param endpoint Route endpoint
  * @param method HTTP method (POST, GET, PUT ...

@@ -1,5 +1,6 @@
 import { BaseModel } from '../models/BaseModel';
 import { ExpressApplication } from './../libs/ExpressApplication';
+import { RouteConfig } from './../libs/RouteConfig';
 import * as Express from 'express';
 /**
  * @author Humberto Machado
@@ -9,17 +10,18 @@ export declare abstract class ExpressRouter {
     protected express: Express.Application;
     protected expressApplication: ExpressApplication;
     protected router: Express.Router;
+    protected routeConfgs: RouteConfig[];
+    protected baseUrl: string;
+    protected modelInstances: BaseModel<any>[];
     constructor();
     init(expressApplication: ExpressApplication): void;
-    abstract getBaseUrl(): string;
-    abstract getModelInstances(): BaseModel<any>[];
+    getBaseUrl(): string;
+    getModelInstances(): BaseModel<any>[];
     sendErrorMessage(res: any, error: any): void;
     getModel<T extends BaseModel<any>>(modelName: string): T;
     getRouter(): Express.Router;
-}
-export declare function Router(config?: RouterConfig): (constructor: Function) => void;
-export interface RouterConfig {
-    baseUrl: string;
+    getRouteConfigs(): RouteConfig[];
+    addRouteConfig(config: RouteConfig): void;
 }
 export interface RouteFunctionParams {
     request: any;
