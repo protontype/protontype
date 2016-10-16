@@ -1,5 +1,6 @@
 import { BaseModel } from '../models/BaseModel';
 import { ExpressApplication } from './../libs/ExpressApplication';
+import { RouteConfig } from './../libs/RouteConfig';
 import * as Express from 'express';
 /**
  * @author Humberto Machado
@@ -9,20 +10,28 @@ export abstract class ExpressRouter {
     protected express: Express.Application;
     protected expressApplication: ExpressApplication;
     protected router: Express.Router;
+    protected routeConfgs: RouteConfig[];
+    protected baseUrl: string;
+    protected modelInstances: BaseModel<any>[];
 
     constructor() {
         console.log(`>>>> Configured routes to ${this.getBaseUrl()} <<<<`);
     }
 
-    public init(expressApplication: ExpressApplication) {
+    public init(expressApplication: ExpressApplication): void {
         this.express = expressApplication.getExpress();
         this.router = Express.Router();
         this.express.use(this.getBaseUrl(), this.router);
         this.expressApplication = expressApplication;
     }
 
-    abstract getBaseUrl(): string;
-    abstract getModelInstances(): BaseModel<any>[];
+    public getBaseUrl(): string {
+        return this.baseUrl;
+    }
+
+    public getModelInstances(): BaseModel<any>[] {
+        return this.modelInstances;
+    }
 
     public sendErrorMessage(res: any, error: any): void {
         res.status(412).json({ msg: error.message })
@@ -35,16 +44,19 @@ export abstract class ExpressRouter {
     public getRouter(): Express.Router {
         return this.router;
     }
-}
 
-export function Router(config?: RouterConfig) {
-    return function (constructor: Function) {
-        constructor.prototype.baseUrl = config.baseUrl;
+    public getRouteConfigs(): RouteConfig[] {
+        return this.routeConfgs;
     }
-}
 
-export interface RouterConfig {
-    baseUrl: string;
+    public addRouteConfig(config: RouteConfig) {
+        if (this.routeConfgs == null) {
+            this.routeConfgs = [];
+        }
+        if (this.routeConfgs.filter(route => route.method == config.method && route.endpoint == config.endpoint).length == 0) {
+            this.routeConfgs.push(config);
+        }
+    }
 }
 
 export interface RouteFunctionParams {

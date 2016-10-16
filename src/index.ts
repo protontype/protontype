@@ -2,7 +2,7 @@ export * from "./libs/Config";
 export * from "./libs/ExpressApplication";
 export * from "./libs/SequelizeDB";
 export * from "./libs/SequelizeModelLoader";
-export * from "./libs/RouteConfigLoader";
+export * from "./libs/RouteConfig";
 
 export * from "./middlewares/Middleware";
 export * from "./middlewares/AuthMiddleware";

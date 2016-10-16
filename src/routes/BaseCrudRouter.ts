@@ -1,8 +1,6 @@
-import { read } from 'fs';
-import { create } from 'domain';
-import { RouteConfigLoader } from '../libs/RouteConfigLoader';
 import { BaseModel } from '../models/BaseModel';
 import { ExpressRouter } from '../routes/ExpressRouter';
+import { ExpressApplication } from './../libs/ExpressApplication';
 import { Method } from './Method';
 /**
  * Created by beto_ on 14/08/2016.
@@ -10,18 +8,18 @@ import { Method } from './Method';
 export abstract class BaseCrudRouter extends ExpressRouter {
     private useAuth: UseAuthOptions;
 
-    constructor() {
-        super();
-        this.addRoute(this.getBaseUrl(), '/', Method.GET, this.findAll, this.useAuth ? this.useAuth.read : false);
-        this.addRoute(this.getBaseUrl(), '/', Method.POST, this.create, this.useAuth ? this.useAuth.create : false);
-        this.addRoute(this.getBaseUrl(), '/:id', Method.GET, this.findOne, this.useAuth ? this.useAuth.read : false);
-        this.addRoute(this.getBaseUrl(), '/:id', Method.PUT, this.update, this.useAuth ? this.useAuth.update : false);
-        this.addRoute(this.getBaseUrl(), '/:id', Method.DELETE, this.destroy, this.useAuth ? this.useAuth.delete : false);
+    public init(expressApplication: ExpressApplication): void {
+        super.init(expressApplication);
+        this.addRoute('/', Method.GET, this.findAll, this.useAuth ? this.useAuth.read : false);
+        this.addRoute('/', Method.POST, this.create, this.useAuth ? this.useAuth.create : false);
+        this.addRoute('/:id', Method.GET, this.findOne, this.useAuth ? this.useAuth.read : false);
+        this.addRoute('/:id', Method.PUT, this.update, this.useAuth ? this.useAuth.update : false);
+        this.addRoute('/:id', Method.DELETE, this.destroy, this.useAuth ? this.useAuth.delete : false);
     }
 
-    private addRoute(baseUrl: string, endpoint: string, method: Method, routeFunction: Function, useAuth: boolean) {
-        this.getModelInstances().forEach(modelInstance => {
-            RouteConfigLoader.addRouteConfig(baseUrl,
+    private addRoute(endpoint: string, method: Method, routeFunction: Function, useAuth: boolean) {
+        this.modelInstances.forEach(modelInstance => {
+            this.addRouteConfig(
                 {
                     endpoint: endpoint,
                     method: method,
