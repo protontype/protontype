@@ -1,5 +1,5 @@
 "use strict";
-var Express = require("express");
+var Express = require('express');
 /**
  * @author Humberto Machado
  * Express routes configurations
@@ -14,6 +14,12 @@ var ExpressRouter = (function () {
         this.express.use(this.getBaseUrl(), this.router);
         this.expressApplication = expressApplication;
     };
+    ExpressRouter.prototype.getBaseUrl = function () {
+        return this.baseUrl;
+    };
+    ExpressRouter.prototype.getModelInstances = function () {
+        return this.modelInstances;
+    };
     ExpressRouter.prototype.sendErrorMessage = function (res, error) {
         res.status(412).json({ msg: error.message });
     };
@@ -23,13 +29,18 @@ var ExpressRouter = (function () {
     ExpressRouter.prototype.getRouter = function () {
         return this.router;
     };
+    ExpressRouter.prototype.getRouteConfigs = function () {
+        return this.routeConfgs;
+    };
+    ExpressRouter.prototype.addRouteConfig = function (config) {
+        if (this.routeConfgs == null) {
+            this.routeConfgs = [];
+        }
+        if (this.routeConfgs.filter(function (route) { return route.method == config.method && route.endpoint == config.endpoint; }).length == 0) {
+            this.routeConfgs.push(config);
+        }
+    };
     return ExpressRouter;
 }());
 exports.ExpressRouter = ExpressRouter;
-function Router(config) {
-    return function (constructor) {
-        constructor.prototype.baseUrl = config.baseUrl;
-    };
-}
-exports.Router = Router;
 //# sourceMappingURL=ExpressRouter.js.map

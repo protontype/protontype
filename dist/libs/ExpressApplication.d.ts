@@ -1,9 +1,9 @@
-import { SequelizeDB } from "./SequelizeDB";
-import * as Express from "express";
-import { ExpressRouter } from "../routes/ExpressRouter";
-import { Middleware } from "../middlewares/Middleware";
-import { AuthMiddleware } from "../middlewares/AuthMiddleware";
-import { BaseModel } from "../models/BaseModel";
+import { AuthMiddleware } from '../middlewares/AuthMiddleware';
+import { Middleware } from '../middlewares/Middleware';
+import { BaseModel } from '../models/BaseModel';
+import { ExpressRouter } from '../routes/ExpressRouter';
+import { SequelizeDB } from './SequelizeDB';
+import * as Express from 'express';
 /**
  * @author Humberto Machado
  */
@@ -43,7 +43,7 @@ export declare class ExpressApplication {
     addMiddleware(middleware: Middleware): this;
     getExpress(): Express.Application;
     getSequelizeDB(): SequelizeDB;
-    getModel<T extends BaseModel>(modelName: string): T;
+    getModel<T extends BaseModel<any>>(modelName: string): T;
     getRouters(): ExpressRouter[];
     /**
      * @return list of all configured routes in ExpressApplication

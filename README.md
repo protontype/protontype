@@ -56,20 +56,12 @@ O mapeamento do banco de dados é feita a através da anotação ***@Model*** qu
 
 Exemplo:
 
-    import * as DataTypes from "sequelize"
-    import {SequelizeDB} from "protontype";
-    import {BaseModel} from "protontype";
-    import {UsersModel} from "./UsersModel";
-    import {Model} from "protontype";
+    import { ModelNames } from './ModelNames';
+    import { BaseModel, BelongsTo, DataTypes, Model, SequelizeBaseModelAttr } from 'protontype';
     
     @Model({
-        name: TasksModel.MODEL_NAME,
+        name: ModelNames.TASKS,
         definition: {
-            id: {
-                type: DataTypes.INTEGER,
-                primaryKey: true,
-                autoIncrement: true
-            },
             title: {
                 type: DataTypes.STRING,
                 allowNull: false,
@@ -84,12 +76,14 @@ Exemplo:
             }
         }
     })
-    export class TasksModel extends BaseModel {
-        public static MODEL_NAME = 'Tasks';
-    
-        public associate(sequelizeDB: SequelizeDB): void {
-            //Caso exista alguma associação com outro model
-        }
+    export class TasksModel extends BaseModel<Task> {
+
+    }
+
+    export interface Task extends SequelizeBaseModelAttr {
+        title: string;
+        done: boolean;
+        user_id: number;
     }
 
 **Criando Middlewares**
@@ -133,19 +127,16 @@ Exemplo:
     import {Method} from "protontype";
     import {Route} from "protontype";
     
+    @RouterClass({
+        baseUrl: "/tasks",
+        modelInstances: [new TasksModel()]
+    })
     export class TasksRouter extends ExpressRouter {
-    
-        public getBaseUrl(): string {
-            return '/tasks';
-        }
-        
-	    public getModelInstances(): BaseModel[] {
-            return [new TasksModel()];
-        }
         @Route({
             method: Method.GET,
             endpoint: '/',
-            modelName: TasksModel.MODEL_NAME
+            modelName: TasksModel.MODEL_NAME,
+            useAuth: true
         })
         public findAllTasks(req, res, model) {
             model.findAll({})
@@ -222,17 +213,16 @@ A classe BaseCrudRouter provê as operações básicas de CRUD, sem a necessidad
 
 Exemplo:
 
-    import {BaseCrudRouter} from "protontype";
-    import {TasksModel} from "../models/TasksModel";
-    import {BaseModel} from "protontype";
-    
+    import { TasksModel } from '../models/TasksModel';
+    import { BaseCrudRouter, RouterClass, UseAuth } from 'protontype';
+
+    @UseAuth()
+    @RouterClass({
+        baseUrl: "/tasks",
+        modelInstances: [new TasksModel()]
+    })
     export class TasksRouter extends BaseCrudRouter {
-        public getBaseUrl(): string {
-            return '/tasks';
-    
-        public getModelInstances(): BaseModel[] {
-            return [new TasksModel()];
-        }
+
     }
 
 Esta classe já proverá as rotas:

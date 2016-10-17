@@ -1,4 +1,5 @@
 import { SequelizeDB } from '../libs/SequelizeDB';
+import { AssociationsConfig, AssociationType } from '../libs/SequelizeModelConfig';
 import * as Sequelize from 'sequelize';
 
 /**
@@ -9,6 +10,8 @@ export abstract class BaseModel<ModelAttributes extends SequelizeBaseModelAttr> 
     protected model: Sequelize.Model<ModelAttributes, ModelAttributes>;
     protected name: string;
     protected definition: Sequelize.DefineAttributes;
+    protected sequelizeDB: SequelizeDB;
+    protected associations: AssociationsConfig[];
 
     public getModelName(): string {
         return this.name;
@@ -19,16 +22,40 @@ export abstract class BaseModel<ModelAttributes extends SequelizeBaseModelAttr> 
         return this;
     }
 
-    public associate(sequelizeDB: SequelizeDB): void {
+    public configure() {
         //Hook Method
     }
 
-    public configure(sequelizeDB: SequelizeDB) {
-        //Hook Method
+    public configureAssociations() {
+        if (this.associations) {
+            this.associations.forEach(assoc => {
+                switch (assoc.type) {
+                    case AssociationType.HAS_MANY:
+                        this.hasMany(assoc.modelName);
+                        break;
+                    case AssociationType.BELONGS_TO:
+                        this.belongsTo(assoc.modelName);
+                        break;
+                }
+            })
+
+        }
+    }
+
+    public belongsTo(modelName: string) {
+        this.model.belongsTo(this.sequelizeDB.getModel(modelName).getInstance());
+    }
+
+    public hasMany(modelName: string) {
+        this.model.hasMany(this.sequelizeDB.getModel(modelName).getInstance());
     }
 
     public getInstance(): Sequelize.Model<ModelAttributes, ModelAttributes> {
         return this.model;
+    }
+
+    public setSequelizeDB(sequelizeDB: SequelizeDB) {
+        this.sequelizeDB = sequelizeDB;
     }
 }
 

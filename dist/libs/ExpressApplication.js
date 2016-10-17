@@ -1,9 +1,8 @@
 "use strict";
-var SequelizeDB_1 = require("./SequelizeDB");
-var Express = require("express");
-var RouteConfigLoader_1 = require("./RouteConfigLoader");
-var Method_1 = require("../routes/Method");
-var DefaultMiddleware_1 = require("../middlewares/DefaultMiddleware");
+var DefaultMiddleware_1 = require('../middlewares/DefaultMiddleware');
+var Method_1 = require('../routes/Method');
+var SequelizeDB_1 = require('./SequelizeDB');
+var Express = require('express');
 /**
  * @author Humberto Machado
  */
@@ -49,7 +48,7 @@ var ExpressApplication = (function () {
         var _this = this;
         this.routers.forEach(function (router) {
             router.init(_this);
-            var configs = RouteConfigLoader_1.RouteConfigLoader.routesConfigsByUrl[router.getBaseUrl()];
+            var configs = router.getRouteConfigs();
             if (configs != null) {
                 configs.forEach(function (config) {
                     if (config.method != null && config.endpoint != null) {

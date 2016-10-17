@@ -4,29 +4,33 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var ExpressRouter_1 = require("../routes/ExpressRouter");
-var RouteConfigLoader_1 = require("../libs/RouteConfigLoader");
-var Method_1 = require("./Method");
+var ExpressRouter_1 = require('../routes/ExpressRouter');
+var Method_1 = require('./Method');
 /**
  * Created by beto_ on 14/08/2016.
  */
 var BaseCrudRouter = (function (_super) {
     __extends(BaseCrudRouter, _super);
     function BaseCrudRouter() {
-        _super.call(this);
-        this.addRoute(this.getBaseUrl(), '/', Method_1.Method.GET, this.findAll);
-        this.addRoute(this.getBaseUrl(), '/', Method_1.Method.POST, this.create);
-        this.addRoute(this.getBaseUrl(), '/:id', Method_1.Method.GET, this.findOne);
-        this.addRoute(this.getBaseUrl(), '/:id', Method_1.Method.PUT, this.update);
-        this.addRoute(this.getBaseUrl(), '/:id', Method_1.Method.DELETE, this.destroy);
+        _super.apply(this, arguments);
     }
-    BaseCrudRouter.prototype.addRoute = function (baseUrl, endpoint, method, routeFunction) {
-        this.getModelInstances().forEach(function (modelInstance) {
-            RouteConfigLoader_1.RouteConfigLoader.addRouteConfig(baseUrl, {
+    BaseCrudRouter.prototype.init = function (expressApplication) {
+        _super.prototype.init.call(this, expressApplication);
+        this.addRoute('/', Method_1.Method.GET, this.findAll, this.useAuth ? this.useAuth.read : false);
+        this.addRoute('/', Method_1.Method.POST, this.create, this.useAuth ? this.useAuth.create : false);
+        this.addRoute('/:id', Method_1.Method.GET, this.findOne, this.useAuth ? this.useAuth.read : false);
+        this.addRoute('/:id', Method_1.Method.PUT, this.update, this.useAuth ? this.useAuth.update : false);
+        this.addRoute('/:id', Method_1.Method.DELETE, this.destroy, this.useAuth ? this.useAuth.delete : false);
+    };
+    BaseCrudRouter.prototype.addRoute = function (endpoint, method, routeFunction, useAuth) {
+        var _this = this;
+        this.modelInstances.forEach(function (modelInstance) {
+            _this.addRouteConfig({
                 endpoint: endpoint,
                 method: method,
                 routeFunction: routeFunction,
-                modelName: modelInstance.getModelName()
+                modelName: modelInstance.getModelName(),
+                useAuth: useAuth
             });
         });
     };
@@ -70,4 +74,20 @@ var BaseCrudRouter = (function (_super) {
     return BaseCrudRouter;
 }(ExpressRouter_1.ExpressRouter));
 exports.BaseCrudRouter = BaseCrudRouter;
+/**
+ * Decorator @UseAuth()
+ *
+ * Indicates that a BaseCrudRouter uses the authentication middleware
+ */
+function UseAuth(options) {
+    return function (constructor) {
+        if (options) {
+            constructor.prototype.useAuth = options;
+        }
+        else {
+            constructor.prototype.useAuth = { create: true, update: true, read: true, delete: true };
+        }
+    };
+}
+exports.UseAuth = UseAuth;
 //# sourceMappingURL=BaseCrudRouter.js.map
