@@ -1,14 +1,14 @@
-export * from "./libs/Config";
-export * from "./libs/ExpressApplication";
-export * from "./libs/SequelizeDB";
-export * from "./libs/SequelizeModelConfig";
-export * from "./libs/RouteConfig";
+export * from "./application/Config";
+export * from "./application/ExpressApplication";
+export * from "./application/SequelizeDB";
+export * from "./application/SequelizeModelConfig";
 
 export * from "./middlewares/Middleware";
 export * from "./middlewares/AuthMiddleware";
 
 export * from "./models/BaseModel";
 
-export * from "./routes/BaseCrudRouter";
-export * from "./routes/ExpressRouter";
-export * from "./routes/Method";
+export * from "./router/BaseCrudRouter";
+export * from "./router/ExpressRouter";
+export * from "./router/Method";
+export * from "./router/RouteConfig";

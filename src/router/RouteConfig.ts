@@ -1,6 +1,5 @@
-import * as console from 'console';
-import { ExpressRouter } from '../routes/ExpressRouter';
-import { Method } from '../routes/Method';
+import { ExpressRouter } from './ExpressRouter';
+import { Method } from './Method';
 import { BaseModel } from "../models/BaseModel"
 
 /**

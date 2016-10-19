@@ -2,10 +2,12 @@ import { AuthMiddleware } from '../middlewares/AuthMiddleware';
 import { DefaultMiddleware } from '../middlewares/DefaultMiddleware';
 import { Middleware } from '../middlewares/Middleware';
 import { BaseModel } from '../models/BaseModel';
-import { ExpressRouter } from '../routes/ExpressRouter';
-import { Method } from '../routes/Method';
-import { RouteConfig } from './RouteConfig';
+import { ExpressRouter } from '../router/ExpressRouter';
+import { Method } from '../router/Method';
+import { RouteConfig } from '../router/RouteConfig';
+import { Config } from './Config';
 import { SequelizeDB } from './SequelizeDB';
+import { SequelizeModelConfig } from './SequelizeModelConfig';
 import * as Express from 'express';
 
 /**
@@ -23,7 +25,7 @@ export class ExpressApplication {
      */
     constructor() {
         this.express = Express();
-        this.sequelizeDB = new SequelizeDB();
+        this.sequelizeDB = new SequelizeDB(Config.database).loadModels(SequelizeModelConfig.modelsList);
     }
 
     /**

@@ -1,4 +1,4 @@
-import { Config } from '../libs/Config';
+import { Config } from '../application/Config';
 import { Middleware } from './Middleware';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';

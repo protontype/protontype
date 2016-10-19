@@ -1,6 +1,6 @@
 import { BaseModel } from '../models/BaseModel';
-import { ExpressApplication } from './../libs/ExpressApplication';
-import { RouteConfig } from './../libs/RouteConfig';
+import { ExpressApplication } from './../application/ExpressApplication';
+import { RouteConfig } from './RouteConfig';
 import * as Express from 'express';
 /**
  * @author Humberto Machado

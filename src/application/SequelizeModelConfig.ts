@@ -1,5 +1,4 @@
 import { BaseModel } from '../models/BaseModel';
-import { SequelizeDB } from './SequelizeDB';
 import * as Sequelize from 'sequelize';
 
 /**
@@ -7,19 +6,13 @@ import * as Sequelize from 'sequelize';
  */
 export class SequelizeModelConfig {
     //Injected by @Model
-    public static modelsList: BaseModel<any>[] = [];
+    public static modelsList: BaseModel<any>[];
 
-    public static loadModels(sequelizeDB: SequelizeDB): void {
-        this.modelsList.forEach((model: BaseModel<any>) => {
-            sequelizeDB.addModel(model.getModelName(), model.defineModel(sequelizeDB.getInstance()));
-            model.setSequelizeDB(sequelizeDB);
-            console.log(`Model loaded: ${model.getModelName()}`)
-        });
-
-        this.modelsList.forEach((model: BaseModel<any>) => {
-            model.configureAssociations();
-            model.configure();
-        });
+    public static add(model: BaseModel<any>) {
+        if (!this.modelsList) {
+            this.modelsList = [];
+        }
+        this.modelsList.push(model);
     }
 }
 
@@ -32,7 +25,7 @@ export function Model(config: ModelConfig) {
     return function (constructor: Function) {
         constructor.prototype.name = config.name;
         constructor.prototype.definition = config.definition;
-        SequelizeModelConfig.modelsList.push(constructor.prototype);
+        SequelizeModelConfig.add(constructor.prototype);
     }
 }
 

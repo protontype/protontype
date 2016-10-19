@@ -1,6 +1,6 @@
 import { BaseModel } from '../models/BaseModel';
-import { ExpressRouter } from '../routes/ExpressRouter';
-import { ExpressApplication } from './../libs/ExpressApplication';
+import { ExpressRouter } from '../router/ExpressRouter';
+import { ExpressApplication } from './../application/ExpressApplication';
 import { Method } from './Method';
 /**
  * Created by beto_ on 14/08/2016.

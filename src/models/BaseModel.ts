@@ -1,5 +1,5 @@
-import { SequelizeDB } from '../libs/SequelizeDB';
-import { AssociationsConfig, AssociationType } from '../libs/SequelizeModelConfig';
+import { SequelizeDB } from '../application/SequelizeDB';
+import { AssociationsConfig, AssociationType } from '../application/SequelizeModelConfig';
 import * as Sequelize from 'sequelize';
 
 /**
