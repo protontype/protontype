@@ -44,7 +44,7 @@ Criar um arquivo chamado **proton.json** na raiz do projeto.
     }
 
 As configurações podem ser acessada através da classe ***Config***:
-import {`Config`} from "../libs/Config";
+import {`Config`} from "../application/Config";
 
 **Criando Models**
 _______________
@@ -94,7 +94,7 @@ Exemplo:
 
     import {Middleware} from "./Middleware";
     import * as bodyParser from 'body-parser';
-    import {Config} from "../libs/Config";
+    import {Config} from "../application/Config";
     
     export class DefaultMiddleware extends Middleware {
         private port: number = Config.port;
@@ -237,7 +237,7 @@ Esta classe já proverá as rotas:
 _______________
     import {ExpressApplication} from "protontype";
     import {DefaultMiddleware} from "protontype";
-    import {TasksRouter} from "./routes/TasksRouter";
+    import {TasksRouter} from "./router/TasksRouter";
     
     let expressApp = new ExpressApplication();
     expressApp
