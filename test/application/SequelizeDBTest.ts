@@ -8,7 +8,7 @@ import { suite, test } from 'mocha-typescript';
 
 @suite('Testes para SequelizeDB')
 class SequelizeDBtest {
-    private readonly CONFIG: GlobalConfig = JsonLoader.loadFile<GlobalConfig>("./test/utils/", "config.json");
+    private readonly CONFIG: GlobalConfig = JsonLoader.loadFile<GlobalConfig>("./test/utils/config.json");
 
     @test('basicTest')
     basicTest() {
