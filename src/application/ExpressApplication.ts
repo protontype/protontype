@@ -5,7 +5,7 @@ import { BaseModel } from '../models/BaseModel';
 import { ExpressRouter } from '../router/ExpressRouter';
 import { Method } from '../router/Method';
 import { RouteConfig } from '../router/RouteConfig';
-import { Config } from './Config';
+import { GlobalConfig, ProtonConfigLoader } from './ProtonConfigLoader';
 import { SequelizeDB } from './SequelizeDB';
 import { SequelizeModelConfig } from './SequelizeModelConfig';
 import * as Express from 'express';
@@ -19,13 +19,15 @@ export class ExpressApplication {
     private sequelizeDB: SequelizeDB;
     private routers: ExpressRouter[] = [];
     private authMiddleware: AuthMiddleware;
+    private config: GlobalConfig;
 
     /**
      * Create express application instance and middlewares
      */
-    constructor() {
+    constructor(config?: GlobalConfig) {
+        this.config = this.loadConfig(config);
         this.express = Express();
-        this.sequelizeDB = new SequelizeDB(Config.database).loadModels(SequelizeModelConfig.modelsList);
+        this.sequelizeDB = new SequelizeDB(this.config.database).loadModels(SequelizeModelConfig.modelsList);
     }
 
     /**
@@ -40,6 +42,14 @@ export class ExpressApplication {
             this.express.listen(port, () => console.log(`Application listen on port ${port}`));
         });
         return this.express;
+    }
+
+    private loadConfig(config?: GlobalConfig): GlobalConfig {
+        if (config) {
+            return config;
+        } else {
+            return this.config = ProtonConfigLoader.loadConfig();
+        }
     }
 
     /**
@@ -142,6 +152,10 @@ export class ExpressApplication {
 
     public getRouters(): ExpressRouter[] {
         return this.routers;
+    }
+
+    public getConfig(): GlobalConfig {
+        return this.config;
     }
 
     /**

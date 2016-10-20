@@ -1,4 +1,4 @@
-export * from "./application/Config";
+export * from "./application/ProtonConfigLoader";
 export * from "./application/ExpressApplication";
 export * from "./application/SequelizeDB";
 export * from "./application/SequelizeModelConfig";

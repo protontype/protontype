@@ -2,8 +2,13 @@ import { JsonLoader } from 'jsontyped';
 import * as sequelize from 'sequelize';
 import * as cors from 'cors';
 
-export var Config: GlobalConfig;
-Config = JsonLoader.loadFile<GlobalConfig>(".", "proton.json");
+export class ProtonConfigLoader {
+    public static loadConfig(filePath?: string): GlobalConfig {
+        if (!filePath)
+            filePath = './proton.json';
+        return JsonLoader.loadFile<GlobalConfig>(filePath);
+    }
+}
 
 export interface GlobalConfig {
     port: number;

@@ -1,5 +1,5 @@
 import { BaseModel } from '../models/BaseModel';
-import { DatabaseConfig } from './Config';
+import { DatabaseConfig } from './ProtonConfigLoader';
 import * as Sequelize from 'sequelize';
 import { Dictionary } from 'typescript-collections';
 
