@@ -4,7 +4,7 @@ import * as assert from 'assert';
 import { JsonLoader } from 'jsontyped';
 import { GlobalConfig } from './../../src/application/ProtonConfigLoader';
 import { ExpressApplication } from '../../src';
-import { suite, test } from 'mocha-typescript';
+import { suite, test, timeout } from 'mocha-typescript';
 
 @suite('ExpressApplicationTest')
 class ExpressApplicationTest {
@@ -14,6 +14,7 @@ class ExpressApplicationTest {
         this.config = JsonLoader.loadFile<GlobalConfig>("./test/utils/config.json");
     }
 
+    @timeout(60000)
     @test('basicTest')
     basicTest() {
         let app: ExpressApplication = new ExpressApplication(this.config).addRouter(new RouterMock());
