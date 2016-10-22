@@ -19,9 +19,13 @@ export abstract class BaseCrudRouter extends ExpressRouter {
 
     private addRoute(endpoint: string, method: Method, routeFunction: Function, useAuth: boolean) {
         this.modelInstances.forEach(modelInstance => {
+            let formatedEndpoint: string = endpoint;
+            if (this.modelInstances.length > 1) {
+                formatedEndpoint = '/' + modelInstance.getModelName().toLowerCase() + endpoint;
+            }
             this.addRouteConfig(
                 {
-                    endpoint: endpoint,
+                    endpoint: formatedEndpoint,
                     method: method,
                     routeFunction: routeFunction,
                     modelName: modelInstance.getModelName(),
