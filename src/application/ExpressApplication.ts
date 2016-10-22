@@ -34,14 +34,18 @@ export class ExpressApplication {
      * Initialize express application and load middlewares
      * @return express instance
      */
-    public bootstrap(): Express.Application {
-        this.configMiddlewares();
-        let port: number = this.express.get("port");
-        this.sequelizeDB.getInstance().sync().then(() => {
-            this.configureRoutes();
-            this.express.listen(port, () => console.log(`Application listen on port ${port}`));
+    public bootstrap(): Promise<ExpressApplication> {
+        return new Promise<ExpressApplication>((resolve, reject) => {
+            this.configMiddlewares();
+            let port: number = this.express.get("port");
+            this.sequelizeDB.getInstance().sync().then(() => {
+                this.configureRoutes();
+                this.express.listen(port, () => console.log(`Application listen on port ${port}`));
+                resolve(this);
+            }).catch((err) => {
+                reject(err);
+            });
         });
-        return this.express;
     }
 
     private loadConfig(config?: GlobalConfig): GlobalConfig {
