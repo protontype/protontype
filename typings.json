@@ -18,6 +18,7 @@
     "serve-static": "registry:dt/serve-static#0.0.0+20160606155157",
     "superagent": "registry:dt/superagent#2.0.0+20160906143408",
     "supertest": "registry:dt/supertest#1.1.0+20160724070541",
-    "validator": "registry:dt/validator#5.7.0+20160925114326"
+    "validator": "registry:dt/validator#5.7.0+20160925114326",
+    "winston": "registry:dt/winston#0.0.0+20161006194546"
   }
 }
