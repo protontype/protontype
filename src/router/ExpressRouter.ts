@@ -1,3 +1,5 @@
+import { Logger } from './../application/Logger';
+import * as winston from 'winston';
 import { BaseModel } from '../models/BaseModel';
 import { ExpressApplication } from './../application/ExpressApplication';
 import { RouteConfig } from './RouteConfig';
@@ -13,16 +15,14 @@ export abstract class ExpressRouter {
     protected routeConfgs: RouteConfig[];
     protected baseUrl: string;
     protected modelInstances: BaseModel<any>[];
-
-    constructor() {
-        console.log(`>>>> Configured routes to ${this.getBaseUrl()} <<<<`);
-    }
+    private logger: winston.LoggerInstance = Logger.instance;
 
     public init(expressApplication: ExpressApplication): void {
         this.express = expressApplication.getExpress();
         this.router = Express.Router();
         this.express.use(this.getBaseUrl(), this.router);
         this.expressApplication = expressApplication;
+        this.logger.info(`>>>> Configured routes to ${this.getBaseUrl()} <<<<`);
     }
 
     public getBaseUrl(): string {

@@ -18,7 +18,7 @@ class ExpressApplicationTest {
         this.app = new ExpressApplication(this.config).addRouter(new RouterMock());
     }
 
-    @timeout(10000)
+    @timeout(20000)
     @test('basicTest')
     basicTest(done: Function) {
         this.testApplication(done);
@@ -31,6 +31,10 @@ class ExpressApplicationTest {
             assert.equal(this.app.getModel("ModelMock1").getModelName(), "ModelMock1");
             assert.equal(this.app.getModel("ModelMock2").getModelName(), "ModelMock2");
             assert.equal(this.app.getRoutesList().length, 12);
+
+            await this.assertRouteGet("/mocks/blah", this.app.getExpress())
+                .then(() => assert.fail())
+                .catch((err) => { assert.isNotNull(err) });
 
             await this.assertRouteGet("/mocks/test/msg", this.app.getExpress(), (err, res) => {
                 assert.equal(res.body.msg, "hello!");
@@ -51,7 +55,7 @@ class ExpressApplicationTest {
         await this.assertRouteGet("/mocks/modelmock2/", this.app.getExpress(), (err, res) => { assert.isNull(err); });
     }
 
-    private async assertRouteGet(route: string, app: express.Application, assertFunction?: Function): Promise<any> {
+    private assertRouteGet(route: string, app: express.Application, assertFunction?: Function): Promise<any> {
         return new Promise<ExpressApplication>((resolve, reject) => {
             request(app).get(route)
                 .expect(200)

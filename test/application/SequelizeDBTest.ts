@@ -1,5 +1,5 @@
 import { SequelizeDB } from '../../src/application/SequelizeDB';
-import { ModelMock1 } from '../utils/ModelMock';
+import { ModelMock1, ModelMock2 } from '../utils/ModelMock';
 import { GlobalConfig } from './../../src/application/ProtonConfigLoader';
 import { SequelizeModelConfig } from './../../src/application/SequelizeModelConfig';
 import { assert } from 'chai';
@@ -18,10 +18,10 @@ class SequelizeDBtest {
     basicTest() {
         assert.notEqual(this.config, null);
         assert.notEqual(this.config.database, null);
-        let model: ModelMock1 = new ModelMock1();
-        SequelizeModelConfig.add(model);
-        let db: SequelizeDB = new SequelizeDB(this.config.database);
-        db.loadModels(SequelizeModelConfig.modelsList);
+        new ModelMock1(); 
+        new ModelMock2();
+        let db: SequelizeDB = new SequelizeDB(this.config.database)
+            .loadModels(SequelizeModelConfig.modelsList);
         assert.equal(db.getModels().size(), 2);
     }
 

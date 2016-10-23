@@ -1,3 +1,5 @@
+import { Logger } from './Logger';
+import * as winston from 'winston';
 import { AuthMiddleware } from '../middlewares/AuthMiddleware';
 import { DefaultMiddleware } from '../middlewares/DefaultMiddleware';
 import { Middleware } from '../middlewares/Middleware';
@@ -20,12 +22,14 @@ export class ExpressApplication {
     private routers: ExpressRouter[] = [];
     private authMiddleware: AuthMiddleware;
     private config: GlobalConfig;
+    private logger: winston.LoggerInstance;
 
     /**
      * Create express application instance and middlewares
      */
     constructor(config?: GlobalConfig) {
         this.config = this.loadConfig(config);
+        this.logger = Logger.createLogger(this.config.logger);
         this.express = Express();
         this.sequelizeDB = new SequelizeDB(this.config.database).loadModels(SequelizeModelConfig.modelsList);
     }
@@ -40,7 +44,7 @@ export class ExpressApplication {
             let port: number = this.express.get("port");
             this.sequelizeDB.getInstance().sync().then(() => {
                 this.configureRoutes();
-                this.express.listen(port, () => console.log(`Application listen on port ${port}`));
+                this.express.listen(port, () => this.logger.info(`Application listen on port ${port}`));
                 resolve(this);
             }).catch((err) => {
                 reject(err);

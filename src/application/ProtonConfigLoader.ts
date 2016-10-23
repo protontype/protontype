@@ -1,3 +1,4 @@
+import * as winston from 'winston';
 import { JsonLoader } from 'jsontyped';
 import * as sequelize from 'sequelize';
 import * as cors from 'cors';
@@ -14,6 +15,7 @@ export interface GlobalConfig {
     port: number;
     database: DatabaseConfig;
     cors: cors.CorsOptions;
+    logger: LoggerConfig;
 }
 
 export interface DatabaseConfig {
@@ -25,4 +27,8 @@ export interface DatabaseConfig {
 
 export interface DBDefine {
     underscored: boolean;
+}
+
+export interface LoggerConfig extends winston.ConsoleTransportOptions, winston.FileTransportOptions {
+    enabled: boolean;
 }

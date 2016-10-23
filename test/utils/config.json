@@ -20,5 +20,8 @@
   "jwtSecret": "secret",
   "jwtSession": {
     "session": false
+  },
+  "logger": {
+    "enabled": false
   }
 }
