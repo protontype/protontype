@@ -1,13 +1,14 @@
 {
   "name": "protontype",
-  "version": "0.8.0-alpha",
+  "version": "0.9.0-alpha",
   "description": "",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "dist/src/index.js",
+  "typings": "dist/src/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -w",
     "start": "npm run build",
-    "typings": "typings install"
+    "typings": "typings install",
+    "test": "tsc && mocha dist/test/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -27,15 +28,21 @@
     "cors": "^2.8.1",
     "express": "^4.14.0",
     "helmet": "^2.3.0",
-    "jsontyped": "^1.1.4",
+    "jsontyped": "^1.2.0",
     "mysql": "^2.11.1",
     "mysql2": "^1.1.1",
     "sequelize": "^3.23.6",
-    "sqlite3": "^3.1.4"
+    "sqlite3": "^3.1.4",
+    "typescript-collections": "^1.2.3",
+    "winston": "^2.2.0"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "concurrently": "^2.2.0",
+    "mocha": "^3.1.2",
+    "mocha-typescript": "^1.0.10",
     "nodemon": "^1.9.2",
+    "supertest": "^2.0.0",
     "typescript": "^2.0.3",
     "typings": "^1.3.3"
   }

@@ -1,4 +1,4 @@
-import { ExpressApplication } from '../libs/ExpressApplication';
+import { ExpressApplication } from '../application/ExpressApplication';
 import * as Express from 'express';
 /**
  * @author Humberto Machado
