@@ -13,7 +13,7 @@ export declare abstract class ExpressRouter {
     protected routeConfgs: RouteConfig[];
     protected baseUrl: string;
     protected modelInstances: BaseModel<any>[];
-    constructor();
+    private logger;
     init(expressApplication: ExpressApplication): void;
     getBaseUrl(): string;
     getModelInstances(): BaseModel<any>[];

@@ -1,5 +1,5 @@
 import { BaseModel } from '../models/BaseModel';
-import { DatabaseConfig } from './Config';
+import { DatabaseConfig } from './ProtonConfigLoader';
 import * as Sequelize from 'sequelize';
 import { Dictionary } from 'typescript-collections';
 /**
@@ -8,6 +8,7 @@ import { Dictionary } from 'typescript-collections';
 export declare class SequelizeDB {
     private sequelize;
     private models;
+    private logger;
     constructor(config: DatabaseConfig);
     loadModels(modelsList: BaseModel<any>[]): this;
     getInstance(): Sequelize.Sequelize;

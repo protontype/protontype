@@ -2,17 +2,14 @@
 /**
  * @author Humberto Machado
  */
-var SequelizeModelConfig = (function () {
-    function SequelizeModelConfig() {
-    }
-    SequelizeModelConfig.add = function (model) {
+class SequelizeModelConfig {
+    static add(model) {
         if (!this.modelsList) {
             this.modelsList = [];
         }
         this.modelsList.push(model);
-    };
-    return SequelizeModelConfig;
-}());
+    }
+}
 exports.SequelizeModelConfig = SequelizeModelConfig;
 /**
  * Decorator
@@ -30,16 +27,12 @@ exports.Model = Model;
 /**
  * Decorator
  */
-function HasMany() {
-    var modelNames = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        modelNames[_i - 0] = arguments[_i];
-    }
+function HasMany(...modelNames) {
     return function (constructor) {
         if (!constructor.prototype.associations) {
             constructor.prototype.associations = [];
         }
-        modelNames.forEach(function (modelName) {
+        modelNames.forEach(modelName => {
             constructor.prototype.associations.push({ type: AssociationType.HAS_MANY, modelName: modelName });
         });
     };
@@ -48,16 +41,12 @@ exports.HasMany = HasMany;
 /**
  * Decorator
  */
-function BelongsTo() {
-    var modelNames = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        modelNames[_i - 0] = arguments[_i];
-    }
+function BelongsTo(...modelNames) {
     return function (constructor) {
         if (!constructor.prototype.associations) {
             constructor.prototype.associations = [];
         }
-        modelNames.forEach(function (modelName) {
+        modelNames.forEach(modelName => {
             constructor.prototype.associations.push({ type: AssociationType.BELONGS_TO, modelName: modelName });
         });
     };

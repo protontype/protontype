@@ -1,46 +1,47 @@
 "use strict";
-var Express = require('express');
+const Logger_1 = require('./../application/Logger');
+const Express = require('express');
 /**
  * @author Humberto Machado
  * Express routes configurations
  */
-var ExpressRouter = (function () {
-    function ExpressRouter() {
-        console.log(">>>> Configured routes to " + this.getBaseUrl() + " <<<<");
+class ExpressRouter {
+    constructor() {
+        this.logger = Logger_1.Logger.instance;
     }
-    ExpressRouter.prototype.init = function (expressApplication) {
+    init(expressApplication) {
         this.express = expressApplication.getExpress();
         this.router = Express.Router();
         this.express.use(this.getBaseUrl(), this.router);
         this.expressApplication = expressApplication;
-    };
-    ExpressRouter.prototype.getBaseUrl = function () {
+        this.logger.info(`>>>> Configured routes to ${this.getBaseUrl()} <<<<`);
+    }
+    getBaseUrl() {
         return this.baseUrl;
-    };
-    ExpressRouter.prototype.getModelInstances = function () {
+    }
+    getModelInstances() {
         return this.modelInstances;
-    };
-    ExpressRouter.prototype.sendErrorMessage = function (res, error) {
+    }
+    sendErrorMessage(res, error) {
         res.status(412).json({ msg: error.message });
-    };
-    ExpressRouter.prototype.getModel = function (modelName) {
+    }
+    getModel(modelName) {
         return this.expressApplication.getModel(modelName);
-    };
-    ExpressRouter.prototype.getRouter = function () {
+    }
+    getRouter() {
         return this.router;
-    };
-    ExpressRouter.prototype.getRouteConfigs = function () {
+    }
+    getRouteConfigs() {
         return this.routeConfgs;
-    };
-    ExpressRouter.prototype.addRouteConfig = function (config) {
+    }
+    addRouteConfig(config) {
         if (this.routeConfgs == null) {
             this.routeConfgs = [];
         }
-        if (this.routeConfgs.filter(function (route) { return route.method == config.method && route.endpoint == config.endpoint; }).length == 0) {
+        if (this.routeConfgs.filter(route => route.method == config.method && route.endpoint == config.endpoint).length == 0) {
             this.routeConfgs.push(config);
         }
-    };
-    return ExpressRouter;
-}());
+    }
+}
 exports.ExpressRouter = ExpressRouter;
 //# sourceMappingURL=ExpressRouter.js.map

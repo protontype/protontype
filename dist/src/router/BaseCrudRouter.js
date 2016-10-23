@@ -1,55 +1,46 @@
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var ExpressRouter_1 = require('../router/ExpressRouter');
-var Method_1 = require('./Method');
+const ExpressRouter_1 = require('../router/ExpressRouter');
+const Method_1 = require('./Method');
 /**
  * Created by beto_ on 14/08/2016.
  */
-var BaseCrudRouter = (function (_super) {
-    __extends(BaseCrudRouter, _super);
-    function BaseCrudRouter() {
-        _super.apply(this, arguments);
-    }
-    BaseCrudRouter.prototype.init = function (expressApplication) {
-        _super.prototype.init.call(this, expressApplication);
+class BaseCrudRouter extends ExpressRouter_1.ExpressRouter {
+    init(expressApplication) {
+        super.init(expressApplication);
         this.addRoute('/', Method_1.Method.GET, this.findAll, this.useAuth ? this.useAuth.read : false);
         this.addRoute('/', Method_1.Method.POST, this.create, this.useAuth ? this.useAuth.create : false);
         this.addRoute('/:id', Method_1.Method.GET, this.findOne, this.useAuth ? this.useAuth.read : false);
         this.addRoute('/:id', Method_1.Method.PUT, this.update, this.useAuth ? this.useAuth.update : false);
         this.addRoute('/:id', Method_1.Method.DELETE, this.destroy, this.useAuth ? this.useAuth.delete : false);
-    };
-    BaseCrudRouter.prototype.addRoute = function (endpoint, method, routeFunction, useAuth) {
-        var _this = this;
-        this.modelInstances.forEach(function (modelInstance) {
-            _this.addRouteConfig({
-                endpoint: endpoint,
+    }
+    addRoute(endpoint, method, routeFunction, useAuth) {
+        this.modelInstances.forEach(modelInstance => {
+            let formatedEndpoint = endpoint;
+            if (this.modelInstances.length > 1) {
+                formatedEndpoint = '/' + modelInstance.getModelName().toLowerCase() + endpoint;
+            }
+            this.addRouteConfig({
+                endpoint: formatedEndpoint,
                 method: method,
                 routeFunction: routeFunction,
                 modelName: modelInstance.getModelName(),
                 useAuth: useAuth
             });
         });
-    };
-    BaseCrudRouter.prototype.findAll = function (req, res, model) {
-        var _this = this;
+    }
+    findAll(req, res, model) {
         model.getInstance().findAll({})
-            .then(function (result) { return res.json(result); })
-            .catch(function (error) { return _super.prototype.sendErrorMessage.call(_this, res, error); });
-    };
-    BaseCrudRouter.prototype.create = function (req, res, model) {
-        var _this = this;
+            .then(result => res.json(result))
+            .catch(error => super.sendErrorMessage(res, error));
+    }
+    create(req, res, model) {
         model.getInstance().create(req.body)
-            .then(function (result) { return res.json(result); })
-            .catch(function (error) { return _this.sendErrorMessage(res, error); });
-    };
-    BaseCrudRouter.prototype.findOne = function (req, res, model) {
-        var _this = this;
+            .then(result => res.json(result))
+            .catch(error => this.sendErrorMessage(res, error));
+    }
+    findOne(req, res, model) {
         model.getInstance().findOne({ where: req.params })
-            .then(function (result) {
+            .then(result => {
             if (result) {
                 res.json(result);
             }
@@ -57,22 +48,19 @@ var BaseCrudRouter = (function (_super) {
                 res.sendStatus(404);
             }
         })
-            .catch(function (error) { return _this.sendErrorMessage(res, error); });
-    };
-    BaseCrudRouter.prototype.update = function (req, res, model) {
-        var _this = this;
+            .catch(error => this.sendErrorMessage(res, error));
+    }
+    update(req, res, model) {
         model.getInstance().update(req.body, { where: req.params })
-            .then(function (result) { return res.sendStatus(204); })
-            .catch(function (error) { return _this.sendErrorMessage(res, error); });
-    };
-    BaseCrudRouter.prototype.destroy = function (req, res, model) {
-        var _this = this;
+            .then(result => res.sendStatus(204))
+            .catch(error => this.sendErrorMessage(res, error));
+    }
+    destroy(req, res, model) {
         model.getInstance().destroy({ where: req.params })
-            .then(function (result) { return res.sendStatus(204); })
-            .catch(function (error) { return _this.sendErrorMessage(res, error); });
-    };
-    return BaseCrudRouter;
-}(ExpressRouter_1.ExpressRouter));
+            .then(result => res.sendStatus(204))
+            .catch(error => this.sendErrorMessage(res, error));
+    }
+}
 exports.BaseCrudRouter = BaseCrudRouter;
 /**
  * Decorator @UseAuth()

@@ -1,51 +1,47 @@
 "use strict";
-var SequelizeModelConfig_1 = require('../application/SequelizeModelConfig');
-var Sequelize = require('sequelize');
+const SequelizeModelConfig_1 = require('../application/SequelizeModelConfig');
+const Sequelize = require('sequelize');
 /**
  * @author Humberto Machado
  */
-var BaseModel = (function () {
-    function BaseModel() {
-    }
-    BaseModel.prototype.getModelName = function () {
+class BaseModel {
+    getModelName() {
         return this.name;
-    };
-    BaseModel.prototype.defineModel = function (sequelize) {
+    }
+    defineModel(sequelize) {
         this.model = sequelize.define(this.getModelName(), this.definition, {});
         return this;
-    };
-    BaseModel.prototype.configure = function () {
+    }
+    configure() {
         //Hook Method
-    };
-    BaseModel.prototype.configureAssociations = function () {
-        var _this = this;
+    }
+    configureAssociations() {
         if (this.associations) {
-            this.associations.forEach(function (assoc) {
+            this.associations.forEach(assoc => {
                 switch (assoc.type) {
                     case SequelizeModelConfig_1.AssociationType.HAS_MANY:
-                        _this.hasMany(assoc.modelName);
+                        this.hasMany(assoc.modelName);
                         break;
                     case SequelizeModelConfig_1.AssociationType.BELONGS_TO:
-                        _this.belongsTo(assoc.modelName);
+                        this.belongsTo(assoc.modelName);
                         break;
                 }
             });
         }
-    };
-    BaseModel.prototype.belongsTo = function (modelName) {
+    }
+    belongsTo(modelName) {
         this.model.belongsTo(this.sequelizeDB.getModel(modelName).getInstance());
-    };
-    BaseModel.prototype.hasMany = function (modelName) {
+    }
+    hasMany(modelName) {
         this.model.hasMany(this.sequelizeDB.getModel(modelName).getInstance());
-    };
-    BaseModel.prototype.getInstance = function () {
+    }
+    getInstance() {
         return this.model;
-    };
-    BaseModel.prototype.setSequelizeDB = function (sequelizeDB) {
+    }
+    setSequelizeDB(sequelizeDB) {
         this.sequelizeDB = sequelizeDB;
-    };
-    return BaseModel;
-}());
+    }
+}
 exports.BaseModel = BaseModel;
 exports.DataTypes = Sequelize;
 //# sourceMappingURL=BaseModel.js.map

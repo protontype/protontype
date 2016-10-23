@@ -2,6 +2,7 @@ import { AuthMiddleware } from '../middlewares/AuthMiddleware';
 import { Middleware } from '../middlewares/Middleware';
 import { BaseModel } from '../models/BaseModel';
 import { ExpressRouter } from '../router/ExpressRouter';
+import { GlobalConfig } from './ProtonConfigLoader';
 import { SequelizeDB } from './SequelizeDB';
 import * as Express from 'express';
 /**
@@ -13,15 +14,18 @@ export declare class ExpressApplication {
     private sequelizeDB;
     private routers;
     private authMiddleware;
+    private config;
+    private logger;
     /**
      * Create express application instance and middlewares
      */
-    constructor();
+    constructor(config?: GlobalConfig);
     /**
      * Initialize express application and load middlewares
      * @return express instance
      */
-    bootstrap(): Express.Application;
+    bootstrap(): Promise<ExpressApplication>;
+    private loadConfig(config?);
     /**
      * Initilize all configured middlewares
      */
@@ -45,6 +49,7 @@ export declare class ExpressApplication {
     getSequelizeDB(): SequelizeDB;
     getModel<T extends BaseModel<any>>(modelName: string): T;
     getRouters(): ExpressRouter[];
+    getConfig(): GlobalConfig;
     /**
      * @return list of all configured routes in ExpressApplication
      */
