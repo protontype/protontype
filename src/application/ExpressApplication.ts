@@ -1,3 +1,5 @@
+import * as https from 'https';
+import * as fs from 'fs';
 import { Logger } from './Logger';
 import * as winston from 'winston';
 import { AuthMiddleware } from '../middlewares/AuthMiddleware';
@@ -41,15 +43,28 @@ export class ExpressApplication {
     public bootstrap(): Promise<ExpressApplication> {
         return new Promise<ExpressApplication>((resolve, reject) => {
             this.configMiddlewares();
-            let port: number = this.express.get("port");
             this.sequelizeDB.getInstance().sync().then(() => {
                 this.configureRoutes();
-                this.express.listen(port, () => this.logger.info(`Application listen on port ${port}`));
+                this.startServer(this.config);
                 resolve(this);
             }).catch((err) => {
                 reject(err);
             });
         });
+    }
+
+    private startServer(config: GlobalConfig): void {
+        let port: number = this.express.get("port");
+        if (config.https) {
+            const credentials = {
+                key: fs.readFileSync(config.https.key),
+                cert: fs.readFileSync(config.https.cert)
+            }
+            https.createServer(credentials, this.express)
+                .listen(port, () => this.logger.info(`Application listen on port ${port}`));
+        } else {
+            this.express.listen(port, () => this.logger.info(`Application listen on port ${port}`));
+        }
     }
 
     private loadConfig(config?: GlobalConfig): GlobalConfig {

@@ -16,6 +16,7 @@ export interface GlobalConfig {
     database: DatabaseConfig;
     cors: cors.CorsOptions;
     logger: LoggerConfig;
+    https: HTTPSConfig;
 }
 
 export interface DatabaseConfig {
@@ -27,6 +28,11 @@ export interface DatabaseConfig {
 
 export interface DBDefine {
     underscored: boolean;
+}
+
+export interface HTTPSConfig {
+    key: string;
+    cert: string;
 }
 
 export interface LoggerConfig extends winston.ConsoleTransportOptions, winston.FileTransportOptions {
