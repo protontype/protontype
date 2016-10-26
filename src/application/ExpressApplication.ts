@@ -8,8 +8,8 @@ import { Middleware } from '../middlewares/Middleware';
 import { BaseModel } from '../models/BaseModel';
 import { ExpressRouter } from '../router/ExpressRouter';
 import { Method } from '../router/Method';
-import { RouteConfig } from '../router/RouteConfig';
-import { GlobalConfig, ProtonConfigLoader } from './ProtonConfigLoader';
+import { RouteConfig, Route } from '../router/RouteConfig';
+import { GlobalConfig, ProtonConfigLoader, DEFAULT_CONFIG } from './ProtonConfigLoader';
 import { SequelizeDB } from './SequelizeDB';
 import { SequelizeModelConfig } from './SequelizeModelConfig';
 import * as Express from 'express';
@@ -61,9 +61,9 @@ export class ExpressApplication {
                 cert: fs.readFileSync(config.https.cert)
             }
             https.createServer(credentials, this.express)
-                .listen(port, () => this.logger.info(`Application listen on port ${port}`));
+                .listen(port, () => this.logger.info(`Application listen port ${port} (HTTPS)`));
         } else {
-            this.express.listen(port, () => this.logger.info(`Application listen on port ${port}`));
+            this.express.listen(port, () => this.logger.info(`Application listen port ${port} (HTTP)`));
         }
     }
 
@@ -71,7 +71,11 @@ export class ExpressApplication {
         if (config) {
             return config;
         } else {
-            return this.config = ProtonConfigLoader.loadConfig();
+            config = ProtonConfigLoader.loadConfig();
+            if (!config) {
+                config = DEFAULT_CONFIG;
+            }
+            return config;
         }
     }
 

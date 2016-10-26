@@ -18,7 +18,7 @@ class ExpressApplicationTest {
         this.app = new ExpressApplication(this.config).addRouter(new RouterMock());
     }
 
-    @timeout(20000)
+    @timeout(30000)
     @test('basicTest')
     basicTest(done: Function) {
         this.testApplication(done);
@@ -30,7 +30,7 @@ class ExpressApplicationTest {
             assert.equal(this.app.getRouters().length, 1);
             assert.equal(this.app.getModel("ModelMock1").getModelName(), "ModelMock1");
             assert.equal(this.app.getModel("ModelMock2").getModelName(), "ModelMock2");
-            assert.equal(this.app.getRoutesList().length, 12);
+            assert.equal(this.app.getRoutesList().length, 13);
 
             await this.assertRouteGet("/mocks/blah", this.app.getExpress())
                 .then(() => assert.fail())

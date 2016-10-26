@@ -1,3 +1,4 @@
+import { GlobalConfig } from './ProtonConfigLoader';
 import * as winston from 'winston';
 import { JsonLoader } from 'jsontyped';
 import * as sequelize from 'sequelize';
@@ -14,9 +15,10 @@ export class ProtonConfigLoader {
 export interface GlobalConfig {
     port: number;
     database: DatabaseConfig;
-    cors: cors.CorsOptions;
-    logger: LoggerConfig;
-    https: HTTPSConfig;
+    cors?: cors.CorsOptions;
+    logger?: LoggerConfig;
+    https?: HTTPSConfig;
+    defaultRoutes?: boolean;
 }
 
 export interface DatabaseConfig {
@@ -35,6 +37,24 @@ export interface HTTPSConfig {
     cert: string;
 }
 
-export interface LoggerConfig extends winston.ConsoleTransportOptions, winston.FileTransportOptions {
+export interface LoggerConfig {
     enabled: boolean;
+    transports: { type: string, options: winston.TransportOptions }[]
+}
+
+
+export const DEFAULT_CONFIG: GlobalConfig = {
+    "port": 3000,
+    "database": {
+        "name": "proton-example",
+        "username": "",
+        "password": "",
+        "options": {
+            "dialect": "sqlite",
+            "storage": "proton.sqlite",
+            "define": {
+                "underscored": true
+            }
+        }
+    }
 }
