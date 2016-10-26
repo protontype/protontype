@@ -19,6 +19,13 @@ export class DefaultMiddleware extends Middleware {
             delete req.body.id;
             next();
         })
+
+        if (this.expressApplication.getConfig().defaultRoutes) {
+            this.express.get('/proton/routes', (req, res) => {
+                res.json(this.expressApplication.getRoutesList());
+            });
+        }
+
     }
 
 }
