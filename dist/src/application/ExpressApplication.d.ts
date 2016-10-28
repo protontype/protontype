@@ -1,3 +1,4 @@
+/// <reference types="express" />
 import { AuthMiddleware } from '../middlewares/AuthMiddleware';
 import { Middleware } from '../middlewares/Middleware';
 import { BaseModel } from '../models/BaseModel';
@@ -25,6 +26,7 @@ export declare class ExpressApplication {
      * @return express instance
      */
     bootstrap(): Promise<ExpressApplication>;
+    private startServer(config);
     private loadConfig(config?);
     /**
      * Initilize all configured middlewares

@@ -1,3 +1,4 @@
+/// <reference types="sequelize" />
 import { SequelizeDB } from '../application/SequelizeDB';
 import { AssociationsConfig } from '../application/SequelizeModelConfig';
 import * as Sequelize from 'sequelize';

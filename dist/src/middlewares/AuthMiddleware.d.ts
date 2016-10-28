@@ -1,3 +1,4 @@
+/// <reference types="express" />
 import { Middleware } from './Middleware';
 import * as express from 'express';
 /**

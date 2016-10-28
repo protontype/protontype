@@ -1,3 +1,4 @@
+/// <reference types="express" />
 import { BaseModel } from '../models/BaseModel';
 import { ExpressApplication } from './../application/ExpressApplication';
 import { RouteConfig } from './RouteConfig';

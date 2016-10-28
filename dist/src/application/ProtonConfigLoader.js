@@ -8,4 +8,19 @@ class ProtonConfigLoader {
     }
 }
 exports.ProtonConfigLoader = ProtonConfigLoader;
+exports.DEFAULT_CONFIG = {
+    "port": 3000,
+    "database": {
+        "name": "proton-example",
+        "username": "",
+        "password": "",
+        "options": {
+            "dialect": "sqlite",
+            "storage": "proton.sqlite",
+            "define": {
+                "underscored": true
+            }
+        }
+    }
+};
 //# sourceMappingURL=ProtonConfigLoader.js.map

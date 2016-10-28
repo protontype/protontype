@@ -1,4 +1,6 @@
 "use strict";
+const https = require('https');
+const fs = require('fs');
 const Logger_1 = require('./Logger');
 const DefaultMiddleware_1 = require('../middlewares/DefaultMiddleware');
 const Method_1 = require('../router/Method');
@@ -28,22 +30,39 @@ class ExpressApplication {
     bootstrap() {
         return new Promise((resolve, reject) => {
             this.configMiddlewares();
-            let port = this.express.get("port");
             this.sequelizeDB.getInstance().sync().then(() => {
                 this.configureRoutes();
-                this.express.listen(port, () => this.logger.info(`Application listen on port ${port}`));
+                this.startServer(this.config);
                 resolve(this);
             }).catch((err) => {
                 reject(err);
             });
         });
     }
+    startServer(config) {
+        let port = this.express.get("port");
+        if (config.https) {
+            const credentials = {
+                key: fs.readFileSync(config.https.key),
+                cert: fs.readFileSync(config.https.cert)
+            };
+            https.createServer(credentials, this.express)
+                .listen(port, () => this.logger.info(`Application listen port ${port} (HTTPS)`));
+        }
+        else {
+            this.express.listen(port, () => this.logger.info(`Application listen port ${port} (HTTP)`));
+        }
+    }
     loadConfig(config) {
         if (config) {
             return config;
         }
         else {
-            return this.config = ProtonConfigLoader_1.ProtonConfigLoader.loadConfig();
+            config = ProtonConfigLoader_1.ProtonConfigLoader.loadConfig();
+            if (!config) {
+                config = ProtonConfigLoader_1.DEFAULT_CONFIG;
+            }
+            return config;
         }
     }
     /**

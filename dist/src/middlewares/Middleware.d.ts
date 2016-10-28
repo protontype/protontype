@@ -1,3 +1,4 @@
+/// <reference types="express" />
 import { ExpressApplication } from '../application/ExpressApplication';
 import * as Express from 'express';
 /**
