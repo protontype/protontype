@@ -404,8 +404,7 @@ export class JWTAuthMiddleware extends AuthMiddleware {
 --------
 
 - Criar uma classe que
-*extends* **ExpressRouter** 
-string` informando a URL base das rotas criadas na classe. 
+*extends* **ExpressRouter** informando a URL base das rotas criadas na classe. 
 - As configurações do Router será feita através do decorator @RouterClass
  - Poderá ser informado os Models que serão usados no Router.
 - Criar métodos (funções) anotados com @Route. 
@@ -504,7 +503,7 @@ public hello(req, res, model) {
 
 ```
 
-**Obs**: *Caso tenha configurações de rotas com endpoints repetidos a primeira a
+**Obs**: *Caso tenha configurações de rotas com endpoints repetidos, a primeira a
 ser carregada será usada, as outras serão ignoradas.*
 
 **BaseCrudRouter**
