@@ -71,7 +71,7 @@ Criar o arquivo tsconfig.json na raiz do projeto
 
 Criar um arquivo ParticlesModel
 
-```java
+```javascript
 
     import { BaseModel, SequelizeBaseModelAttr, Model, DataTypes } from 'protontype';
     
@@ -107,7 +107,7 @@ Criar um arquivo ParticlesModel
 
 Criar arquivo ParticlesRouter.ts
 
-```java
+```javascript
 
     import { ParticlesModel } from './ParticlesModel';
     import { BaseCrudRouter, RouterClass } from 'protontype';
@@ -128,7 +128,7 @@ Criar arquivo ParticlesRouter.ts
 
 Criar arquivo Main.ts
 
-```java
+```javascript
 
     import { ParticlesRouter } from './ParticlesRouter';
     import { ExpressApplication } from 'protontype';
@@ -221,7 +221,7 @@ seguntes parâmetros:
 
 Exemplo:
 
-```java
+```javascript
 
 import { ModelNames } from './ModelNames';
 import { BaseModel, BelongsTo, DataTypes, Model, SequelizeBaseModelAttr } from 'protontype';
@@ -262,7 +262,7 @@ Criar classe que
 
 Exemplo:
 
-```java
+```javascript
 
 import {Middleware} from "./Middleware";
 import * as bodyParser from 'body-parser';
@@ -297,7 +297,7 @@ string` informando a URL base das rotas criadas na classe.
 
 Exemplo:
 
-```java
+```javascript
 
 import {TasksModel} from "../models/TasksModel";
 import {ExpressRouter} from "protontype";
@@ -376,7 +376,7 @@ export class TasksRouter extends ExpressRouter {
 
 No decorator @Route o parâmetro **modelName** é opcional como no exemplo abaixo:
 
-```java
+```javascript
 
 @Route({
         method: Method.GET,
@@ -398,7 +398,7 @@ as operações básicas de CRUD, sem a necessidade de implementação adicional.
 
 Exemplo:
 
-```java
+```javascript
 
 import { TasksModel } from '../models/TasksModel';
 import { BaseCrudRouter, RouterClass, UseAuth } from 'protontype';
@@ -430,7 +430,7 @@ Caso um **BaseCrudRouter** possua mais de uma instacia de Models as serão criad
 
 **Iniciando aplicação** 
 
-```java
+```javascript
 
 import
 {ExpressApplication} from "protontype"; import {DefaultMiddleware} from
