@@ -4,7 +4,6 @@ ProtonType
 Um simples microframework feito em Typescript para criação de APIs REST usando
 Exress e ORM Sequelize.
 
- 
 
 Configuração do projeto TypeScript
 ====================================
@@ -26,21 +25,27 @@ funcionamento.
     
 ```
 
- 
+Instalação
+==========
+```bash
 
-Quick Start
+npm install protontype --save
+
+```
+
+Quick Start - Criando uma API Completa em 5 passos
 ===========
 
-**Estrutura de pastas e configurações iniciais**
+Estrutura de pastas e configurações iniciais
+--------
 
 ```bash
 
     mkdir proton-quickstart
     cd proton-quickstart
-    mkdir proton-quickstart
     npm init
     mkdir src
-    npm install protontype
+    npm install protontype --save
     
 ```
  A estrutura do projeto ficará assim:
@@ -66,8 +71,8 @@ Criar o arquivo tsconfig.json na raiz do projeto
     
 ```
  
-
-**Model**
+Model
+-------
 
 Criar um arquivo ParticlesModel
 
@@ -101,9 +106,9 @@ Criar um arquivo ParticlesModel
     }
     
 ```
- 
 
-**Router**
+Router
+-------
 
 Criar arquivo ParticlesRouter.ts
 
@@ -124,7 +129,8 @@ Criar arquivo ParticlesRouter.ts
 
  
 
-**Main**
+Main
+-------
 
 Criar arquivo Main.ts
 
@@ -148,9 +154,11 @@ Criar arquivo Main.ts
     
 ```
  
-**Testando a API**
+Testando a API
+-------
 
-Por padrão, a aplicação usará um banco de dados sqlite. Será criado um arquivo proton.sqlite na raiz do projeto.
+Por padrão, a aplicação usará um banco de dados sqlite. 
+Será criado um arquivo proton.sqlite na raiz do projeto.
 
 Os endpoints abaixo já estarão disponíveis:
 -   **GET /particles** - Lista todos os registos da tabela Particles
@@ -171,6 +179,7 @@ Guia Completo
 =============
 
 **Configurando aplicação**
+-------
 
 Criar um arquivo chamado **proton.json** na raiz do projeto. 
 
@@ -208,14 +217,16 @@ Criar um arquivo chamado **proton.json** na raiz do projeto.
 
 
 **Criando Models**
+--------
+
+O **ProtonType** usa o [**ORM Sequelize**](http://docs.sequelizejs.com/en/v3/ "") para criação dos Models e acesso ao banco de dados.
 
 Para criar um Model, deve-se criar uma classe que *extends* de **BaseModel**. O
 mapeamento do banco de dados é feita a através da anotação @Model que possui os
 seguntes parâmetros:
 
 -   **name**: Nome do model
-
--   **definition**: Definição das colunas. As definições é o mesmo objeto de
+-   **definition**: Definição das colunas. O objeto usado para as definições é o mesmo de
     [definição do
     Sequelize](http://docs.sequelizejs.com/en/v3/docs/models-definition/).
 
@@ -255,7 +266,63 @@ export interface Task extends SequelizeBaseModelAttr {
 
 ```
 
+**Adicionando relacionamentos e outras configurações nos Models**
+
+
+Um BaseModel permite sobreescrever o método *configure()*, que permite acessar a instancia do modelo Sequelize e os modelos já carregados e adicionar lógicas e configurações:
+```javascript
+
+export class UsersModel extends BaseModel<User> {
+    public configure(): void {
+        this.getInstance().beforeCreate((user: any) => {
+            let salt: string = bcrypt.genSaltSync();
+            user.password = bcrypt.hashSync(user.password, salt);
+        });
+
+        this.getInstance().hasMany(this.sequelizeDB.getModel("Tasks").getInstance());
+    }
+}
+
+```
+
+**Usando decorators para criar relacionamentos**
+
+Alguns decorators estãos disponíveis para facilitar a adição dos relacionamentos:
+```javascript
+
+@HasMany(...modelNames: string[])
+@BelongsTo(...modelNames: string[])
+
+```
+
+Estes podem ser usados como nos exemplos abaixo:
+
+```javascript
+
+@HasMany(ModelNames.TASKS)
+export class UsersModel extends BaseModel<User> {
+    public configure(): void {
+        this.getInstance().beforeCreate((user: any) => {
+            let salt: string = bcrypt.genSaltSync();
+            user.password = bcrypt.hashSync(user.password, salt);
+        });
+    }
+}
+
+```
+
+```javascript
+
+@BelongsTo(ModelNames.USERS)
+export class TasksModel extends BaseModel<Task> {
+}
+
+```
+
+Para mais informações sobre as possibilidades de configurações e uso dos Models, consultar a documentação do Sequelize: http://docs.sequelizejs.com/en/v3/
+
 **Criando Middlewares** 
+--------
 
 Criar classe que
 *extends* Middleware e implementar o método **configMiddlewares()**
@@ -284,7 +351,57 @@ public configMiddlewares(): void {
 
 ```
 
+**Middleware de autenticação**
+
+**Protontype** usa o projeto [passportjs.org](http://passportjs.org/ "") para autenticação das rotas.
+
+Um middleware de autenticação deve ser uma classe que *extends* de **AuthMiddleware** e deve implementar o método:
+```javascript
+authenticate(): express.Handler
+```
+
+O exemplo abaixo demonstra um middleware de autenticação JWT
+
+```javascript
+export class JWTAuthMiddleware extends AuthMiddleware {
+    private passportInstance: passport.Passport;
+    private config: SpecificConfig = ProtonConfigLoader.loadConfig();
+
+    public configMiddlewares(): void {
+        this.passportInstance = passport;
+        let userModel: UsersModel = this.expressApplication.getModel<UsersModel>(ModelNames.USERS);
+
+        let params: StrategyOptions = {
+            secretOrKey: this.config.jwtSecret,
+            jwtFromRequest: ExtractJwt.fromAuthHeader()
+        };
+
+        const strategy: Strategy = new Strategy(params, async (payload: any, done: VerifiedCallback) => {
+            try {
+                let user: User = await userModel.getInstance().findById(payload.id);
+                if (user) {
+                    return done(null, {
+                        id: user.id,
+                        email: user.email
+                    });
+                }
+                return done(null, false);
+            } catch (error) {
+                return done(error, null);
+            }
+        });
+        this.passportInstance.use(strategy);
+        this.expressApplication.getExpress().use(this.passportInstance.initialize());
+    }
+
+    public authenticate(): express.Handler {
+        return this.passportInstance.authenticate("jwt", this.config.jwtSession);
+    }
+
+}
+```
 **Criando Routers**
+--------
 
 - Criar uma classe que
 *extends* **ExpressRouter** 
@@ -298,11 +415,8 @@ string` informando a URL base das rotas criadas na classe.
 Exemplo:
 
 ```javascript
-
 import {TasksModel} from "../models/TasksModel";
-import {ExpressRouter} from "protontype";
-import {Method} from "protontype";
-import {Route} from "protontype";
+import {Method, Route, ExpressRouter} from "protontype";
 
 @RouterClass({
     baseUrl: "/tasks",
@@ -374,6 +488,8 @@ export class TasksRouter extends ExpressRouter {
 
 ```
 
+A propriedade ``` useAuth: boolean ``` indica se a rota será autenticada pelo **middleware de autenticação**, caso este esteja implementado.
+
 No decorator @Route o parâmetro **modelName** é opcional como no exemplo abaixo:
 
 ```javascript
@@ -392,6 +508,7 @@ public hello(req, res, model) {
 ser carregada será usada, as outras serão ignoradas.*
 
 **BaseCrudRouter**
+----
 
 A classe BaseCrudRouter provê
 as operações básicas de CRUD, sem a necessidade de implementação adicional.
@@ -428,22 +545,34 @@ Caso um **BaseCrudRouter** possua mais de uma instacia de Models as serão criad
 /baseUrl/modelName/...
 ```
 
-**Iniciando aplicação** 
+**Configurando autenticação no** ***BaseCrudRouter***
+
+Para hablititar a autenticação em um **BaseCrudRouter** deve-se usar o decorator ``` @UseAuth()```. Este pode conter os parametros abaixo:
+
+```javascript
+@UseAuth({
+    create: boolean, //Habilita a autenticação para rotas de criação
+    update: boolean, //Habilita a autenticação para rotas de atualização
+    read: boolean,   //Habilita a autenticação para rotas de leitura
+    delete: boolean  //Habilita a autenticação para rotas de remoção
+})
+```
+
+
+Iniciando aplicação 
+-----
 
 ```javascript
 
-import
-{ExpressApplication} from "protontype"; import {DefaultMiddleware} from
-"protontype"; import {TasksRouter} from "./router/TasksRouter";
-
 let expressApp = new ExpressApplication();
 expressApp
-    .addMiddleware(new DefaultMiddleware())
+    .withAuthMiddleware(new JWTAuthMiddleware())
     .addRouter(new TasksRouter())
     .bootstrap();
     
 ```
 
-**Exemplo de uso completo**
+Exemplo de uso completo
+---
 
-https://github.com/linck/protontype-example
+**https://github.com/linck/protontype-example**
