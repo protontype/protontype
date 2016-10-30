@@ -1,9 +1,9 @@
 {
   "name": "protontype",
-  "version": "1.0.0-beta",
+  "version": "0.10.1-alpha",
   "description": "",
-  "main": "dist/src/index.js",
-  "typings": "dist/src/index.d.ts",
+  "main": "dist/lib/index.js",
+  "typings": "dist/lib/index.d.ts",
   "scripts": {
     "build": "tsc -w",
     "start": "npm run build",

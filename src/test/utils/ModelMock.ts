@@ -1,8 +1,4 @@
-import { 
-    Model, BaseModel, 
-    DataTypes, SequelizeBaseModelAttr, 
-    HasMany, BelongsTo 
-} from './../../src';
+import { BaseModel, BelongsTo, DataTypes, HasMany, Model, SequelizeBaseModelAttr } from '../../lib';
 /**
  * @author Humberto Machado
  *

@@ -7,7 +7,7 @@
     "password": "",
     "options": {
       "dialect": "sqlite",
-      "storage": "./test/proton.sqlite",
+      "storage": "./src/test/proton.sqlite",
       "define": {
         "underscored": "true"
       },

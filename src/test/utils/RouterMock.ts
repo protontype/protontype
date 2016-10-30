@@ -1,6 +1,6 @@
-import * as express from 'express';
+import { BaseCrudRouter, Method, Route, RouterClass, UseAuth } from '../../lib';
 import { ModelMock1, ModelMock2 } from './ModelMock';
-import { BaseCrudRouter, RouterClass, UseAuth, Route, Method } from '../../src';
+import * as express from 'express';
 
 @UseAuth()
 @RouterClass({

@@ -1,7 +1,7 @@
-import { SequelizeDB } from '../../src/application/SequelizeDB';
+import { SequelizeDB } from '../../lib';
+import { GlobalConfig } from '../../lib';
+import { SequelizeModelConfig } from '../../lib';
 import { ModelMock1, ModelMock2 } from '../utils/ModelMock';
-import { GlobalConfig } from './../../src/application/ProtonConfigLoader';
-import { SequelizeModelConfig } from './../../src/application/SequelizeModelConfig';
 import { assert } from 'chai';
 import { JsonLoader } from 'jsontyped';
 import { suite, test } from 'mocha-typescript';
@@ -11,7 +11,7 @@ class SequelizeDBtest {
     private config: GlobalConfig;
 
     before() {
-        this.config = JsonLoader.loadFile<GlobalConfig>("./test/utils/config.json");
+        this.config = JsonLoader.loadFile<GlobalConfig>("./src/test/utils/config.json");
     }
 
     @test('basicTest')

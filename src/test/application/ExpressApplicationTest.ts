@@ -1,9 +1,8 @@
-import * as console from 'console';
-import * as express from 'express';
-import { ExpressApplication } from '../../src';
-import { GlobalConfig } from './../../src/application/ProtonConfigLoader';
+import { ExpressApplication } from '../../lib';
+import { GlobalConfig } from '../../lib';
 import { RouterMock } from './../utils/RouterMock';
 import { assert } from 'chai';
+import * as express from 'express';
 import { JsonLoader } from 'jsontyped';
 import { suite, test, timeout } from 'mocha-typescript';
 import * as request from 'supertest';
@@ -14,7 +13,7 @@ class ExpressApplicationTest {
     private app: ExpressApplication;
 
     before() {
-        this.config = JsonLoader.loadFile<GlobalConfig>("./test/utils/config.json");
+        this.config = JsonLoader.loadFile<GlobalConfig>("./src/test/utils/config.json");
         this.app = new ExpressApplication(this.config).addRouter(new RouterMock());
     }
 
