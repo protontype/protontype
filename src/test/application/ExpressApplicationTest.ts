@@ -12,12 +12,16 @@ class ExpressApplicationTest {
     private config: GlobalConfig;
     private app: ExpressApplication;
 
-    before() {
+    before(done: Function) {
         this.config = JsonLoader.loadFile<GlobalConfig>("./src/test/utils/config.json");
         this.app = new ExpressApplication(this.config).addRouter(new RouterMock());
+        done();
     }
 
-    @timeout(30000)
+    after(done: Function) {
+        this.app.getSequelizeDB().getInstance().drop().then(() => done());
+    }
+
     @test('basicTest')
     basicTest(done: Function) {
         this.testApplication(done);

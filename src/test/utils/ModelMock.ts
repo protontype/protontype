@@ -6,14 +6,14 @@ import { BaseModel, BelongsTo, DataTypes, HasMany, Model, SequelizeBaseModelAttr
 @Model({
     name: "ModelMock1",
     definition: {
-        column1: {
+        mockCol1: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 notEmpty: true
             }
         },
-        column2: {
+        mockCol2: {
             type: DataTypes.INTEGER,
             allowNull: false,
             defaultValue: false
@@ -25,21 +25,21 @@ export class ModelMock1 extends BaseModel<Mock> {
 }
 
 export interface Mock extends SequelizeBaseModelAttr {
-    column1: string;
-    column2: number;
+    mockCol1: string;
+    mockCol2: number;
 }
 
 @Model({
     name: "ModelMock2",
     definition: {
-        column3: {
+        mock2Col1: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 notEmpty: true
             }
         },
-        column4: {
+        mock2Col2: {
             type: DataTypes.INTEGER,
             allowNull: false,
             defaultValue: false
@@ -51,6 +51,6 @@ export class ModelMock2 extends BaseModel<Mock2> {
 }
 
 export interface Mock2 extends SequelizeBaseModelAttr {
-    column3: string;
-    column4: number;
+    mock2Col1: string;
+    mock2Col2: number;
 }
