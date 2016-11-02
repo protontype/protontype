@@ -32,14 +32,12 @@ export function Model(config: ModelConfig) {
 /**
  * Decorator
  */
-export function HasMany(...modelNames: string[]) {
+export function HasMany(modelName: string, options?: Sequelize.AssociationOptionsHasMany) {
     return function (constructor: Function) {
         if (!constructor.prototype.associations) {
             constructor.prototype.associations = [];
         }
-        modelNames.forEach(modelName => {
-            constructor.prototype.associations.push({ type: AssociationType.HAS_MANY, modelName: modelName });
-        })
+        constructor.prototype.associations.push({ type: AssociationType.HAS_MANY, modelName: modelName, options: options });
 
     }
 }
@@ -47,24 +45,47 @@ export function HasMany(...modelNames: string[]) {
 /**
  * Decorator
  */
-export function BelongsTo(...modelNames: string[]) {
+export function BelongsTo(modelName: string, options?: Sequelize.AssociationOptionsBelongsTo) {
     return function (constructor: Function) {
         if (!constructor.prototype.associations) {
             constructor.prototype.associations = [];
         }
-        modelNames.forEach(modelName => {
-            constructor.prototype.associations.push({ type: AssociationType.BELONGS_TO, modelName: modelName });
-        });
+        constructor.prototype.associations.push({ type: AssociationType.BELONGS_TO, modelName: modelName, options: options });
+    }
+}
+
+/**
+ * Decorator
+ */
+export function HasOne(modelName: string, options?: Sequelize.AssociationOptionsHasOne) {
+    return function (constructor: Function) {
+        if (!constructor.prototype.associations) {
+            constructor.prototype.associations = [];
+        }
+        constructor.prototype.associations.push({ type: AssociationType.HAS_ONE, modelName: modelName, options: options });
+    }
+}
+
+/**
+ * Decorator
+ */
+export function BelongsToMany(modelName: string, options: Sequelize.AssociationOptionsBelongsToMany) {
+    return function (constructor: Function) {
+        if (!constructor.prototype.associations) {
+            constructor.prototype.associations = [];
+        }
+        constructor.prototype.associations.push({ type: AssociationType.BELONGS_TO_MANY, modelName: modelName, options: options });
     }
 }
 
 export interface AssociationsConfig {
     type: AssociationType,
     modelName: string;
+    options?: Sequelize.AssociationOptions;
 }
 
 export enum AssociationType {
-    HAS_MANY, BELONGS_TO
+    HAS_MANY, BELONGS_TO, HAS_ONE, BELONGS_TO_MANY
 }
 
 export interface ModelConfig {
