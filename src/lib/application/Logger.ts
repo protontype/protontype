@@ -1,4 +1,3 @@
-import * as console from 'console';
 import { LoggerConfig } from '../';
 import * as winston from 'winston';
 

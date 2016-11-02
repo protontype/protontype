@@ -1,8 +1,7 @@
-import { GlobalConfig } from './ProtonConfigLoader';
-import * as winston from 'winston';
+import * as cors from 'cors';
 import { JsonLoader } from 'jsontyped';
 import * as sequelize from 'sequelize';
-import * as cors from 'cors';
+import * as winston from 'winston';
 
 export class ProtonConfigLoader {
     public static loadConfig(filePath?: string): GlobalConfig {

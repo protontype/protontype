@@ -1,4 +1,3 @@
-import { ProtonConfigLoader } from '../application/ProtonConfigLoader';
 import { Middleware } from './Middleware';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
