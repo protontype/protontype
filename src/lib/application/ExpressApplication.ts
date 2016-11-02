@@ -1,18 +1,18 @@
-import * as https from 'https';
-import * as fs from 'fs';
-import { Logger } from './Logger';
-import * as winston from 'winston';
 import { AuthMiddleware } from '../middlewares/AuthMiddleware';
 import { DefaultMiddleware } from '../middlewares/DefaultMiddleware';
 import { Middleware } from '../middlewares/Middleware';
 import { BaseModel } from '../models/BaseModel';
 import { ExpressRouter } from '../router/ExpressRouter';
 import { Method } from '../router/Method';
-import { RouteConfig, Route } from '../router/RouteConfig';
-import { GlobalConfig, ProtonConfigLoader, DEFAULT_CONFIG } from './ProtonConfigLoader';
+import { RouteConfig } from '../router/RouteConfig';
+import { Logger } from './Logger';
+import { DEFAULT_CONFIG, GlobalConfig, ProtonConfigLoader } from './ProtonConfigLoader';
 import { SequelizeDB } from './SequelizeDB';
 import { SequelizeModelConfig } from './SequelizeModelConfig';
 import * as Express from 'express';
+import * as fs from 'fs';
+import * as https from 'https';
+import * as winston from 'winston';
 
 /**
  * @author Humberto Machado
@@ -129,6 +129,21 @@ export class ExpressApplication {
                 break;
             case Method.DELETE:
                 this.express.delete(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
+                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                });
+                break;
+            case Method.PATCH:
+                this.express.patch(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
+                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                });
+                break;
+            case Method.OPTIONS:
+                this.express.options(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
+                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                });
+                break;
+            case Method.HEAD:
+                this.express.head(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
                     config.routeFunction.call(router, req, res, this.getModel(config.modelName));
                 });
                 break;

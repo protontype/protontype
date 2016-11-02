@@ -5,5 +5,8 @@ export enum Method {
     GET,
     PUT,
     POST,
-    DELETE
+    DELETE,
+    PATCH,
+    OPTIONS,
+    HEAD
 }
