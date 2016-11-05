@@ -4,7 +4,7 @@ import { RouterMock } from './../utils/RouterMock';
 import { assert } from 'chai';
 import * as express from 'express';
 import { JsonLoader } from 'jsontyped';
-import { suite, test, timeout } from 'mocha-typescript';
+import { suite, test } from 'mocha-typescript';
 import * as request from 'supertest';
 
 @suite('ExpressApplicationTest')
@@ -19,7 +19,9 @@ class ExpressApplicationTest {
     }
 
     after(done: Function) {
-        this.app.getSequelizeDB().getInstance().drop().then(() => done());
+        this.app.getSequelizeDB().getInstance().drop().then(() => done()).catch((err) => {
+            done();
+        });
     }
 
     @test('basicTest')

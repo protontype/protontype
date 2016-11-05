@@ -1,3 +1,4 @@
+import { ModelMock3, ModelMock4 } from './../utils/ModelMock';
 import { SequelizeDB } from '../../lib';
 import { GlobalConfig } from '../../lib';
 import { SequelizeModelConfig } from '../../lib';
@@ -17,7 +18,9 @@ class SequelizeDBtest {
     }
 
     after(done: Function) {
-        this.db.getInstance().drop().then(() => done());
+        this.db.getInstance().drop().then(() => done()).catch((err) => {
+            done();
+        });
     }
 
     private async setup(done: Function) {
@@ -27,10 +30,12 @@ class SequelizeDBtest {
             assert.notEqual(this.config.database, null);
             new ModelMock1();
             new ModelMock2();
+            new ModelMock3();
+            new ModelMock4();
             this.db = new SequelizeDB(this.config.database)
                 .loadModels(SequelizeModelConfig.modelsList);
             await this.db.getInstance().sync();
-            assert.equal(this.db.getModels().size(), 2);
+            assert.equal(this.db.getModels().size(), 4);
             done();
         } catch (err) {
             done(err);
@@ -60,8 +65,6 @@ class SequelizeDBtest {
         } catch (err) {
             done(err);
         }
-
-
     }
 
     @test('Create DB without model')
