@@ -1,3 +1,5 @@
+[English](https://github.com/linck/protontype/blob/develop/README_en.md "") / [Português](https://github.com/linck/protontype/blob/develop/README.md "")
+
 ProtonType
 ==========
 
@@ -548,11 +550,11 @@ If a **BaseCrudRouter** has more than one instacia Models of the routes for each
 To enable authentication in a **BaseCrudRouter** should use the decorator `` @UseAuth() ``. This may contain the parameters below:
 
 ```javascript
-@UseAuth({
-    create: boolean, //Habilita a autenticação para rotas de criação
-    update: boolean, //Habilita a autenticação para rotas de atualização
-    read: boolean,   //Habilita a autenticação para rotas de leitura
-    delete: boolean  //Habilita a autenticação para rotas de remoção
+@UseAuth ({
+    create: boolean, // Enables authentication to create routes
+    update: boolean, // Enables authentication to update routes
+    read: boolean, // Enables authentication for read routes
+    delete: boolean // Enables authentication for removal routes
 })
 ```
 
