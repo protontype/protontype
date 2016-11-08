@@ -8,18 +8,17 @@ Exress and ORM Sequelize.
 Typescript project configuration
 ====================================
 
-The following settings in**tsconfig.json**are needed for
+The following settings in **tsconfig.json** are needed for
 operation.
 
 ```json
 
     {
-      "CompilerOptions": {
-        "Target", "ES6"
-        "Module", "commonjs"
-        "EmitDecoratorMetadata": true,
-        "ExperimentalDecorators": true
-        ...
+      "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true
       }
     }
     
@@ -48,7 +47,6 @@ folder structure and initial settings
     npm install protontype --save
     
 ```
- The project structure looks like this:
  
 
 Create tsconfig.json file in the project root
@@ -57,8 +55,8 @@ Create tsconfig.json file in the project root
 
     {
       "compilerOptions": {
-        "target", "ES6"
-        "module", "commonjs"
+        "target": "es6",
+        "module": "commonjs",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "outDir": "dist"
@@ -78,10 +76,10 @@ Create a file ParticlesModel
 
 ```javascript
 
-    import {BaseModel, SequelizeBaseModelAttr, Model, DataTypes} from 'protontype';
+    import { BaseModel, SequelizeBaseModelAttr, Model, DataTypes } from 'protontype';
     
-    @model ({
-        name: "Particles"
+    @Model({
+        name: "Particles",
         definition: {
             name: {
                 type: DataTypes.STRING
@@ -95,11 +93,11 @@ Create a file ParticlesModel
     
         }
     })
-    export class ParticlesModel extends BaseModel <Particle> {
+    export class ParticlesModel extends BaseModel<Particle> {
     
     }
     
-    export interface Particle extends SequelizeBaseModelAttr  {
+    export interface Particle extends SequelizeBaseModelAttr {
         name: string;
         symbol: string;
         mass: number;
@@ -114,12 +112,12 @@ Create file ParticlesRouter.ts
 
 ```javascript
 
-    import { ParticlesModel} from './ParticlesModel';
-    import {BaseCrudRouter, RouterClass} from 'protontype';
+    import { ParticlesModel } from './ParticlesModel';
+    import { BaseCrudRouter, RouterClass } from 'protontype';
     
-    @RouterClass ({
-        baseUrl '/ particles'
-        modelInstances: [new ParticlesModel ()]
+    @RouterClass({
+        baseUrl: '/particles',
+        modelInstances: [new ParticlesModel()]
     })
     export class ParticlesRouter extends BaseCrudRouter {
     
@@ -139,9 +137,9 @@ Create Main.ts file
     import { ParticlesRouter } from './ParticlesRouter';
     import { ExpressApplication } from 'protontype';
     
-    new ExpressApplication ()
-        .addRouter (new ParticlesRouter ())
-        .bootstrap ();
+    new ExpressApplication()
+        .addRouter(new ParticlesRouter())
+        .bootstrap();
         
 ```
  
@@ -150,8 +148,8 @@ Create Main.ts file
 
 ```bash
 
-    tsk
-    node dist / Main.ts
+    tsc
+    node dist/Main.ts
     
 ```
  
@@ -186,14 +184,14 @@ Create a file called**proton.json**in the project root.
 
 ```json
 {
-  "port": "3000"
-  "data base": {
-    "name": "proton-example"
+  "port": "3000",
+  "database": {
+    "name": "proton-example",
     "username": "",
     "password": "",
     "options": {
-      "dialect": "sqlite"
-      "storage": "proton.sqlite"
+      "dialect": "sqlite",
+      "storage": "proton.sqlite",
       "define": {
         "underscored": "true"
       }
@@ -201,16 +199,16 @@ Create a file called**proton.json**in the project root.
   },
   "defaultRoutes": true,
   "cors": {
-    "origin": [ "*"]
-    "methods": [ "GET", "POST", "OPTIONS", "PUT", "patch", "DELETE"]
-    "allowedHeaders": [ "Content-Type", "Authorization"]
+    "origin": ["*"],
+    "methods": ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
+    "allowedHeaders": ["Content-Type", "Authorization"]
   },
-  "jwtSecret" "Pr0t0nT1p3"
+  "jwtSecret": "Pr0t0nT1p3",
   "jwtSession": {
-    "Session": false
+    "session": false
   },
   "https": {
-    "key": "./protontype.key"
+    "key": "./protontype.key",
     "cert": "./protontype.cert"
   }
 }
@@ -233,10 +231,10 @@ Example:
 
 ```javascript
 
-import { ModelNames }  from './ModelNames';
+import { ModelNames } from './ModelNames';
 import { BaseModel, BelongsTo, DataTypes, Model, SequelizeBaseModelAttr } from 'protontype';
 
-@model ({
+@Model({
     name: ModelNames.TASKS,
     definition: {
         title: {
@@ -253,11 +251,11 @@ import { BaseModel, BelongsTo, DataTypes, Model, SequelizeBaseModelAttr } from '
         }
     }
 })
-export class TasksModel extends BaseModel <Task> {
+export class TasksModel extends BaseModel<Task> {
 
 }
 
-Export Task extends SequelizeBaseModelAttr interface {
+export interface Task extends SequelizeBaseModelAttr {
     title: string;
     done: boolean;
     user_id: number;
@@ -268,17 +266,18 @@ Export Task extends SequelizeBaseModelAttr interface {
 **Adding relationships and other settings in Models**
 
 
-A BaseModel override allows **configure ()** method, which allows you to access the instance of Sequelize model and models already loaded and add logic and settings:
+A BaseModel override allows **configure()** method, which allows you to access the instance of Sequelize model and models already loaded and add logic and settings:
+
 ```javascript
 
-export class UsersModel extends BaseModel <User> {
-    public configure (): void {
-        this.getInstance () beforeCreate ((user:. any) => {
-            let salt: string = bcrypt.genSaltSync ();
-            user.password = bcrypt.hashSync (user.password, salt);
+export class UsersModel extends BaseModel<User> {
+    public configure(): void {
+        this.getInstance().beforeCreate((user: any) => {
+            let salt: string = bcrypt.genSaltSync();
+            user.password = bcrypt.hashSync(user.password, salt);
         });
 
-        this.getInstance () hasMany (this.sequelizeDB.getModel ( "Tasks") getInstance ().).;
+        this.getInstance().hasMany(this.sequelizeDB.getModel("Tasks").getInstance());
     }
 }
 
@@ -286,11 +285,12 @@ export class UsersModel extends BaseModel <User> {
 
 **Using decorators to create relationships**
 
-Some decorators are divorced available to facilitate the addition of relationships:
 ```javascript
 
-@HasMany (... ModelNames: string [])
-@BelongsTo (... ModelNames: string [])
+@HasMany(modelName: string)
+@HasOne(modelName: string)
+@BelongsTo(modelName: string)
+@BelongsToMany(modelName: string, options: Sequelize.AssociationOptionsBelongsToMany)
 
 ```
 
@@ -298,12 +298,12 @@ These can be used as in the examples below:
 
 ```javascript
 
-@HasMany (ModelNames.TASKS)
-export class UsersModel extends BaseModel <User> {
-    public configure (): void {
-        this.getInstance () beforeCreate ((user:. any) => {
-            let salt: string = bcrypt.genSaltSync ();
-            user.password = bcrypt.hashSync (user.password, salt);
+@HasMany(ModelNames.TASKS)
+export class UsersModel extends BaseModel<User> {
+    public configure(): void {
+        this.getInstance().beforeCreate((user: any) => {
+            let salt: string = bcrypt.genSaltSync();
+            user.password = bcrypt.hashSync(user.password, salt);
         });
     }
 }
@@ -312,8 +312,8 @@ export class UsersModel extends BaseModel <User> {
 
 ```javascript
 
-@BelongsTo (ModelNames.USERS)
-export class TasksModel extends BaseModel <Task> {
+@BelongsTo(ModelNames.USERS)
+export class TasksModel extends BaseModel<Task> {
 }
 
 ```
@@ -331,20 +331,20 @@ Example:
 ```javascript
 
 import {Middleware} from "./Middleware";
-import * from the bodyParser 'body-parser';
-import {Settings} from "../application/Config";
+import * as bodyParser from 'body-parser';
+import {Config} from "../application/Config";
 
 export class DefaultMiddleware extends Middleware {
     private port: number = Config.port;
     private jsonSpaces: number = 2;
 
-public configMiddlewares (): void {
-    this.express.set ( "port" this.port);
-    this.express.set ( "json spaces" this.jsonSpaces);
-    this.express.use (bodyParser.json ());
-    this.express.use ((req, res, next) => {
+public configMiddlewares(): void {
+    this.express.set("port", this.port);
+    this.express.set("json spaces", this.jsonSpaces);
+    this.express.use(bodyParser.json());
+    this.express.use((req, res, next) => {
         delete req.body.id;
-        next ();
+        next();
     })
 }
 
@@ -356,7 +356,7 @@ public configMiddlewares (): void {
 
 A middleware authentication must be a class that extends a**AuthMiddleware** and should implement the method:
 ```javascript
-authenticate (): express.Handler
+authenticate(): express.Handler
 ```
 
 The following example demonstrates an authentication middleware JWT
@@ -364,37 +364,37 @@ The following example demonstrates an authentication middleware JWT
 ```javascript
 export class JWTAuthMiddleware extends AuthMiddleware {
     private passportInstance: passport.Passport;
-    private config: SpecificConfig ProtonConfigLoader.loadConfig = ();
+    private config: SpecificConfig = ProtonConfigLoader.loadConfig();
 
-    public configMiddlewares (): void {
+    public configMiddlewares(): void {
         this.passportInstance = passport;
-        let userModel: UsersModel = this.expressApplication.getModel <UsersModel> (ModelNames.USERS);
+        let userModel: UsersModel = this.expressApplication.getModel<UsersModel>(ModelNames.USERS);
 
         let params: StrategyOptions = {
             secretOrKey: this.config.jwtSecret,
-            jwtFromRequest: ExtractJwt.fromAuthHeader ()
+            jwtFromRequest: ExtractJwt.fromAuthHeader()
         };
 
-        const strategy: Strategy = new Strategy (params, async (Payload: any, done: VerifiedCallback) => {
+        const strategy: Strategy = new Strategy(params, async (payload: any, done: VerifiedCallback) => {
             try {
-                let user: User = await userModel.getInstance () findById (payload.id);.
+                let user: User = await userModel.getInstance().findById(payload.id);
                 if (user) {
-                    return done (null, {
+                    return done(null, {
                         id: user.id,
                         email: user.email
                     });
                 }
-                return done (null, false);
-            } Catch (error) {
-                return done (error, null);
+                return done(null, false);
+            } catch (error) {
+                return done(error, null);
             }
         });
-        this.passportInstance.use (strategy);
-        this.expressApplication.getExpress () use (this.passportInstance.initialize ().);
+        this.passportInstance.use(strategy);
+        this.expressApplication.getExpress().use(this.passportInstance.initialize());
     }
 
-    public authenticate (): express.Handler {
-        this.passportInstance.authenticate return ( "jwt" this.config.jwtSession);
+    public authenticate(): express.Handler {
+        return this.passportInstance.authenticate("jwt", this.config.jwtSession);
     }
 
 }
@@ -408,7 +408,7 @@ export class JWTAuthMiddleware extends AuthMiddleware {
  - You can be informed the Models that will be used in the Router.
 - Create methods (functions) annotated with @Route.
 - Every method
-@Route Must have the format: `methodName (req, res, model)`, the model parameter is**optional**.
+@Route Must have the format: `methodName (req, res, model)`, the model parameter is **optional**.
 
 Example:
 
@@ -416,71 +416,71 @@ Example:
 import {TasksModel} from "../models/TasksModel";
 import {Method, Route, ExpressRouter} from "protontype";
 
-@RouterClass ({
-    baseUrl "/ tasks"
-    modelInstances: [new TasksModel ()]
+@RouterClass({
+    baseUrl: "/tasks",
+    modelInstances: [new TasksModel()]
 })
 export class TasksRouter extends ExpressRouter {
-    @Route ({
+    @Route({
         method: Method.GET,
-        endpoint, '/',
+        endpoint: '/',
         modelName: TasksModel.MODEL_NAME,
         useAuth: true
     })
-    public findAllTasks (req res model) {
-        model.findAll ({})
-            .then (result => res.json (result))
-            .catch (error => this.sendErrorMessage (res, error));
+    public findAllTasks(req, res, model) {
+        model.findAll({})
+            .then(result => res.json(result))
+            .catch(error => this.sendErrorMessage(res, error));
     }
 
-    @Route ({
+    @Route({
         method: Method.POST,
-        endpoint, '/',
+        endpoint: '/',
         modelName: TasksModel.MODEL_NAME
     })
-    public createTask (req res model) {
-        model.create (req.body)
-            .then (result => res.json (result))
-            .catch (error => this.sendErrorMessage (res, error));
+    public createTask(req, res, model) {
+        model.create(req.body)
+            .then(result => res.json(result))
+            .catch(error => this.sendErrorMessage(res, error));
     }
 
-    @Route ({
+    @Route({
         method: Method.GET,
-        endpoint: '/: id'
+        endpoint: '/:id',
         modelName: TasksModel.MODEL_NAME
     })
-    public findOneTask (req res model) {
-        model.findOne ({where: req.params})
-            .then (result => {
+    public findOneTask(req, res, model) {
+        model.findOne({where: req.params})
+            .then(result => {
                 if (result) {
-                    res.json (result);
-                } Else {
-                    res.sendStatus (404);
+                    res.json(result);
+                } else {
+                    res.sendStatus(404);
                 }
             })
-            .catch (error => this.sendErrorMessage (res, error));
+            .catch(error => this.sendErrorMessage(res, error));
     }
 
-    @Route ({
+    @Route({
         method: Method.PUT,
-        endpoint: '/: id'
+        endpoint: '/:id',
         modelName: TasksModel.MODEL_NAME
     })
-    public updateTask (req res model) {
-        model.update (req.body, {where: req.params})
-            .then (result => res.sendStatus (204))
-            .catch (error => this.sendErrorMessage (res, error));
+    public updateTask(req, res, model) {
+        model.update(req.body, {where: req.params})
+            .then(result => res.sendStatus(204))
+            .catch(error => this.sendErrorMessage(res, error));
     }
 
-    @Route ({
+    @Route({
         method: Method.DELETE,
-        endpoint: '/: id'
+        endpoint: '/:id',
         modelName: TasksModel.MODEL_NAME
     })
-    public DeleteTask (req res model) {
-        model.destroy ({where: req.params})
-            .then (result => res.sendStatus (204))
-            .catch (error => this.sendErrorMessage (res, error));
+    public deleteTask(req, res, model) {
+        model.destroy({where: req.params})
+            .then(result => res.sendStatus(204))
+            .catch(error => this.sendErrorMessage(res, error));
     }
 }
 
@@ -488,16 +488,16 @@ export class TasksRouter extends ExpressRouter {
 
 The property `` useAuth: boolean `` indicates that the route will be authenticated by the authentication middleware, if it is implemented.
 
-In the decorator @Route**modelName**parameter is optional as in the example below:
+In the decorator @Route **modelName** parameter is optional as in the example below:
 
 ```javascript
 
-@Route ({
+@Route({
         method: Method.GET,
         endpoint: 'hello'
 })
-public hello (req res model) {
-    res.json ( 'Hello!');
+public hello(req, res, model) {
+    res.json('Hello!');
 }
 
 ```
@@ -514,13 +514,13 @@ Example:
 
 ```javascript
 
-import {TasksModel}  from '../models/TasksModel';
-import {BaseCrudRouter, RouterClass, UseAuth} from 'protontype';
+import { TasksModel } from '../models/TasksModel';
+import { BaseCrudRouter, RouterClass, UseAuth } from 'protontype';
 
-@UseAuth ()
-@RouterClass ({
-    baseUrl "/ tasks"
-    modelInstances: [new TasksModel ()]
+@UseAuth()
+@RouterClass({
+    baseUrl: "/tasks",
+    modelInstances: [new TasksModel()]
 })
 export class TasksRouter extends BaseCrudRouter {
 
@@ -537,39 +537,40 @@ This class already provide routes:
 - **DELETE /: id**- Remove a record
 
 
-If a**BaseCrudRouter** has more than one instacia Models of the routes for each instance will be created with the default being the url:
-`` Html
+If a **BaseCrudRouter** has more than one instacia Models of the routes for each instance will be created with the default being the url:
+
+``` html
 / BaseUrl / modelName / ...
 ```
 
-**Configuring authentication on **BaseCrudRouter**
+**Configuring authentication on BaseCrudRouter**
 
-To hablititar authentication in a**BaseCrudRouter** should use the decorator `` @UseAuth () ``. This may contain the parameters below:
+To enable authentication in a **BaseCrudRouter** should use the decorator `` @UseAuth() ``. This may contain the parameters below:
 
 ```javascript
-@UseAuth ({
-    create: boolean, // Enables authentication to create routes
-    update: boolean, // Enables authentication to update routes
-    read: boolean, // Enables authentication for reading routes
-    delete: boolean // Enables authentication for removal routes
+@UseAuth({
+    create: boolean, //Habilita a autenticação para rotas de criação
+    update: boolean, //Habilita a autenticação para rotas de atualização
+    read: boolean,   //Habilita a autenticação para rotas de leitura
+    delete: boolean  //Habilita a autenticação para rotas de remoção
 })
 ```
 
 
-starting application
+Starting application
 -----
 
 ```javascript
 
-let expressApp ExpressApplication = new ();
+let expressApp = new ExpressApplication();
 expressApp
-    .withAuthMiddleware (new JWTAuthMiddleware ())
-    .addRouter (new TasksRouter ())
-    .bootstrap ();
+    .withAuthMiddleware(new JWTAuthMiddleware())
+    .addRouter(new TasksRouter())
+    .bootstrap();
     
 ```
 
-Example of full use
+Complete Example
 ---
 
 **Https: //github.com/linck/protontype-example**
