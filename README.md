@@ -19,7 +19,6 @@ funcionamento.
         "module": "commonjs",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true
-        ...
       }
     }
     
@@ -290,8 +289,10 @@ export class UsersModel extends BaseModel<User> {
 Alguns decorators estãos disponíveis para facilitar a adição dos relacionamentos:
 ```javascript
 
-@HasMany(...modelNames: string[])
-@BelongsTo(...modelNames: string[])
+@HasMany(modelName: string)
+@HasOne(modelName: string)
+@BelongsTo(modelName: string)
+@BelongsToMany(modelName: string, options: Sequelize.AssociationOptionsBelongsToMany)
 
 ```
 
