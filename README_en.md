@@ -575,4 +575,4 @@ expressApp
 Complete Example
 ---
 
-**Https: //github.com/linck/protontype-example**
+**https://github.com/linck/protontype-example**
