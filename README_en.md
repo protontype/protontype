@@ -3,15 +3,15 @@
 ProtonType
 ==========
 
-A simple microframework make in typescript for creating REST APIs using
-Exress and ORM Sequelize.
+A simple web framework make in TypeScript.
+
+**ProtonType** aims to make REST APIs and database modeling simple and enjoyable. Using [Express](http://expressjs.com/ "") and [Sequelize ORM](http://docs.sequelizejs.com/ ""), help in creation of robust web applications.
 
 
 Typescript project configuration
 ====================================
 
-The following settings in **tsconfig.json** are needed for
-operation.
+The settings in **tsconfig.json** are needed to work
 
 ```json
 
@@ -37,7 +37,7 @@ npm install protontype --save
 Quick Start - Creating a Complete API in 5 steps
 ===========
 
-folder structure and initial settings
+Folder structure and initial settings
 --------
 
 ```bash
@@ -168,9 +168,9 @@ Endpoints below will be available:
 - **PUT / particles /: id** - Update a record of Particles table
 - **DELETE / particles /: id** - Remove a record of Particles table
 
-Will be able to test through the app [Postman](https://www.getpostman.com/ "") or another of your choice.
+You can use to test the [Postman](https://www.getpostman.com/ "") chrome app or another of your choice.
 
-**Complete Code quick start**
+**Quick start repository**
 
 https://github.com/linck/proton-quickstart
 
@@ -182,7 +182,7 @@ Complete guide
 **Configuring application**
 -------
 
-Create a file called**proton.json**in the project root.
+Create a **proton.json** file in the project root.
 
 ```json
 {
@@ -222,12 +222,9 @@ Create a file called**proton.json**in the project root.
 
 The ProtonType use [**ORM Sequelize**](http://docs.sequelizejs.com/en/v3/ "") for the creation of Models and access to the database.
 
-To create a Model, you must create a class that extends**of BaseModel**. O database mapping is made by @Model annotation that has the
-folowing parameters:
-
+To create a Model, you must create a class that extends **BaseModel**. The database mapping is made by @Model annotation with parameters:
 - **Name**: model name
-- **Definition**: Speaker Setting. The object used for the settings is the same
-    [DefinitionSequelize](http://docs.sequelizejs.com/en/v3/docs/models-definition/).
+- **Definition**: Speaker Setting. The object used for the settings is the same [DefinitionSequelize](http://docs.sequelizejs.com/en/v3/docs/models-definition/).
 
 Example:
 
@@ -265,10 +262,23 @@ export interface Task extends SequelizeBaseModelAttr {
 
 ```
 
+**Loading models**
+
+Each **BaseModel** will be loaded automatically at the time of your instantiation. Generally the model will be loaded when it is used by a **Router**, however the loading can be forced through the ** @LoadModel** decorator or simply through **new**
+
+```javascript
+
+@LoadModel(new TaskModel())
+export class UsersModel extends BaseModel<User> {
+   
+}
+
+```
+
 **Adding relationships and other settings in Models**
 
 
-A BaseModel override allows **configure()** method, which allows you to access the instance of Sequelize model and models already loaded and add logic and settings:
+A BaseModel allows to override **configure()** method, which allows you to access the instance of Sequelize model, loaded models, add logic and settings:
 
 ```javascript
 
@@ -320,7 +330,7 @@ export class TasksModel extends BaseModel<Task> {
 
 ```
 
-For more information about the possibilities for settings and use of Models, refer to the documentation Sequelize: http://docs.sequelizejs.com/en/v3/
+For more information about the possibilities for settings and use of Models, see the  Sequelize documentation: http://docs.sequelizejs.com/en/v3/
 
 **Creating Middleware**
 --------
@@ -356,12 +366,12 @@ public configMiddlewares(): void {
 
 **Protontype** uses the project [passportjs.org](http://passportjs.org/ "") for authentication of the routes.
 
-A middleware authentication must be a class that extends a**AuthMiddleware** and should implement the method:
+A middleware authentication must be a class that extends a **AuthMiddleware** and should implement the method:
 ```javascript
 authenticate(): express.Handler
 ```
 
-The following example demonstrates an authentication middleware JWT
+The following example demonstrates an JWT authentication middleware 
 
 ```javascript
 export class JWTAuthMiddleware extends AuthMiddleware {
@@ -404,10 +414,8 @@ export class JWTAuthMiddleware extends AuthMiddleware {
 **Creating Routers**
 --------
 
-- Create a class
-**Extends**ExpressRouter informing the base URL of the routes created in the class.
-- The Router settings will be done by the decorator @RouterClass
- - You can be informed the Models that will be used in the Router.
+- Create a class **Extends** ExpressRouter informing the base URL of the routes created in the class.
+- Use @RouterClass to Router settings
 - Create methods (functions) annotated with @Route.
 - Every method
 @Route Must have the format: `methodName (req, res, model)`, the model parameter is **optional**.
@@ -488,9 +496,9 @@ export class TasksRouter extends ExpressRouter {
 
 ```
 
-The property `` useAuth: boolean `` indicates that the route will be authenticated by the authentication middleware, if it is implemented.
+The property `` useAuth: boolean `` indicates that the route will be authenticated by the authentication middleware, if implemented.
 
-In the decorator @Route **modelName** parameter is optional as in the example below:
+In the decorator @Route, **modelName** parameter is optional as in the example below:
 
 ```javascript
 
@@ -498,7 +506,7 @@ In the decorator @Route **modelName** parameter is optional as in the example be
         method: Method.GET,
         endpoint: 'hello'
 })
-public hello(req, res, model) {
+public hello(req, res) {
     res.json('Hello!');
 }
 
@@ -509,8 +517,7 @@ public hello(req, res, model) {
 **BaseCrudRouter**
 ----
 
-The class provides BaseCrudRouter
-the basic CRUD operations without the need for additional implementation.
+The BaseCrudRouter class provides the basic CRUD operations without the need for additional implementation.
 
 Example:
 
@@ -539,10 +546,19 @@ This class already provide routes:
 - **DELETE /: id**- Remove a record
 
 
-If a **BaseCrudRouter** has more than one instacia Models of the routes for each instance will be created with the default being the url:
+If a **BaseCrudRouter** has more than one Models isntance, the routes for each instance will be created. The url will folow the pattern:
 
 ``` html
+
 / BaseUrl / modelName / ...
+
+```
+
+Example:
+```html
+
+/tasks/tasksmodel/
+
 ```
 
 **Configuring authentication on BaseCrudRouter**
@@ -550,12 +566,14 @@ If a **BaseCrudRouter** has more than one instacia Models of the routes for each
 To enable authentication in a **BaseCrudRouter** should use the decorator `` @UseAuth() ``. This may contain the parameters below:
 
 ```javascript
+
 @UseAuth ({
     create: boolean, // Enables authentication to create routes
     update: boolean, // Enables authentication to update routes
     read: boolean, // Enables authentication for read routes
     delete: boolean // Enables authentication for removal routes
 })
+
 ```
 
 

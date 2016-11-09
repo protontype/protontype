@@ -3,8 +3,9 @@
 ProtonType
 ==========
 
-Um simples microframework feito em Typescript para criação de APIs REST usando
-Exress e ORM Sequelize.
+Um simples web framework feito em TypeScript.
+
+O ProtonType tem como objetivo tornar a desensolvimento de APIs REST e criação de modelos de banco de dados de forma simples e agradável. Utilizando [Express](http://expressjs.com/ "") e [Sequelize ORM](http://docs.sequelizejs.com/ "") ajuda na criação de aplicações web robustas.
 
 
 Configuração do projeto TypeScript
@@ -267,6 +268,19 @@ export interface Task extends SequelizeBaseModelAttr {
 
 ```
 
+**Carregamento dos Models**
+
+Cada **BaseModel** será carregado automáticamente na hora da sua instanciação. Geralmente o model sera carregado quando for usado por um ***Router***, porém o carregamento poderá ser forçado através o **@LoadModel** decorator ou simplemente através do **new**  
+
+```javascript
+
+@LoadModel(new TaskModel())
+export class UsersModel extends BaseModel<User> {
+
+}
+
+```
+
 **Adicionando relacionamentos e outras configurações nos Models**
 
 
@@ -409,7 +423,6 @@ export class JWTAuthMiddleware extends AuthMiddleware {
 - Criar uma classe que
 *extends* **ExpressRouter** informando a URL base das rotas criadas na classe. 
 - As configurações do Router será feita através do decorator @RouterClass
- - Poderá ser informado os Models que serão usados no Router.
 - Criar métodos (funções) anotados com @Route. 
 - Todo método
 @Route deve ter o formato: `nomeMetodo(req, res, model)` , sendo o ***model*** opcional.
@@ -492,7 +505,7 @@ export class TasksRouter extends ExpressRouter {
 
 A propriedade ``` useAuth: boolean ``` indica se a rota será autenticada pelo **middleware de autenticação**, caso este esteja implementado.
 
-No decorator @Route o parâmetro **modelName** é opcional como no exemplo abaixo:
+No decorator @Route, o parâmetro **modelName** é opcional como no exemplo abaixo:
 
 ```javascript
 
@@ -500,7 +513,7 @@ No decorator @Route o parâmetro **modelName** é opcional como no exemplo abaix
         method: Method.GET,
         endpoint: 'hello'
 })
-public hello(req, res, model) {
+public hello(req, res) {
     res.json('Hello!');
 }
 
@@ -542,22 +555,32 @@ Esta classe já proverá as rotas:
 -   **DELETE /:id** - Remove um registro
 
 
-Caso um **BaseCrudRouter** possua mais de uma instacia de Models as serão criadas as rotas para cada instancia, sendo o padrão da url: 
+Caso um **BaseCrudRouter** possua mais de uma instacia de Models, serão criadas as rotas para cada instancia, sendo o padrão da url: 
 ```html
+
 /baseUrl/modelName/...
+
 ```
 
+Exemplo:
+```html
+
+/tasks/tasksmodel/
+
+```
 **Configurando autenticação no** ***BaseCrudRouter***
 
 Para hablititar a autenticação em um **BaseCrudRouter** deve-se usar o decorator ``` @UseAuth()```. Este pode conter os parametros abaixo:
 
 ```javascript
+
 @UseAuth({
     create: boolean, //Habilita a autenticação para rotas de criação
     update: boolean, //Habilita a autenticação para rotas de atualização
     read: boolean,   //Habilita a autenticação para rotas de leitura
     delete: boolean  //Habilita a autenticação para rotas de remoção
 })
+
 ```
 
 
