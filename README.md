@@ -270,7 +270,7 @@ export interface Task extends SequelizeBaseModelAttr {
 
 **Carregamento dos Models**
 
-Cada **BaseModel** será carregado automáticamente na hora da sua instanciação. Geralmente o model sera carregado quando for usado por um ***Router***, porém o carregamento poderá ser forçado através o **@LoadModel** decorator ou simplemente através do **new**  
+Cada **BaseModel** será carregado automaticamente na hora da sua instanciação. Geralmente o model sera carregado quando for usado por um ***Router***, porém o carregamento poderá ser forçado através o **@LoadModel** decorator ou simplemente através do **new**  
 
 ```javascript
 
