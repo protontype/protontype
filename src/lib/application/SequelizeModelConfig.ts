@@ -31,6 +31,17 @@ export function Model(config: ModelConfig) {
 
 /**
  * Decorator
+ * 
+ * Load a model
+ */
+export function LoadModel(config: BaseModel<any>) {
+    return function (constructor: Function) {
+       
+    }
+}
+
+/**
+ * Decorator
  */
 export function HasMany(modelName: string, options?: Sequelize.AssociationOptionsHasMany) {
     return function (constructor: Function) {
