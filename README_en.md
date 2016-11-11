@@ -74,7 +74,7 @@ Create tsconfig.json file in the project root
 Model
 -------
 
-Create a file ParticlesModel
+Create a file ParticlesModel.ts
 
 ```javascript
 
