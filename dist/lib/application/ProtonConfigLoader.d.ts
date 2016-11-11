@@ -1,9 +1,8 @@
 /// <reference types="cors" />
 /// <reference types="sequelize" />
-import { GlobalConfig } from './ProtonConfigLoader';
-import * as winston from 'winston';
-import * as sequelize from 'sequelize';
 import * as cors from 'cors';
+import * as sequelize from 'sequelize';
+import * as winston from 'winston';
 export declare class ProtonConfigLoader {
     static loadConfig(filePath?: string): GlobalConfig;
 }

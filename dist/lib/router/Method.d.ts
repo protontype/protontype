@@ -6,4 +6,7 @@ export declare enum Method {
     PUT = 1,
     POST = 2,
     DELETE = 3,
+    PATCH = 4,
+    OPTIONS = 5,
+    HEAD = 6,
 }

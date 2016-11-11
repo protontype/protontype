@@ -26,35 +26,67 @@ function Model(config) {
 exports.Model = Model;
 /**
  * Decorator
+ *
+ * Load a model
  */
-function HasMany(...modelNames) {
+function LoadModel(config) {
+    return function (constructor) {
+    };
+}
+exports.LoadModel = LoadModel;
+/**
+ * Decorator
+ */
+function HasMany(modelName, options) {
     return function (constructor) {
         if (!constructor.prototype.associations) {
             constructor.prototype.associations = [];
         }
-        modelNames.forEach(modelName => {
-            constructor.prototype.associations.push({ type: AssociationType.HAS_MANY, modelName: modelName });
-        });
+        constructor.prototype.associations.push({ type: AssociationType.HAS_MANY, modelName: modelName, options: options });
     };
 }
 exports.HasMany = HasMany;
 /**
  * Decorator
  */
-function BelongsTo(...modelNames) {
+function BelongsTo(modelName, options) {
     return function (constructor) {
         if (!constructor.prototype.associations) {
             constructor.prototype.associations = [];
         }
-        modelNames.forEach(modelName => {
-            constructor.prototype.associations.push({ type: AssociationType.BELONGS_TO, modelName: modelName });
-        });
+        constructor.prototype.associations.push({ type: AssociationType.BELONGS_TO, modelName: modelName, options: options });
     };
 }
 exports.BelongsTo = BelongsTo;
+/**
+ * Decorator
+ */
+function HasOne(modelName, options) {
+    return function (constructor) {
+        if (!constructor.prototype.associations) {
+            constructor.prototype.associations = [];
+        }
+        constructor.prototype.associations.push({ type: AssociationType.HAS_ONE, modelName: modelName, options: options });
+    };
+}
+exports.HasOne = HasOne;
+/**
+ * Decorator
+ */
+function BelongsToMany(modelName, options) {
+    return function (constructor) {
+        if (!constructor.prototype.associations) {
+            constructor.prototype.associations = [];
+        }
+        constructor.prototype.associations.push({ type: AssociationType.BELONGS_TO_MANY, modelName: modelName, options: options });
+    };
+}
+exports.BelongsToMany = BelongsToMany;
 (function (AssociationType) {
     AssociationType[AssociationType["HAS_MANY"] = 0] = "HAS_MANY";
     AssociationType[AssociationType["BELONGS_TO"] = 1] = "BELONGS_TO";
+    AssociationType[AssociationType["HAS_ONE"] = 2] = "HAS_ONE";
+    AssociationType[AssociationType["BELONGS_TO_MANY"] = 3] = "BELONGS_TO_MANY";
 })(exports.AssociationType || (exports.AssociationType = {}));
 var AssociationType = exports.AssociationType;
 //# sourceMappingURL=SequelizeModelConfig.js.map

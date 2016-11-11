@@ -8,7 +8,7 @@
     "build": "tsc -w",
     "start": "npm run build",
     "typings": "typings install",
-    "test": "tsc && mocha dist/test/**/*.js"
+    "test": "tsc && mocha -t 30000 dist/test/**/*.js"
   },
   "repository": {
     "type": "git",

@@ -1,13 +1,13 @@
 "use strict";
-const https = require('https');
-const fs = require('fs');
-const Logger_1 = require('./Logger');
 const DefaultMiddleware_1 = require('../middlewares/DefaultMiddleware');
 const Method_1 = require('../router/Method');
+const Logger_1 = require('./Logger');
 const ProtonConfigLoader_1 = require('./ProtonConfigLoader');
 const SequelizeDB_1 = require('./SequelizeDB');
 const SequelizeModelConfig_1 = require('./SequelizeModelConfig');
 const Express = require('express');
+const fs = require('fs');
+const https = require('https');
 /**
  * @author Humberto Machado
  */
@@ -113,6 +113,21 @@ class ExpressApplication {
                 break;
             case Method_1.Method.DELETE:
                 this.express.delete(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
+                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                });
+                break;
+            case Method_1.Method.PATCH:
+                this.express.patch(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
+                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                });
+                break;
+            case Method_1.Method.OPTIONS:
+                this.express.options(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
+                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                });
+                break;
+            case Method_1.Method.HEAD:
+                this.express.head(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
                     config.routeFunction.call(router, req, res, this.getModel(config.modelName));
                 });
                 break;
