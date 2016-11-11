@@ -1,1 +1,0 @@
-{"version":3,"file":"ProtonConfigLoader.js","sourceRoot":"","sources":["../../../src/application/ProtonConfigLoader.ts"],"names":[],"mappings":";AACA,4BAA2B,WAAW,CAAC,CAAA;AAIvC;IACI,OAAc,UAAU,CAAC,QAAiB;QACtC,EAAE,CAAC,CAAC,CAAC,QAAQ,CAAC;YACV,QAAQ,GAAG,eAAe,CAAC;QAC/B,MAAM,CAAC,sBAAU,CAAC,QAAQ,CAAe,QAAQ,CAAC,CAAC;IACvD,CAAC;AACL,CAAC;AANY,0BAAkB,qBAM9B,CAAA"}

@@ -3,16 +3,15 @@
 ProtonType
 ==========
 
-Um simples web framework feito em TypeScript.
+A simple web framework make in TypeScript.
 
-O ProtonType tem como objetivo tornar simples e agradável o desensolvimento de APIs REST e criação de modelos de banco de dados. Utilizando [Express](http://expressjs.com/ "") e [Sequelize ORM](http://docs.sequelizejs.com/ "") ajuda na criação de aplicações web robustas.
+**ProtonType** helps to make REST APIs and database modeling simple and enjoyable. Using [Express](http://expressjs.com/ "") and [Sequelize ORM](http://docs.sequelizejs.com/ ""), help in creation of robust web applications.
 
 
-Configuração do projeto TypeScript
+Typescript project configuration
 ====================================
 
-As seguintes configurações no **tsconfig.json** são necessárias para o
-funcionamento.
+The settings in **tsconfig.json** are needed to work
 
 ```json
 
@@ -27,7 +26,7 @@ funcionamento.
     
 ```
 
-Instalação
+Installation
 ==========
 ```bash
 
@@ -35,10 +34,10 @@ npm install protontype --save
 
 ```
 
-Quick Start - Criando uma API Completa em 5 passos
+Quick Start - Creating a Complete API in 5 steps
 ===========
 
-Estrutura de pastas e configurações iniciais
+Folder structure and initial settings
 --------
 
 ```bash
@@ -50,8 +49,9 @@ Estrutura de pastas e configurações iniciais
     npm install protontype --save
     
 ```
+ 
 
-Criar o arquivo tsconfig.json na raiz do projeto
+Create tsconfig.json file in the project root
 
 ```json
 
@@ -74,7 +74,7 @@ Criar o arquivo tsconfig.json na raiz do projeto
 Model
 -------
 
-Criar um arquivo ParticlesModel.ts
+Create a file ParticlesModel.ts
 
 ```javascript
 
@@ -110,7 +110,7 @@ Criar um arquivo ParticlesModel.ts
 Router
 -------
 
-Criar arquivo ParticlesRouter.ts
+Create file ParticlesRouter.ts
 
 ```javascript
 
@@ -130,9 +130,9 @@ Criar arquivo ParticlesRouter.ts
  
 
 Main
--------
+----
 
-Criar arquivo Main.ts
+Create Main.ts file
 
 ```javascript
 
@@ -146,7 +146,8 @@ Criar arquivo Main.ts
 ```
  
 
-**Compilando e Rodando Aplicação**
+**Compiling and Running Application**
+
 ```bash
 
     tsc
@@ -154,34 +155,34 @@ Criar arquivo Main.ts
     
 ```
  
-Testando a API
+Testing API
 -------
 
-Por padrão, a aplicação usará um banco de dados sqlite. 
-Será criado um arquivo proton.sqlite na raiz do projeto.
+By default, the application uses an SQLite database.
+It will create a proton.sqlite file in the project root.
 
-Os endpoints abaixo já estarão disponíveis:
--   **GET /particles** - Lista todos os registos da tabela Particles
--   **POST /particles** - Cria um registro na tabela Particles
--   **GET /particles/:id** - Consulta um registro da tabela Particles
--   **PUT /particles/:id** - Atualiza um registro da tabela Particles
--   **DELETE /particles/:id** - Remove um registro da tabela Particles
+Endpoints below will be available:
+- **GET / particles** - Lists all records of the table Particles
+- **POST / particles** - Create a record in the table Particles
+- **GET / particles /: id** - Consult a record of Particles table
+- **PUT / particles /: id** - Update a record of Particles table
+- **DELETE / particles /: id** - Remove a record of Particles table
 
-Podera testar através do app [Postman](https://www.getpostman.com/ "") ou outro da sua preferência.
+You can use to test the [Postman](https://www.getpostman.com/ "") chrome app or another of your choice.
 
-**Código completo do quick start**
+**Quick start repository**
 
 https://github.com/linck/proton-quickstart
 
 
 
-Guia Completo
+Complete guide
 =============
 
-**Configurando aplicação**
+**Configuring application**
 -------
 
-Criar um arquivo chamado **proton.json** na raiz do projeto. 
+Create a **proton.json** file in the project root.
 
 ```json
 {
@@ -216,21 +217,16 @@ Criar um arquivo chamado **proton.json** na raiz do projeto.
 ```
 
 
-**Criando Models**
+**Creating Models**
 --------
 
-O **ProtonType** usa o [**ORM Sequelize**](http://docs.sequelizejs.com/en/v3/ "") para criação dos Models e acesso ao banco de dados.
+The ProtonType use [**ORM Sequelize**](http://docs.sequelizejs.com/en/v3/ "") for the creation of Models and access to the database.
 
-Para criar um Model, deve-se criar uma classe que *extends* de **BaseModel**. O
-mapeamento do banco de dados é feita a através da anotação @Model que possui os
-seguntes parâmetros:
+To create a Model, you must create a class that extends **BaseModel**. The database mapping is made by @Model annotation with parameters:
+- **Name**: model name
+- **Definition**: Speaker Setting. The object used for the settings is the same [DefinitionSequelize](http://docs.sequelizejs.com/en/v3/docs/models-definition/).
 
--   **name**: Nome do model
--   **definition**: Definição das colunas. O objeto usado para as definições é o mesmo de
-    [definição do
-    Sequelize](http://docs.sequelizejs.com/en/v3/docs/models-definition/).
-
-Exemplo:
+Example:
 
 ```javascript
 
@@ -266,23 +262,24 @@ export interface Task extends SequelizeBaseModelAttr {
 
 ```
 
-**Carregamento dos Models**
+**Loading models**
 
-Cada **BaseModel** será carregado automaticamente na hora da sua instanciação. Geralmente o model sera carregado quando for usado por um ***Router***, porém o carregamento poderá ser forçado através o **@LoadModel** decorator ou simplemente através do **new**  
+Each **BaseModel** will be loaded automatically at the time of your instantiation. Generally the model will be loaded when it is used by a **Router**, however the loading can be forced through the ** @LoadModel** decorator or simply through **new**
 
 ```javascript
 
 @LoadModel(new TaskModel())
 export class UsersModel extends BaseModel<User> {
-
+   
 }
 
 ```
 
-**Adicionando relacionamentos e outras configurações nos Models**
+**Adding relationships and other settings in Models**
 
 
-Um BaseModel permite sobreescrever o método *configure()*, que permite acessar a instancia do modelo Sequelize e os modelos já carregados e adicionar lógicas e configurações:
+A BaseModel allows to override **configure()** method, which allows you to access the instance of Sequelize model, loaded models, add logic and settings:
+
 ```javascript
 
 export class UsersModel extends BaseModel<User> {
@@ -298,9 +295,8 @@ export class UsersModel extends BaseModel<User> {
 
 ```
 
-**Usando decorators para criar relacionamentos**
+**Using decorators to create relationships**
 
-Alguns decorators estãos disponíveis para facilitar a adição dos relacionamentos:
 ```javascript
 
 @HasMany(modelName: string)
@@ -310,7 +306,7 @@ Alguns decorators estãos disponíveis para facilitar a adição dos relacioname
 
 ```
 
-Estes podem ser usados como nos exemplos abaixo:
+These can be used as in the examples below:
 
 ```javascript
 
@@ -334,15 +330,15 @@ export class TasksModel extends BaseModel<Task> {
 
 ```
 
-Para mais informações sobre as possibilidades de configurações e uso dos Models, consultar a documentação do Sequelize: http://docs.sequelizejs.com/en/v3/
+For more information about the possibilities for settings and use of Models, see the  Sequelize documentation: http://docs.sequelizejs.com/en/v3/
 
-**Criando Middlewares** 
+**Creating Middleware**
 --------
 
-Criar classe que
-*extends* Middleware e implementar o método **configMiddlewares()**
+Create class
+**Extends** Middleware and implement the method **configMiddlewares()**
 
-Exemplo:
+Example:
 
 ```javascript
 
@@ -366,16 +362,16 @@ public configMiddlewares(): void {
 
 ```
 
-**Middleware de autenticação**
+**Authentication middleware**
 
-**Protontype** usa o projeto [passportjs.org](http://passportjs.org/ "") para autenticação das rotas.
+**Protontype** uses the project [passportjs.org](http://passportjs.org/ "") for authentication of the routes.
 
-Um middleware de autenticação deve ser uma classe que *extends* de **AuthMiddleware** e deve implementar o método:
+A middleware authentication must be a class that extends a **AuthMiddleware** and should implement the method:
 ```javascript
 authenticate(): express.Handler
 ```
 
-O exemplo abaixo demonstra um middleware de autenticação JWT
+The following example demonstrates an JWT authentication middleware 
 
 ```javascript
 export class JWTAuthMiddleware extends AuthMiddleware {
@@ -415,17 +411,16 @@ export class JWTAuthMiddleware extends AuthMiddleware {
 
 }
 ```
-**Criando Routers**
+**Creating Routers**
 --------
 
-- Criar uma classe que
-*extends* **ExpressRouter** informando a URL base das rotas criadas na classe. 
-- As configurações do Router será feita através do decorator @RouterClass
-- Criar métodos (funções) anotados com @Route. 
-- Todo método
-@Route deve ter o formato: `nomeMetodo(req, res, model)` , sendo o ***model*** opcional.
+- Create a class **Extends** ExpressRouter informing the base URL of the routes created in the class.
+- Use @RouterClass to Router settings
+- Create methods (functions) annotated with @Route.
+- Every method
+@Route Must have the format: `methodName (req, res, model)`, the model parameter is **optional**.
 
-Exemplo:
+Example:
 
 ```javascript
 import {TasksModel} from "../models/TasksModel";
@@ -501,9 +496,9 @@ export class TasksRouter extends ExpressRouter {
 
 ```
 
-A propriedade ``` useAuth: boolean ``` indica se a rota será autenticada pelo **middleware de autenticação**, caso este esteja implementado.
+The property `` useAuth: boolean `` indicates that the route will be authenticated by the authentication middleware, if implemented.
 
-No decorator @Route, o parâmetro **modelName** é opcional como no exemplo abaixo:
+In the decorator @Route, **modelName** parameter is optional as in the example below:
 
 ```javascript
 
@@ -517,16 +512,14 @@ public hello(req, res) {
 
 ```
 
-**Obs**: *Caso tenha configurações de rotas com endpoints repetidos, a primeira a
-ser carregada será usada, as outras serão ignoradas.*
+**Note**: If you have routing settings with repeated endpoints, the first to be charged will be used, the others are ignored.
 
 **BaseCrudRouter**
 ----
 
-A classe BaseCrudRouter provê
-as operações básicas de CRUD, sem a necessidade de implementação adicional.
+The BaseCrudRouter class provides the basic CRUD operations without the need for additional implementation.
 
-Exemplo:
+Example:
 
 ```javascript
 
@@ -544,45 +537,47 @@ export class TasksRouter extends BaseCrudRouter {
 
 ```
 
-Esta classe já proverá as rotas:
+This class already provide routes:
 
--   **GET /** - Lista todos registros
--   **POST /** - Cria um registro
--   **GET /:id** - Consulta um registro
--   **PUT /:id** - Atualiza um registro
--   **DELETE /:id** - Remove um registro
+- **GET /**- List all records
+- **POST /**- Create a record
+- **GET /: id**- Consult a record
+- **PUT /: id**- Update a record
+- **DELETE /: id**- Remove a record
 
 
-Caso um **BaseCrudRouter** possua mais de uma instacia de Models, serão criadas as rotas para cada instancia, sendo o padrão da url: 
-```html
+If a **BaseCrudRouter** has more than one Models isntance, the routes for each instance will be created. The url will folow the pattern:
 
-/baseUrl/modelName/...
+``` html
+
+/ BaseUrl / modelName / ...
 
 ```
 
-Exemplo:
+Example:
 ```html
 
 /tasks/tasksmodel/
 
 ```
-**Configurando autenticação no** ***BaseCrudRouter***
 
-Para hablititar a autenticação em um **BaseCrudRouter** deve-se usar o decorator ``` @UseAuth()```. Este pode conter os parametros abaixo:
+**Configuring authentication on BaseCrudRouter**
+
+To enable authentication in a **BaseCrudRouter** should use the decorator `` @UseAuth() ``. This may contain the parameters below:
 
 ```javascript
 
-@UseAuth({
-    create: boolean, //Habilita a autenticação para rotas de criação
-    update: boolean, //Habilita a autenticação para rotas de atualização
-    read: boolean,   //Habilita a autenticação para rotas de leitura
-    delete: boolean  //Habilita a autenticação para rotas de remoção
+@UseAuth ({
+    create: boolean, // Enables authentication to create routes
+    update: boolean, // Enables authentication to update routes
+    read: boolean, // Enables authentication for read routes
+    delete: boolean // Enables authentication for removal routes
 })
 
 ```
 
 
-Iniciando aplicação 
+Starting application
 -----
 
 ```javascript
@@ -595,7 +590,7 @@ expressApp
     
 ```
 
-Exemplo de uso completo
+Complete Example
 ---
 
 **https://github.com/linck/protontype-example**
