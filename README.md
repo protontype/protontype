@@ -5,7 +5,7 @@ ProtonType
 
 Um simples web framework feito em TypeScript.
 
-O ProtonType tem como objetivo tornar a desensolvimento de APIs REST e criação de modelos de banco de dados de forma simples e agradável. Utilizando [Express](http://expressjs.com/ "") e [Sequelize ORM](http://docs.sequelizejs.com/ "") ajuda na criação de aplicações web robustas.
+O ProtonType tem como objetivo tornar simples e agradável o desensolvimento de APIs REST e criação de modelos de banco de dados. Utilizando [Express](http://expressjs.com/ "") e [Sequelize ORM](http://docs.sequelizejs.com/ "") ajuda na criação de aplicações web robustas.
 
 
 Configuração do projeto TypeScript
@@ -50,8 +50,6 @@ Estrutura de pastas e configurações iniciais
     npm install protontype --save
     
 ```
- A estrutura do projeto ficará assim:
- 
 
 Criar o arquivo tsconfig.json na raiz do projeto
 
@@ -76,7 +74,7 @@ Criar o arquivo tsconfig.json na raiz do projeto
 Model
 -------
 
-Criar um arquivo ParticlesModel
+Criar um arquivo ParticlesModel.ts
 
 ```javascript
 
