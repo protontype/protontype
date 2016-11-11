@@ -5,7 +5,7 @@ ProtonType
 
 A simple web framework make in TypeScript.
 
-**ProtonType** aims to make REST APIs and database modeling simple and enjoyable. Using [Express](http://expressjs.com/ "") and [Sequelize ORM](http://docs.sequelizejs.com/ ""), help in creation of robust web applications.
+**ProtonType** helps to make REST APIs and database modeling simple and enjoyable. Using [Express](http://expressjs.com/ "") and [Sequelize ORM](http://docs.sequelizejs.com/ ""), help in creation of robust web applications.
 
 
 Typescript project configuration
