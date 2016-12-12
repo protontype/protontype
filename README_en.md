@@ -57,7 +57,7 @@ Create tsconfig.json file in the project root
 
     {
       "compilerOptions": {
-        "target": "es6",
+        "target": "es5",
         "module": "commonjs",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
