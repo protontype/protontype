@@ -55,7 +55,7 @@ export class ExpressApplication {
 
     private startServer(config: GlobalConfig): void {
         let port: number = this.express.get("port");
-        if (config.https) {
+        if (config.https && config.https.enabled) {
             const credentials = {
                 key: fs.readFileSync(config.https.key),
                 cert: fs.readFileSync(config.https.cert)
