@@ -18,7 +18,7 @@ funcionamento.
 
     {
       "compilerOptions": {
-        "target": "es6",
+        "target": "es5",
         "module": "commonjs",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true
@@ -57,7 +57,7 @@ Criar o arquivo tsconfig.json na raiz do projeto
 
     {
       "compilerOptions": {
-        "target": "es6",
+        "target": "es5",
         "module": "commonjs",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,

@@ -1,13 +1,13 @@
 "use strict";
-const DefaultMiddleware_1 = require('../middlewares/DefaultMiddleware');
-const Method_1 = require('../router/Method');
-const Logger_1 = require('./Logger');
-const ProtonConfigLoader_1 = require('./ProtonConfigLoader');
-const SequelizeDB_1 = require('./SequelizeDB');
-const SequelizeModelConfig_1 = require('./SequelizeModelConfig');
-const Express = require('express');
-const fs = require('fs');
-const https = require('https');
+const DefaultMiddleware_1 = require("../middlewares/DefaultMiddleware");
+const Method_1 = require("../router/Method");
+const Logger_1 = require("./Logger");
+const ProtonConfigLoader_1 = require("./ProtonConfigLoader");
+const SequelizeDB_1 = require("./SequelizeDB");
+const SequelizeModelConfig_1 = require("./SequelizeModelConfig");
+const Express = require("express");
+const fs = require("fs");
+const https = require("https");
 /**
  * @author Humberto Machado
  */
@@ -41,7 +41,7 @@ class ExpressApplication {
     }
     startServer(config) {
         let port = this.express.get("port");
-        if (config.https) {
+        if (config.https && config.https.enabled) {
             const credentials = {
                 key: fs.readFileSync(config.https.key),
                 cert: fs.readFileSync(config.https.cert)

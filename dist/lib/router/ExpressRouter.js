@@ -1,6 +1,6 @@
 "use strict";
-const Logger_1 = require('./../application/Logger');
-const Express = require('express');
+const Logger_1 = require("./../application/Logger");
+const Express = require("express");
 /**
  * @author Humberto Machado
  * Express routes configurations

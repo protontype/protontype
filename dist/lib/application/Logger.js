@@ -1,5 +1,5 @@
 "use strict";
-const winston = require('winston');
+const winston = require("winston");
 class Logger {
     static createLogger(config) {
         if (config) {

@@ -1,6 +1,6 @@
 "use strict";
-const SequelizeModelConfig_1 = require('../application/SequelizeModelConfig');
-const Sequelize = require('sequelize');
+const SequelizeModelConfig_1 = require("../application/SequelizeModelConfig");
+const Sequelize = require("sequelize");
 /**
  * @author Humberto Machado
  */

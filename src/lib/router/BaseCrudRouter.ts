@@ -2,6 +2,7 @@ import { BaseModel } from '../models/BaseModel';
 import { ExpressRouter } from '../router/ExpressRouter';
 import { ExpressApplication } from './../application/ExpressApplication';
 import { Method } from './Method';
+import * as express from 'express';
 /**
  * Created by beto_ on 14/08/2016.
  */
@@ -34,7 +35,7 @@ export abstract class BaseCrudRouter extends ExpressRouter {
         });
     }
 
-    public findAll(req, res, model: BaseModel<any>) {
+    public findAll(req: express.Request, res: express.Response, model: BaseModel<any>) {
         model.getInstance().findAll({})
             .then(result => res.json(result))
             .catch(error => super.sendErrorMessage(res, error));
@@ -64,10 +65,17 @@ export abstract class BaseCrudRouter extends ExpressRouter {
             .catch(error => this.sendErrorMessage(res, error));
     }
 
-    public destroy(req, res, model: BaseModel<any>) {
-        model.getInstance().destroy({ where: req.params })
-            .then(result => res.sendStatus(204))
-            .catch(error => this.sendErrorMessage(res, error));
+    public destroy(req: express.Request, res: express.Response, model: BaseModel<any>) {
+        let ids: string[] = (req.params.id as string).split(',');
+        model.getInstance().destroy({ 
+            where: {
+                id: {
+                    $in: ids
+                }
+            } 
+        })
+        .then(result => res.sendStatus(204))
+        .catch(error => this.sendErrorMessage(res, error));
     }
 }
 

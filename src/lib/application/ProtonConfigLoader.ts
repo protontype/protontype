@@ -32,6 +32,7 @@ export interface DBDefine {
 }
 
 export interface HTTPSConfig {
+    enabled: boolean;
     key: string;
     cert: string;
 }

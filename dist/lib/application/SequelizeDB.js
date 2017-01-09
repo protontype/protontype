@@ -1,7 +1,7 @@
 "use strict";
-const Logger_1 = require('./Logger');
-const Sequelize = require('sequelize');
-const typescript_collections_1 = require('typescript-collections');
+const Logger_1 = require("./Logger");
+const Sequelize = require("sequelize");
+const typescript_collections_1 = require("typescript-collections");
 /**
  * @author Humberto Machado
  */

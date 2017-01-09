@@ -82,11 +82,11 @@ function BelongsToMany(modelName, options) {
     };
 }
 exports.BelongsToMany = BelongsToMany;
+var AssociationType;
 (function (AssociationType) {
     AssociationType[AssociationType["HAS_MANY"] = 0] = "HAS_MANY";
     AssociationType[AssociationType["BELONGS_TO"] = 1] = "BELONGS_TO";
     AssociationType[AssociationType["HAS_ONE"] = 2] = "HAS_ONE";
     AssociationType[AssociationType["BELONGS_TO_MANY"] = 3] = "BELONGS_TO_MANY";
-})(exports.AssociationType || (exports.AssociationType = {}));
-var AssociationType = exports.AssociationType;
+})(AssociationType = exports.AssociationType || (exports.AssociationType = {}));
 //# sourceMappingURL=SequelizeModelConfig.js.map
