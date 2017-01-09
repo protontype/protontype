@@ -1,8 +1,8 @@
 "use strict";
-const Middleware_1 = require('./Middleware');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const helmet = require('helmet');
+const Middleware_1 = require("./Middleware");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const helmet = require("helmet");
 /**
  * @author Humberto Machado
  */

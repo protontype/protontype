@@ -1,5 +1,5 @@
 "use strict";
-const Middleware_1 = require('./Middleware');
+const Middleware_1 = require("./Middleware");
 /**
  * @author Humberto Machado
  */

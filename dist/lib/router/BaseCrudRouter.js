@@ -1,6 +1,6 @@
 "use strict";
-const ExpressRouter_1 = require('../router/ExpressRouter');
-const Method_1 = require('./Method');
+const ExpressRouter_1 = require("../router/ExpressRouter");
+const Method_1 = require("./Method");
 /**
  * Created by beto_ on 14/08/2016.
  */
@@ -56,7 +56,14 @@ class BaseCrudRouter extends ExpressRouter_1.ExpressRouter {
             .catch(error => this.sendErrorMessage(res, error));
     }
     destroy(req, res, model) {
-        model.getInstance().destroy({ where: req.params })
+        let ids = req.params.id.split(',');
+        model.getInstance().destroy({
+            where: {
+                id: {
+                    $in: ids
+                }
+            }
+        })
             .then(result => res.sendStatus(204))
             .catch(error => this.sendErrorMessage(res, error));
     }

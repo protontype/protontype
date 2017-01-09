@@ -1,5 +1,5 @@
 "use strict";
-const jsontyped_1 = require('jsontyped');
+const jsontyped_1 = require("jsontyped");
 class ProtonConfigLoader {
     static loadConfig(filePath) {
         if (!filePath)

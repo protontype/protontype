@@ -24,6 +24,7 @@ export interface DBDefine {
     underscored: boolean;
 }
 export interface HTTPSConfig {
+    enabled: boolean;
     key: string;
     cert: string;
 }
