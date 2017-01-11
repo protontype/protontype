@@ -1,15 +1,15 @@
-import { ExpressApplication } from '../application/ExpressApplication';
+import { ProtonApplication } from '../application/ProtonApplication';
 import * as Express from 'express';
 /**
  * @author Humberto Machado
  */
 export abstract class Middleware {
     protected express: Express.Application;
-    protected expressApplication: ExpressApplication;
+    protected protonApplication: ProtonApplication;
 
-    public init(expressApplication: ExpressApplication): Middleware {
-        this.express = expressApplication.getExpress();
-        this.expressApplication = expressApplication;
+    public init(protonApplication: ProtonApplication): Middleware {
+        this.express = protonApplication.getExpress();
+        this.protonApplication = protonApplication;
         return this;
     }
 

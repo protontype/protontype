@@ -9,11 +9,11 @@ class ExpressRouter {
     constructor() {
         this.logger = Logger_1.Logger.instance;
     }
-    init(expressApplication) {
-        this.express = expressApplication.getExpress();
+    init(protonApplication) {
+        this.express = protonApplication.getExpress();
         this.router = Express.Router();
         this.express.use(this.getBaseUrl(), this.router);
-        this.expressApplication = expressApplication;
+        this.protonApplication = protonApplication;
         this.logger.info(`>>>> Configured routes to ${this.getBaseUrl()} <<<<`);
     }
     getBaseUrl() {
@@ -26,7 +26,7 @@ class ExpressRouter {
         res.status(412).json({ msg: error.message });
     }
     getModel(modelName) {
-        return this.expressApplication.getModel(modelName);
+        return this.protonApplication.getModel(modelName);
     }
     getRouter() {
         return this.router;

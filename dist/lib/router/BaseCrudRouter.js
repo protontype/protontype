@@ -5,8 +5,8 @@ const Method_1 = require("./Method");
  * Created by beto_ on 14/08/2016.
  */
 class BaseCrudRouter extends ExpressRouter_1.ExpressRouter {
-    init(expressApplication) {
-        super.init(expressApplication);
+    init(protonApplication) {
+        super.init(protonApplication);
         this.addRoute('/', Method_1.Method.GET, this.findAll, this.useAuth ? this.useAuth.read : false);
         this.addRoute('/', Method_1.Method.POST, this.create, this.useAuth ? this.useAuth.create : false);
         this.addRoute('/:id', Method_1.Method.GET, this.findOne, this.useAuth ? this.useAuth.read : false);

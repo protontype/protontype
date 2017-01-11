@@ -9,7 +9,7 @@ import * as Express from 'express';
 /**
  * @author Humberto Machado
  */
-export declare class ExpressApplication {
+export declare class ProtonApplication {
     private express;
     private middlewares;
     private sequelizeDB;
@@ -25,7 +25,7 @@ export declare class ExpressApplication {
      * Initialize express application and load middlewares
      * @return express instance
      */
-    bootstrap(): Promise<ExpressApplication>;
+    bootstrap(): Promise<ProtonApplication>;
     private startServer(config);
     private loadConfig(config?);
     /**
@@ -53,7 +53,7 @@ export declare class ExpressApplication {
     getRouters(): ExpressRouter[];
     getConfig(): GlobalConfig;
     /**
-     * @return list of all configured routes in ExpressApplication
+     * @return list of all configured routes in ProtonApplication
      */
     getRoutesList(): {
         method: string;

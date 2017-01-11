@@ -1,6 +1,6 @@
 {
   "name": "protontype",
-  "version": "1.0.1-beta",
+  "version": "1.0.0-rc1",
   "description": "",
   "main": "dist/lib/index.js",
   "typings": "dist/lib/index.d.ts",
