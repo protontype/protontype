@@ -33,7 +33,7 @@
     "@types/winston": "0.0.29",
     "body-parser": "^1.15.2",
     "cors": "^2.8.1",
-    "express": "^4.14.0",
+    "express": "^4.14.1",
     "helmet": "^2.3.0",
     "jsontyped": "^1.2.0",
     "sequelize": "^3.27.0",
@@ -51,6 +51,6 @@
     "mocha": "^3.1.2",
     "mocha-typescript": "^1.0.10",
     "supertest": "^2.0.0",
-    "typescript": "^2.1.4"
+    "typescript": "^2.1.6"
   }
 }
