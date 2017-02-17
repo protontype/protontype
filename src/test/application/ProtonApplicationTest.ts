@@ -1,4 +1,4 @@
-import { ExpressApplication } from '../../lib';
+import { ProtonApplication } from '../../lib';
 import { GlobalConfig } from '../../lib';
 import { RouterMock } from './../utils/RouterMock';
 import { assert } from 'chai';
@@ -7,14 +7,14 @@ import { JsonLoader } from 'jsontyped';
 import { suite, test } from 'mocha-typescript';
 import * as request from 'supertest';
 
-@suite('ExpressApplicationTest')
-class ExpressApplicationTest {
+@suite('ProtonApplicationTest')
+class ProtonApplicationTest {
     private config: GlobalConfig;
-    private app: ExpressApplication;
+    private app: ProtonApplication;
 
     before(done: Function) {
         this.config = JsonLoader.loadFile<GlobalConfig>("./src/test/utils/config.json");
-        this.app = new ExpressApplication(this.config).addRouter(new RouterMock());
+        this.app = new ProtonApplication(this.config).addRouter(new RouterMock());
         done();
     }
 
@@ -61,7 +61,7 @@ class ExpressApplicationTest {
     }
 
     private assertRouteGet(route: string, app: express.Application, assertFunction?: Function): Promise<any> {
-        return new Promise<ExpressApplication>((resolve, reject) => {
+        return new Promise<ProtonApplication>((resolve, reject) => {
             request(app).get(route)
                 .expect(200)
                 .end((err, res) => {

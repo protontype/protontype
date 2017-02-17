@@ -1,6 +1,6 @@
 /// <reference types="express" />
 import { BaseModel } from '../models/BaseModel';
-import { ExpressApplication } from './../application/ExpressApplication';
+import { ProtonApplication } from './../application/ProtonApplication';
 import { RouteConfig } from './RouteConfig';
 import * as Express from 'express';
 /**
@@ -9,13 +9,13 @@ import * as Express from 'express';
  */
 export declare abstract class ExpressRouter {
     protected express: Express.Application;
-    protected expressApplication: ExpressApplication;
+    protected protonApplication: ProtonApplication;
     protected router: Express.Router;
     protected routeConfgs: RouteConfig[];
     protected baseUrl: string;
     protected modelInstances: BaseModel<any>[];
     private logger;
-    init(expressApplication: ExpressApplication): void;
+    init(protonApplication: ProtonApplication): void;
     getBaseUrl(): string;
     getModelInstances(): BaseModel<any>[];
     sendErrorMessage(res: any, error: any): void;

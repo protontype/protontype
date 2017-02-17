@@ -11,7 +11,7 @@ const https = require("https");
 /**
  * @author Humberto Machado
  */
-class ExpressApplication {
+class ProtonApplication {
     /**
      * Create express application instance and middlewares
      */
@@ -176,7 +176,7 @@ class ExpressApplication {
         return this.config;
     }
     /**
-     * @return list of all configured routes in ExpressApplication
+     * @return list of all configured routes in ProtonApplication
      */
     getRoutesList() {
         let routeList = [];
@@ -201,5 +201,5 @@ class ExpressApplication {
         return routeList;
     }
 }
-exports.ExpressApplication = ExpressApplication;
-//# sourceMappingURL=ExpressApplication.js.map
+exports.ProtonApplication = ProtonApplication;
+//# sourceMappingURL=ProtonApplication.js.map

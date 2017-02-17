@@ -1,7 +1,7 @@
 import { Logger } from './../application/Logger';
 import * as winston from 'winston';
 import { BaseModel } from '../models/BaseModel';
-import { ExpressApplication } from './../application/ExpressApplication';
+import { ProtonApplication } from './../application/ProtonApplication';
 import { RouteConfig } from './RouteConfig';
 import * as Express from 'express';
 /**
@@ -10,18 +10,18 @@ import * as Express from 'express';
  */
 export abstract class ExpressRouter {
     protected express: Express.Application;
-    protected expressApplication: ExpressApplication;
+    protected protonApplication: ProtonApplication;
     protected router: Express.Router;
     protected routeConfgs: RouteConfig[];
     protected baseUrl: string;
     protected modelInstances: BaseModel<any>[];
     private logger: winston.LoggerInstance = Logger.instance;
 
-    public init(expressApplication: ExpressApplication): void {
-        this.express = expressApplication.getExpress();
+    public init(protonApplication: ProtonApplication): void {
+        this.express = protonApplication.getExpress();
         this.router = Express.Router();
         this.express.use(this.getBaseUrl(), this.router);
-        this.expressApplication = expressApplication;
+        this.protonApplication = protonApplication;
         this.logger.info(`>>>> Configured routes to ${this.getBaseUrl()} <<<<`);
     }
 
@@ -38,7 +38,7 @@ export abstract class ExpressRouter {
     }
 
     public getModel<T extends BaseModel<any>>(modelName: string): T {
-        return this.expressApplication.getModel<T>(modelName);
+        return this.protonApplication.getModel<T>(modelName);
     }
 
     public getRouter(): Express.Router {

@@ -3,7 +3,7 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 __export(require("./application/ProtonConfigLoader"));
-__export(require("./application/ExpressApplication"));
+__export(require("./application/ProtonApplication"));
 __export(require("./application/SequelizeDB"));
 __export(require("./application/SequelizeModelConfig"));
 __export(require("./middlewares/Middleware"));

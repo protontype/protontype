@@ -1,6 +1,6 @@
 import { BaseModel } from '../models/BaseModel';
 import { ExpressRouter } from '../router/ExpressRouter';
-import { ExpressApplication } from './../application/ExpressApplication';
+import { ProtonApplication } from './../application/ProtonApplication';
 import { Method } from './Method';
 import * as express from 'express';
 /**
@@ -9,8 +9,8 @@ import * as express from 'express';
 export abstract class BaseCrudRouter extends ExpressRouter {
     private useAuth: UseAuthOptions;
 
-    public init(expressApplication: ExpressApplication): void {
-        super.init(expressApplication);
+    public init(protonApplication: ProtonApplication): void {
+        super.init(protonApplication);
         this.addRoute('/', Method.GET, this.findAll, this.useAuth ? this.useAuth.read : false);
         this.addRoute('/', Method.POST, this.create, this.useAuth ? this.useAuth.create : false);
         this.addRoute('/:id', Method.GET, this.findOne, this.useAuth ? this.useAuth.read : false);

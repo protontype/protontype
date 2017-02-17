@@ -1,12 +1,12 @@
 /// <reference types="express" />
-import { ExpressApplication } from '../application/ExpressApplication';
+import { ProtonApplication } from '../application/ProtonApplication';
 import * as Express from 'express';
 /**
  * @author Humberto Machado
  */
 export declare abstract class Middleware {
     protected express: Express.Application;
-    protected expressApplication: ExpressApplication;
-    init(expressApplication: ExpressApplication): Middleware;
+    protected protonApplication: ProtonApplication;
+    init(protonApplication: ProtonApplication): Middleware;
     abstract configMiddlewares(): void;
 }

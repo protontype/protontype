@@ -3,9 +3,9 @@
  * @author Humberto Machado
  */
 class Middleware {
-    init(expressApplication) {
-        this.express = expressApplication.getExpress();
-        this.expressApplication = expressApplication;
+    init(protonApplication) {
+        this.express = protonApplication.getExpress();
+        this.protonApplication = protonApplication;
         return this;
     }
 }

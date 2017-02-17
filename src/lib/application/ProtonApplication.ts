@@ -17,7 +17,7 @@ import * as winston from 'winston';
 /**
  * @author Humberto Machado
  */
-export class ExpressApplication {
+export class ProtonApplication {
     private express: Express.Application;
     private middlewares: Middleware[] = [];
     private sequelizeDB: SequelizeDB;
@@ -40,8 +40,8 @@ export class ExpressApplication {
      * Initialize express application and load middlewares
      * @return express instance
      */
-    public bootstrap(): Promise<ExpressApplication> {
-        return new Promise<ExpressApplication>((resolve, reject) => {
+    public bootstrap(): Promise<ProtonApplication> {
+        return new Promise<ProtonApplication>((resolve, reject) => {
             this.configMiddlewares();
             this.sequelizeDB.getInstance().sync().then(() => {
                 this.configureRoutes();
@@ -201,7 +201,7 @@ export class ExpressApplication {
     }
 
     /**
-     * @return list of all configured routes in ExpressApplication
+     * @return list of all configured routes in ProtonApplication
      */
     public getRoutesList(): { method: string, path: string }[] {
         let routeList: any[] = [];

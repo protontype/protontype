@@ -22,7 +22,7 @@ export class RouterMock extends BaseCrudRouter {
         method: Method.GET
     })
     routeList(req: express.Request, res: express.Response) {
-        res.json(this.expressApplication.getRoutesList());
+        res.json(this.protonApplication.getRoutesList());
     }
 
 }
