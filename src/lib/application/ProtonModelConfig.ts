@@ -4,7 +4,7 @@ import * as Sequelize from 'sequelize';
 /**
  * @author Humberto Machado
  */
-export class SequelizeModelConfig {
+export class ProtonModelConfig {
     //Injected by @Model
     public static modelsList: BaseModel<any>[];
 
@@ -25,7 +25,7 @@ export function Model(config: ModelConfig) {
     return function (constructor: Function) {
         constructor.prototype.name = config.name;
         constructor.prototype.definition = config.definition;
-        SequelizeModelConfig.add(constructor.prototype);
+        ProtonModelConfig.add(constructor.prototype);
     }
 }
 

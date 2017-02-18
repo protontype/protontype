@@ -7,8 +7,8 @@ import { Method } from '../router/Method';
 import { RouteConfig } from '../router/RouteConfig';
 import { Logger } from './Logger';
 import { DEFAULT_CONFIG, GlobalConfig, ProtonConfigLoader } from './ProtonConfigLoader';
-import { SequelizeDB } from './SequelizeDB';
-import { SequelizeModelConfig } from './SequelizeModelConfig';
+import { ProtonDB } from './ProtonDB';
+import { ProtonModelConfig } from './ProtonModelConfig';
 import * as Express from 'express';
 import * as fs from 'fs';
 import * as https from 'https';
@@ -20,7 +20,7 @@ import * as winston from 'winston';
 export class ProtonApplication {
     private express: Express.Application;
     private middlewares: Middleware[] = [];
-    private sequelizeDB: SequelizeDB;
+    private ProtonDB: ProtonDB;
     private routers: ExpressRouter[] = [];
     private authMiddleware: AuthMiddleware;
     private config: GlobalConfig;
@@ -33,7 +33,7 @@ export class ProtonApplication {
         this.config = this.loadConfig(config);
         this.logger = Logger.createLogger(this.config.logger);
         this.express = Express();
-        this.sequelizeDB = new SequelizeDB(this.config.database).loadModels(SequelizeModelConfig.modelsList);
+        this.ProtonDB = new ProtonDB(this.config.database).loadModels(ProtonModelConfig.modelsList);
     }
 
     /**
@@ -43,7 +43,7 @@ export class ProtonApplication {
     public bootstrap(): Promise<ProtonApplication> {
         return new Promise<ProtonApplication>((resolve, reject) => {
             this.configMiddlewares();
-            this.sequelizeDB.getInstance().sync().then(() => {
+            this.ProtonDB.getInstance().sync().then(() => {
                 this.configureRoutes();
                 this.startServer(this.config);
                 resolve(this);
@@ -184,12 +184,12 @@ export class ProtonApplication {
         return this.express;
     }
 
-    public getSequelizeDB(): SequelizeDB {
-        return this.sequelizeDB;
+    public getProtonDB(): ProtonDB {
+        return this.ProtonDB;
     }
 
     public getModel<T extends BaseModel<any>>(modelName: string): T {
-        return <T>this.sequelizeDB.getModel(modelName);
+        return <T>this.ProtonDB.getModel(modelName);
     }
 
     public getRouters(): ExpressRouter[] {

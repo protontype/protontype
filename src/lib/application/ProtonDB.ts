@@ -8,7 +8,7 @@ import { Dictionary } from 'typescript-collections';
 /**
  * @author Humberto Machado
  */
-export class SequelizeDB {
+export class ProtonDB {
     private sequelize: Sequelize.Sequelize = null;
     private models: Dictionary<string, BaseModel<any>> = new Dictionary<string, BaseModel<any>>();
     private logger: winston.LoggerInstance = Logger.instance;
@@ -25,7 +25,7 @@ export class SequelizeDB {
         modelsList.forEach((model: BaseModel<any>) => {
             if (!this.getModel(model.getModelName())) {
                 this.addModel(model.getModelName(), model.defineModel(this.sequelize));
-                model.setSequelizeDB(this);
+                model.setProtonDB(this);
                 this.logger.info(`Model loaded: ${model.getModelName()}`);
             }
         });

@@ -1,17 +1,17 @@
 import { ModelMock3, ModelMock4 } from './../utils/ModelMock';
-import { SequelizeDB } from '../../lib';
+import { ProtonDB } from '../../lib';
 import { GlobalConfig } from '../../lib';
-import { SequelizeModelConfig } from '../../lib';
+import { ProtonModelConfig } from '../../lib';
 import { Mock, ModelMock1, ModelMock2 } from '../utils/ModelMock';
 import { ModelInstance } from './../../lib/models/BaseModel';
 import { assert } from 'chai';
 import { JsonLoader } from 'jsontyped';
 import { suite, test, timeout } from 'mocha-typescript';
 
-@suite('Testes para SequelizeDB')
-class SequelizeDBtest {
+@suite('Testes para ProtonDB')
+class ProtonDBtest {
     private config: GlobalConfig;
-    private db: SequelizeDB;
+    private db: ProtonDB;
 
     before(done: Function) {
         this.setup(done);
@@ -32,8 +32,8 @@ class SequelizeDBtest {
             new ModelMock2();
             new ModelMock3();
             new ModelMock4();
-            this.db = new SequelizeDB(this.config.database)
-                .loadModels(SequelizeModelConfig.modelsList);
+            this.db = new ProtonDB(this.config.database)
+                .loadModels(ProtonModelConfig.modelsList);
             await this.db.getInstance().sync();
             assert.equal(this.db.getModels().size(), 4);
             done();
@@ -69,7 +69,7 @@ class SequelizeDBtest {
 
     @test('Create DB without model')
     noModelTest() {
-        let db: SequelizeDB = new SequelizeDB(this.config.database);
+        let db: ProtonDB = new ProtonDB(this.config.database);
         assert.equal(db.getModels().size(), 0);
     }
 }

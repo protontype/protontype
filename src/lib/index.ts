@@ -1,7 +1,7 @@
 export * from "./application/ProtonConfigLoader";
 export * from "./application/ProtonApplication";
-export * from "./application/SequelizeDB";
-export * from "./application/SequelizeModelConfig";
+export * from "./application/ProtonDB";
+export * from "./application/ProtonModelConfig";
 
 export * from "./middlewares/Middleware";
 export * from "./middlewares/AuthMiddleware";

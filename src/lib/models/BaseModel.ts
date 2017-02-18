@@ -1,5 +1,5 @@
-import { SequelizeDB } from '../application/SequelizeDB';
-import { AssociationsConfig, AssociationType } from '../application/SequelizeModelConfig';
+import { ProtonDB } from '../application/ProtonDB';
+import { AssociationsConfig, AssociationType } from '../application/ProtonModelConfig';
 import * as Sequelize from 'sequelize';
 
 /**
@@ -11,7 +11,7 @@ export abstract class BaseModel<ModelAttrinutes extends SequelizeBaseModelAttr> 
     protected model: Sequelize.Model<ModelInstance<ModelAttrinutes>, ModelAttrinutes>;
     protected name: string;
     protected definition: Sequelize.DefineAttributes;
-    protected sequelizeDB: SequelizeDB;
+    protected ProtonDB: ProtonDB;
     protected associations: AssociationsConfig[];
 
     public getModelName(): string {
@@ -50,27 +50,27 @@ export abstract class BaseModel<ModelAttrinutes extends SequelizeBaseModelAttr> 
     }
 
     public belongsTo(modelName: string, options?: Sequelize.AssociationOptionsBelongsTo) {
-        this.model.belongsTo(this.sequelizeDB.getModel(modelName).getInstance(), options);
+        this.model.belongsTo(this.ProtonDB.getModel(modelName).getInstance(), options);
     }
 
     public hasMany(modelName: string, options?: Sequelize.AssociationOptionsHasMany) {
-        this.model.hasMany(this.sequelizeDB.getModel(modelName).getInstance(), options);
+        this.model.hasMany(this.ProtonDB.getModel(modelName).getInstance(), options);
     }
 
     public hasOne(modelName: string, options?: Sequelize.AssociationOptionsHasOne) {
-        this.model.hasOne(this.sequelizeDB.getModel(modelName).getInstance(), options);
+        this.model.hasOne(this.ProtonDB.getModel(modelName).getInstance(), options);
     }
 
     public belongsToMany(modelName: string, options: Sequelize.AssociationOptionsBelongsToMany) {
-        this.model.belongsToMany(this.sequelizeDB.getModel(modelName).getInstance(), options);
+        this.model.belongsToMany(this.ProtonDB.getModel(modelName).getInstance(), options);
     }
 
     public getInstance(): Sequelize.Model<ModelInstance<ModelAttrinutes>, ModelAttrinutes> {
         return this.model;
     }
 
-    public setSequelizeDB(sequelizeDB: SequelizeDB) {
-        this.sequelizeDB = sequelizeDB;
+    public setProtonDB(ProtonDB: ProtonDB) {
+        this.ProtonDB = ProtonDB;
     }
 }
 

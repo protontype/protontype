@@ -19,7 +19,7 @@ class ProtonApplicationTest {
     }
 
     after(done: Function) {
-        this.app.getSequelizeDB().getInstance().drop().then(() => done()).catch((err) => {
+        this.app.getProtonDB().getInstance().drop().then(() => done()).catch((err) => {
             done();
         });
     }
