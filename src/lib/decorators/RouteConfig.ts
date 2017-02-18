@@ -1,5 +1,5 @@
-import { ExpressRouter } from './ExpressRouter';
-import { Method } from './Method';
+import { ExpressRouter } from '../router/ExpressRouter';
+import { Method } from '../router/Method';
 import { BaseModel } from "../models/BaseModel"
 
 /**

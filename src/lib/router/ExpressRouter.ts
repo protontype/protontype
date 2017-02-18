@@ -2,7 +2,7 @@ import { Logger } from './../application/Logger';
 import * as winston from 'winston';
 import { BaseModel } from '../models/BaseModel';
 import { ProtonApplication } from './../application/ProtonApplication';
-import { RouteConfig } from './RouteConfig';
+import { RouteConfig } from '../decorators/RouteConfig';
 import * as Express from 'express';
 /**
  * @author Humberto Machado

@@ -1,5 +1,5 @@
 import { ProtonDB } from '../application/ProtonDB';
-import { AssociationsConfig, AssociationType } from '../application/ProtonModelConfig';
+import { AssociationsConfig, AssociationType } from '../decorators/ProtonModelConfig';
 import * as Sequelize from 'sequelize';
 
 /**
