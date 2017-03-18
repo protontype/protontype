@@ -1,9 +1,9 @@
-import * as winston from 'winston';
-import { Logger } from './Logger';
 import { BaseModel } from '../models/BaseModel';
+import { Logger } from './Logger';
 import { DatabaseConfig } from './ProtonConfigLoader';
 import * as Sequelize from 'sequelize';
 import { Dictionary } from 'typescript-collections';
+import * as winston from 'winston';
 
 /**
  * @author Humberto Machado
@@ -22,18 +22,20 @@ export class ProtonDB {
     }
 
     public loadModels(modelsList: BaseModel<any>[]): this {
-        modelsList.forEach((model: BaseModel<any>) => {
-            if (!this.getModel(model.getModelName())) {
-                this.addModel(model.getModelName(), model.defineModel(this.sequelize));
-                model.setProtonDB(this);
-                this.logger.info(`Model loaded: ${model.getModelName()}`);
-            }
-        });
+        if (modelsList) {
+            modelsList.forEach((model: BaseModel<any>) => {
+                if (!this.getModel(model.getModelName())) {
+                    this.addModel(model.getModelName(), model.defineModel(this.sequelize));
+                    model.setProtonDB(this);
+                    this.logger.info(`Model loaded: ${model.getModelName()}`);
+                }
+            });
 
-        modelsList.forEach((model: BaseModel<any>) => {
-            model.configureAssociations();
-            model.configure();
-        });
+            modelsList.forEach((model: BaseModel<any>) => {
+                model.configureAssociations();
+                model.configure();
+            });
+        }
 
         return this;
     }
