@@ -18,6 +18,7 @@ export interface GlobalConfig {
     logger?: LoggerConfig;
     https?: HTTPSConfig;
     defaultRoutes?: boolean;
+    contentType?: string;
 }
 
 export interface DatabaseConfig {

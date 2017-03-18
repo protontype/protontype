@@ -10,14 +10,19 @@ export class DefaultMiddleware extends Middleware {
 
     public configMiddlewares(): void {
         this.express.set("port", this.protonApplication.getConfig().port);
-        this.express.set("json spaces", this.jsonSpaces);
         this.express.use(helmet());
         this.express.use(cors(this.protonApplication.getConfig().cors));
-        this.express.use(bodyParser.json());
+
+        if (!this.protonApplication.getConfig().contentType 
+            || this.protonApplication.getConfig().contentType == 'json') {
+            this.express.set("json spaces", this.jsonSpaces);
+            this.express.use(bodyParser.json());
+        }
+
         this.express.use((req, res, next) => {
             delete req.body.id;
             next();
-        })
+        });
 
         if (this.protonApplication.getConfig().defaultRoutes) {
             this.express.get('/proton/routes', (req, res) => {
