@@ -4,8 +4,9 @@ export * from "./application/ProtonDB";
 
 export * from "./decorators/ProtonModelConfig";
 export * from "./decorators/RouteConfig";
+export * from "./decorators/MiddlewareConfig";
 
-export * from "./middlewares/Middleware";
+export * from "./middlewares/ProtonMiddleware";
 export * from "./middlewares/AuthMiddleware";
 
 export * from "./models/BaseModel";

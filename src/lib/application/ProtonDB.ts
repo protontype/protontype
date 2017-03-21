@@ -14,7 +14,7 @@ export class ProtonDB {
     private logger: winston.LoggerInstance = Logger.instance;
 
     constructor(config: DatabaseConfig) {
-        if (this.sequelize == null) {
+        if (this.sequelize == null && config) {
             this.sequelize = new Sequelize(config.name, config.username,
                 config.password, config.options
             );
@@ -22,7 +22,7 @@ export class ProtonDB {
     }
 
     public loadModels(modelsList: BaseModel<any>[]): this {
-        if (modelsList) {
+        if (modelsList && this.sequelize) {
             modelsList.forEach((model: BaseModel<any>) => {
                 if (!this.getModel(model.getModelName())) {
                     this.addModel(model.getModelName(), model.defineModel(this.sequelize));
@@ -38,6 +38,12 @@ export class ProtonDB {
         }
 
         return this;
+    }
+
+    public async start(): Promise<any> {
+        if (this.sequelize) {
+            return this.sequelize.sync();
+        }
     }
 
     public getInstance(): Sequelize.Sequelize {
