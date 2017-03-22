@@ -87,7 +87,7 @@ export class ProtonApplication {
         this.middlewares.forEach(middleware => {
             middleware.init(this);
             middleware.configMiddlewares();
-            this.express.use(middleware.middlewareFuntion);
+            this.express.use((req, res, next) => middleware.middlewareFuntion.call(middleware, req, res, next));
         });
     }
 
@@ -119,9 +119,9 @@ export class ProtonApplication {
                 });
                 break;
             case Method.POST:
-                this.express.post(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
-                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
-                });
+                this.express.post(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.routerConfigMiddlewares(config), (req, res) => {
+                        config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                    });
                 break;
             case Method.PUT:
                 this.express.put(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
@@ -169,6 +169,24 @@ export class ProtonApplication {
         } else {
             return (req, res, next) => next();
         }
+    }
+
+    private routerConfigMiddlewares(config: RouteConfig): Express.Handler[] {
+        let middlewares: Express.Handler[] = [];
+        if (config.middlewares) {
+            config.middlewares.forEach(middleware => {
+                if (middleware.middlewareFuntion) {
+                    middlewares.push((req, res, next) => {
+                        middleware.middlewareFuntion.call(middleware, req, res, next);
+                    });
+                } else {
+                    middlewares.push((req, res, next) => { next() });
+                }
+            })
+        } else {
+            middlewares.push((req, res, next) => { next() });
+        }
+        return middlewares;
     }
 
     public addRouter(router: ExpressRouter): this {

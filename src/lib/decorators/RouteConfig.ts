@@ -1,6 +1,7 @@
 import { ExpressRouter } from '../router/ExpressRouter';
 import { Method } from '../router/Method';
 import { BaseModel } from "../models/BaseModel"
+import { ProtonMiddleware } from "../middlewares/ProtonMiddleware";
 
 /**
  * @author Humberto Machado
@@ -17,7 +18,8 @@ export function Route(config?: RouteDecoratorParams) {
                 method: config != null ? config.method : null,
                 routeFunction: descriptor.value,
                 modelName: config != null ? config.modelName : null,
-                useAuth: config != null ? config.useAuth : false
+                useAuth: config != null ? config.useAuth : false,
+                middlewares: config != null ? config.middlewares : null
             });
     };
 }
@@ -49,6 +51,7 @@ export interface RouteDecoratorParams {
     method: Method;
     modelName?: string;
     useAuth?: boolean;
+    middlewares?: ProtonMiddleware[];
 }
 
 /**
@@ -64,4 +67,5 @@ export interface RouteConfig {
     routeFunction: Function;
     modelName?: string;
     useAuth?: boolean;
+    middlewares?: ProtonMiddleware[];
 }

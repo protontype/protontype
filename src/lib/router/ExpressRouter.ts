@@ -1,3 +1,4 @@
+import { ProtonMiddleware } from '../middlewares/ProtonMiddleware';
 import { Logger } from './../application/Logger';
 import * as winston from 'winston';
 import { BaseModel } from '../models/BaseModel';
@@ -16,7 +17,7 @@ export abstract class ExpressRouter {
     protected baseUrl: string;
     protected modelInstances: BaseModel<any>[];
     private logger: winston.LoggerInstance = Logger.instance;
-
+    
     public init(protonApplication: ProtonApplication): void {
         this.express = protonApplication.getExpress();
         this.router = Express.Router();
