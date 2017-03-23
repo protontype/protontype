@@ -67,9 +67,15 @@ class ProtonDBtest {
         }
     }
 
-    @test('Create DB without model')
+    @test('noDatabaseConfigTest')
     noModelTest() {
         let db: ProtonDB = new ProtonDB(this.config.database);
+        assert.equal(db.getModels().size(), 0);
+    }
+
+    @test('Create DB without model')
+    noDatabaseConfigTest() {
+        let db: ProtonDB = new ProtonDB(null);
         assert.equal(db.getModels().size(), 0);
     }
 }

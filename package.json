@@ -8,7 +8,7 @@
     "build": "tsc -w",
     "start": "npm run build",
     "typings": "typings install",
-    "test": "tsc && mocha -t 30000 dist/test/**/*.js"
+    "test": "tsc && nyc --reporter=html --reporter=text mocha -t 30000 dist/test/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -50,6 +50,7 @@
     "concurrently": "^2.2.0",
     "mocha": "^3.1.2",
     "mocha-typescript": "^1.0.10",
+    "nyc": "^10.1.2",
     "supertest": "^2.0.0",
     "typescript": "^2.1.6"
   }
