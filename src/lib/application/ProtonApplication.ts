@@ -114,7 +114,7 @@ export class ProtonApplication {
     private createRoutesByMethod(config: RouteConfig, router: ExpressRouter): void {
         switch (config.method) {
             case Method.GET:
-                this.express.get(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
+                this.express.get(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.routerConfigMiddlewares(config), (req, res) => {
                     config.routeFunction.call(router, req, res, this.getModel(config.modelName));
                 });
                 break;
@@ -124,22 +124,22 @@ export class ProtonApplication {
                     });
                 break;
             case Method.PUT:
-                this.express.put(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
+                this.express.put(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.routerConfigMiddlewares(config), (req, res) => {
                     config.routeFunction.call(router, req, res, this.getModel(config.modelName));
                 });
                 break;
             case Method.DELETE:
-                this.express.delete(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
+                this.express.delete(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.routerConfigMiddlewares(config), (req, res) => {
                     config.routeFunction.call(router, req, res, this.getModel(config.modelName));
                 });
                 break;
             case Method.PATCH:
-                this.express.patch(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
+                this.express.patch(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.routerConfigMiddlewares(config), (req, res) => {
                     config.routeFunction.call(router, req, res, this.getModel(config.modelName));
                 });
                 break;
             case Method.OPTIONS:
-                this.express.options(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
+                this.express.options(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.routerConfigMiddlewares(config), (req, res) => {
                     config.routeFunction.call(router, req, res, this.getModel(config.modelName));
                 });
                 break;
