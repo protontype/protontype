@@ -8,7 +8,8 @@
     "build": "tsc -w",
     "start": "npm run build",
     "typings": "typings install",
-    "test": "tsc && nyc --reporter=html --reporter=text mocha -t 30000 dist/test/**/*.js"
+    "test": "tsc && mocha -t 30000 dist/test/**/*.js",
+    "coverage": "tsc && nyc --reporter=html --reporter=text mocha -t 30000 dist/test/**/*.js"
   },
   "repository": {
     "type": "git",
