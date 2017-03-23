@@ -1,3 +1,4 @@
+import { RouterMiddlewareMock } from './MiddlewareMock';
 import { BaseCrudRouter, Method, Route, RouterClass, UseAuth } from '../../lib';
 import { ModelMock1, ModelMock2 } from './ModelMock';
 import * as express from 'express';
@@ -11,13 +12,20 @@ export class RouterMock extends BaseCrudRouter {
 
     @Route({
         endpoint: '/test/msg',
-        method: Method.GET
+        method: Method.GET,
+        middlewares: [new RouterMiddlewareMock()]
     })
     routeTest(req: express.Request, res: express.Response) {
-        res.json({ msg: "hello!" });
+        console.log(req.params['routerMidMsg']);
+        console.log(req.header['globalMidMsg']);
+        res.json({
+            msg: "hello!",
+            routerMidMsg: req.params['routerMidMsg'],
+            globalMidMsg: req.header['globalMidMsg']
+        });
     }
 
-        @Route({
+    @Route({
         endpoint: '/test/routes',
         method: Method.GET
     })
@@ -25,4 +33,51 @@ export class RouterMock extends BaseCrudRouter {
         res.json(this.protonApplication.getRoutesList());
     }
 
+    @Route({
+        endpoint: '/test/method',
+        method: Method.POST
+    })
+    routePost(req: express.Request, res: express.Response) {
+        res.json({ method: 'post' });
+    }
+
+    @Route({
+        endpoint: '/test/method',
+        method: Method.DELETE
+    })
+    routeDelete(req: express.Request, res: express.Response) {
+        res.json({ method: 'delete' });
+    }
+
+    @Route({
+        endpoint: '/test/method',
+        method: Method.PATCH
+    })
+    routePatch(req: express.Request, res: express.Response) {
+        res.json({ method: 'patch' });
+    }
+
+    @Route({
+        endpoint: '/test/method',
+        method: Method.HEAD
+    })
+    routeHead(req: express.Request, res: express.Response) {
+        res.json({ method: 'head' });
+    }
+
+    @Route({
+        endpoint: '/test/method',
+        method: Method.OPTIONS
+    })
+    routeOptions(req: express.Request, res: express.Response) {
+        res.json({ method: 'options' });
+    }
+
+    @Route({
+        endpoint: '/test/method',
+        method: Method.PUT
+    })
+    routePut(req: express.Request, res: express.Response) {
+        res.json({ method: 'put' });
+    }
 }
