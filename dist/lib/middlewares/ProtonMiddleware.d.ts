@@ -4,9 +4,10 @@ import * as Express from 'express';
 /**
  * @author Humberto Machado
  */
-export declare abstract class Middleware {
+export declare abstract class ProtonMiddleware {
     protected express: Express.Application;
     protected protonApplication: ProtonApplication;
-    init(protonApplication: ProtonApplication): Middleware;
-    abstract configMiddlewares(): void;
+    middlewareFuntion: Express.RequestHandler;
+    init(protonApplication: ProtonApplication): ProtonMiddleware;
+    configMiddlewares(): void;
 }

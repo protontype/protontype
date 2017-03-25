@@ -2,7 +2,7 @@
 /**
  * @author Humberto Machado
  */
-class SequelizeModelConfig {
+class ProtonModelConfig {
     static add(model) {
         if (!this.modelsList) {
             this.modelsList = [];
@@ -10,7 +10,7 @@ class SequelizeModelConfig {
         this.modelsList.push(model);
     }
 }
-exports.SequelizeModelConfig = SequelizeModelConfig;
+exports.ProtonModelConfig = ProtonModelConfig;
 /**
  * Decorator
  *
@@ -20,7 +20,7 @@ function Model(config) {
     return function (constructor) {
         constructor.prototype.name = config.name;
         constructor.prototype.definition = config.definition;
-        SequelizeModelConfig.add(constructor.prototype);
+        ProtonModelConfig.add(constructor.prototype);
     };
 }
 exports.Model = Model;
@@ -89,4 +89,4 @@ var AssociationType;
     AssociationType[AssociationType["HAS_ONE"] = 2] = "HAS_ONE";
     AssociationType[AssociationType["BELONGS_TO_MANY"] = 3] = "BELONGS_TO_MANY";
 })(AssociationType = exports.AssociationType || (exports.AssociationType = {}));
-//# sourceMappingURL=SequelizeModelConfig.js.map
+//# sourceMappingURL=ProtonModelConfig.js.map

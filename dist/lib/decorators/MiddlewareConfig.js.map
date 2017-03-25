@@ -1,0 +1,1 @@
+{"version":3,"file":"MiddlewareConfig.js","sourceRoot":"","sources":["../../../src/lib/decorators/MiddlewareConfig.ts"],"names":[],"mappings":";AAEA;IACI,MAAM,CAAC,UAAU,MAAwB,EAAE,WAAmB,EAAE,UAA8B;QAC1F,MAAM,CAAC,iBAAiB,GAAG,UAAU,CAAC,KAAK,CAAC;IAChD,CAAC,CAAC;AACN,CAAC;AAJD,gCAIC"}

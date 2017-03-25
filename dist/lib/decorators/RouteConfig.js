@@ -13,7 +13,8 @@ function Route(config) {
             method: config != null ? config.method : null,
             routeFunction: descriptor.value,
             modelName: config != null ? config.modelName : null,
-            useAuth: config != null ? config.useAuth : false
+            useAuth: config != null ? config.useAuth : false,
+            middlewares: config != null ? config.middlewares : null
         });
     };
 }

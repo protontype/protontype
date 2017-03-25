@@ -2,12 +2,13 @@
 /**
  * @author Humberto Machado
  */
-class Middleware {
+class ProtonMiddleware {
     init(protonApplication) {
         this.express = protonApplication.getExpress();
         this.protonApplication = protonApplication;
         return this;
     }
+    configMiddlewares() { }
 }
-exports.Middleware = Middleware;
-//# sourceMappingURL=Middleware.js.map
+exports.ProtonMiddleware = ProtonMiddleware;
+//# sourceMappingURL=ProtonMiddleware.js.map

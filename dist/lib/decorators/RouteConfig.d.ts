@@ -1,6 +1,7 @@
-import { ExpressRouter } from './ExpressRouter';
-import { Method } from './Method';
+import { ExpressRouter } from '../router/ExpressRouter';
+import { Method } from '../router/Method';
 import { BaseModel } from "../models/BaseModel";
+import { ProtonMiddleware } from "../middlewares/ProtonMiddleware";
 /**
  * @author Humberto Machado
  * Decorator Route({..})
@@ -25,6 +26,7 @@ export interface RouteDecoratorParams {
     method: Method;
     modelName?: string;
     useAuth?: boolean;
+    middlewares?: ProtonMiddleware[];
 }
 /**
  * @param endpoint Route endpoint
@@ -39,4 +41,5 @@ export interface RouteConfig {
     routeFunction: Function;
     modelName?: string;
     useAuth?: boolean;
+    middlewares?: ProtonMiddleware[];
 }

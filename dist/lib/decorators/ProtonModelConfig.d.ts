@@ -4,7 +4,7 @@ import * as Sequelize from 'sequelize';
 /**
  * @author Humberto Machado
  */
-export declare class SequelizeModelConfig {
+export declare class ProtonModelConfig {
     static modelsList: BaseModel<any>[];
     static add(model: BaseModel<any>): void;
 }

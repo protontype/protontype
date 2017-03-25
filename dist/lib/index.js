@@ -4,13 +4,14 @@ function __export(m) {
 }
 __export(require("./application/ProtonConfigLoader"));
 __export(require("./application/ProtonApplication"));
-__export(require("./application/SequelizeDB"));
-__export(require("./application/SequelizeModelConfig"));
-__export(require("./middlewares/Middleware"));
+__export(require("./application/ProtonDB"));
+__export(require("./decorators/ProtonModelConfig"));
+__export(require("./decorators/RouteConfig"));
+__export(require("./decorators/MiddlewareConfig"));
+__export(require("./middlewares/ProtonMiddleware"));
 __export(require("./middlewares/AuthMiddleware"));
 __export(require("./models/BaseModel"));
 __export(require("./router/BaseCrudRouter"));
 __export(require("./router/ExpressRouter"));
 __export(require("./router/Method"));
-__export(require("./router/RouteConfig"));
 //# sourceMappingURL=index.js.map
