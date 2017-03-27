@@ -4,7 +4,7 @@ import { ProtonApplication } from './../application/ProtonApplication';
 import { Method } from './Method';
 import * as express from 'express';
 /**
- * Created by beto_ on 14/08/2016.
+ * Created by Humberto Machado on 14/08/2016.
  */
 export abstract class BaseCrudRouter extends ExpressRouter {
     private useAuth: UseAuthOptions;

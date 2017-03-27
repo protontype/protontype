@@ -16,8 +16,6 @@ export class RouterMock extends BaseCrudRouter {
         middlewares: [new RouterMiddlewareMock()]
     })
     routeTest(req: express.Request, res: express.Response) {
-        console.log(req.params['routerMidMsg']);
-        console.log(req.header['globalMidMsg']);
         res.json({
             msg: "hello!",
             routerMidMsg: req.params['routerMidMsg'],
