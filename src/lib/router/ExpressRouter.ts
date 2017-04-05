@@ -16,6 +16,7 @@ export abstract class ExpressRouter {
     protected routeConfgs: RouteConfig[];
     protected baseUrl: string;
     protected modelInstances: BaseModel<any>[];
+    protected routerMiddlewares: ProtonMiddleware[];
     private logger: winston.LoggerInstance = Logger.instance;
     
     public init(protonApplication: ProtonApplication): void {
@@ -57,6 +58,10 @@ export abstract class ExpressRouter {
         if (this.routeConfgs.filter(route => route.method == config.method && route.endpoint == config.endpoint).length == 0) {
             this.routeConfgs.push(config);
         }
+    }
+
+    public getRouterMiddlewares(): ProtonMiddleware[] {
+        return this.routerMiddlewares;
     }
 }
 
