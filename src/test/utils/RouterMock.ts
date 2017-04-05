@@ -1,12 +1,13 @@
-import { RouterMiddlewareMock } from './MiddlewareMock';
 import { BaseCrudRouter, Method, Route, RouterClass, UseAuth } from '../../lib';
+import { GlobalRouterMiddlewareMock, RouterMiddlewareMock } from './MiddlewareMock';
 import { ModelMock1, ModelMock2 } from './ModelMock';
 import * as express from 'express';
 
 @UseAuth()
 @RouterClass({
     baseUrl: "/mocks",
-    modelInstances: [new ModelMock1(), new ModelMock2()]
+    modelInstances: [new ModelMock1(), new ModelMock2()],
+    middlewares: [new GlobalRouterMiddlewareMock()]
 })
 export class RouterMock extends BaseCrudRouter {
 
@@ -19,7 +20,8 @@ export class RouterMock extends BaseCrudRouter {
         res.json({
             msg: "hello!",
             routerMidMsg: req.params['routerMidMsg'],
-            globalMidMsg: req.header['globalMidMsg']
+            globalMidMsg: req.header['globalMidMsg'],
+            globalRouterMidMsg: req.header['globalRouterMidMsg']
         });
     }
 

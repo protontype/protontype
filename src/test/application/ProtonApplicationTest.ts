@@ -1,6 +1,11 @@
 import { ProtonApplication } from '../../lib';
 import { GlobalConfig } from '../../lib';
-import { GLOBAL_MIDDLEWARE_MSG, GlobalMiddlewareMock, ROUTER_MIDDLEWARE_MSG } from './../utils/MiddlewareMock';
+import {
+    GLOBAL_MIDDLEWARE_MSG,
+    GLOBAL_ROUTER_MIDDLEWARE_MSG,
+    GlobalMiddlewareMock,
+    ROUTER_MIDDLEWARE_MSG
+} from './../utils/MiddlewareMock';
 import { RouterMock } from './../utils/RouterMock';
 import { assert } from 'chai';
 import * as express from 'express';
@@ -73,6 +78,7 @@ class ProtonApplicationTest {
                 assert.equal(res.body.msg, "hello!");
                 assert.equal(res.body.routerMidMsg, ROUTER_MIDDLEWARE_MSG);
                 assert.equal(res.body.globalMidMsg, GLOBAL_MIDDLEWARE_MSG);
+                assert.equal(res.body.globalRouterMidMsg, GLOBAL_ROUTER_MIDDLEWARE_MSG);
             });
             await this.assertModelMock1Routes();
             await this.assertModelMock2Routes();
