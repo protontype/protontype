@@ -1,3 +1,4 @@
+import { RouterFunctionParams } from './../decorators/RouteConfig';
 import { AuthMiddleware } from '../middlewares/AuthMiddleware';
 import { DefaultMiddleware } from '../middlewares/DefaultMiddleware';
 import { ProtonMiddleware } from '../middlewares/ProtonMiddleware';
@@ -115,40 +116,45 @@ export class ProtonApplication {
         switch (config.method) {
             case Method.GET:
                 this.express.get(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.routeConfigMiddlewares(config, router), (req, res) => {
-                    config.routeFunction.call(router, req, res, this.getModel(config.modelName), this);
+                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
                 });
                 break;
             case Method.POST:
                 this.express.post(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.routeConfigMiddlewares(config, router), (req, res) => {
-                        config.routeFunction.call(router, req, res, this.getModel(config.modelName), this);
+                        config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
                     });
                 break;
             case Method.PUT:
                 this.express.put(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.routeConfigMiddlewares(config, router), (req, res) => {
-                    config.routeFunction.call(router, req, res, this.getModel(config.modelName), this);
+                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
                 });
                 break;
             case Method.DELETE:
                 this.express.delete(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.routeConfigMiddlewares(config, router), (req, res) => {
-                    config.routeFunction.call(router, req, res, this.getModel(config.modelName), this);
+                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
                 });
                 break;
             case Method.PATCH:
                 this.express.patch(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.routeConfigMiddlewares(config, router), (req, res) => {
-                    config.routeFunction.call(router, req, res, this.getModel(config.modelName), this);
+                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
                 });
                 break;
             case Method.OPTIONS:
                 this.express.options(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.routeConfigMiddlewares(config, router), (req, res) => {
-                    config.routeFunction.call(router, req, res, this.getModel(config.modelName), this);
+                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
                 });
                 break;
             case Method.HEAD:
                 this.express.head(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
-                    config.routeFunction.call(router, req, res, this.getModel(config.modelName), this);
+                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
                 });
                 break;
         }
+    }
+
+    private createRouterFunctionParams(req: Express.Request, res: Express.Response,
+        model: BaseModel<any>, app: ProtonApplication): RouterFunctionParams {
+        return { req: req, res: res, model: model, app: app }
     }
 
     /**

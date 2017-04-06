@@ -1,3 +1,4 @@
+import { RouterFunctionParams } from './../decorators/RouteConfig';
 import { BaseModel } from '../models/BaseModel';
 import { ExpressRouter } from '../router/ExpressRouter';
 import { ProtonApplication } from './../application/ProtonApplication';
@@ -35,47 +36,47 @@ export abstract class BaseCrudRouter extends ExpressRouter {
         });
     }
 
-    public findAll(req: express.Request, res: express.Response, model: BaseModel<any>) {
-        model.getInstance().findAll({})
-            .then(result => res.json(result))
-            .catch(error => super.sendErrorMessage(res, error));
+    public findAll(params: RouterFunctionParams) {
+        params.model.getInstance().findAll({})
+            .then(result => params.res.json(result))
+            .catch(error => super.sendErrorMessage(params.res, error));
     }
 
-    public create(req, res, model: BaseModel<any>) {
-        model.getInstance().create(req.body)
-            .then(result => res.json(result))
-            .catch(error => this.sendErrorMessage(res, error));
+    public create(params: RouterFunctionParams) {
+        params.model.getInstance().create(params.req.body)
+            .then(result => params.res.json(result))
+            .catch(error => this.sendErrorMessage(params.res, error));
     }
 
-    public findOne(req, res, model: BaseModel<any>) {
-        model.getInstance().findOne({ where: req.params })
+    public findOne(params: RouterFunctionParams) {
+        params.model.getInstance().findOne({ where: params.req.params })
             .then(result => {
                 if (result) {
-                    res.json(result);
+                    params.res.json(result);
                 } else {
-                    res.sendStatus(404);
+                    params.res.sendStatus(404);
                 }
             })
-            .catch(error => this.sendErrorMessage(res, error));
+            .catch(error => this.sendErrorMessage(params.res, error));
     }
 
-    public update(req, res, model: BaseModel<any>) {
-        model.getInstance().update(req.body, { where: req.params })
-            .then(result => res.sendStatus(204))
-            .catch(error => this.sendErrorMessage(res, error));
+    public update(params: RouterFunctionParams) {
+        params.model.getInstance().update(params.req.body, { where: params.req.params })
+            .then(result => params.res.sendStatus(204))
+            .catch(error => this.sendErrorMessage(params.res, error));
     }
 
-    public destroy(req: express.Request, res: express.Response, model: BaseModel<any>) {
-        let ids: string[] = (req.params.id as string).split(',');
-        model.getInstance().destroy({ 
+    public destroy(params: RouterFunctionParams) {
+        let ids: string[] = (params.req.params.id as string).split(',');
+        params.model.getInstance().destroy({ 
             where: {
                 id: {
                     $in: ids
                 }
             } 
         })
-        .then(result => res.sendStatus(204))
-        .catch(error => this.sendErrorMessage(res, error));
+        .then(result => params.res.sendStatus(204))
+        .catch(error => this.sendErrorMessage(params.res, error));
     }
 }
 
