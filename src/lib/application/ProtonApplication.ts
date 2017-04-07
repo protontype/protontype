@@ -1,3 +1,4 @@
+import { MiddlewareFunctionParams } from './../decorators/MiddlewareConfig';
 import { RouterFunctionParams } from './../decorators/RouteConfig';
 import { AuthMiddleware } from '../middlewares/AuthMiddleware';
 import { DefaultMiddleware } from '../middlewares/DefaultMiddleware';
@@ -88,7 +89,8 @@ export class ProtonApplication {
         this.middlewares.forEach(middleware => {
             middleware.init(this);
             middleware.configMiddlewares();
-            this.express.use((req, res, next) => middleware.middlewareFuntion.call(middleware, req, res, next, this.getModel(middleware.modelName), this));
+            this.express.use((req, res, next) => 
+                middleware.middlewareFuntion.call(middleware, this.createMiddlewareFunctionParams(req, res, next, this.getModel(middleware.modelName), this)));
         });
     }
 
@@ -157,6 +159,11 @@ export class ProtonApplication {
         return { req: req, res: res, model: model, app: app }
     }
 
+    private createMiddlewareFunctionParams(req: Express.Request, res: Express.Response,
+        next: Express.NextFunction, model: BaseModel<any>, app: ProtonApplication): MiddlewareFunctionParams {
+        return { req: req, res: res, next: next, model: model, app: app }
+    }
+
     /**
      * Add authentication middleware implementations
      */
@@ -184,7 +191,7 @@ export class ProtonApplication {
             protonMiddlewares.forEach(middleware => {
                 if (middleware && middleware.middlewareFuntion) {
                     middlewares.push((req, res, next) => {
-                        middleware.middlewareFuntion.call(middleware, req, res, next, this.getModel(middleware.modelName), this);
+                        middleware.middlewareFuntion.call(middleware, this.createMiddlewareFunctionParams(req, res, next, this.getModel(middleware.modelName), this));
                     });
                 } else {
                     middlewares.push((req, res, next) => { next() });
