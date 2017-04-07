@@ -81,4 +81,11 @@ export class RouterMock extends BaseCrudRouter {
     routePut(params: RouterFunctionParams) {
         params.res.json({ method: 'put' });
     }
+
+    @Route()
+    customRouter(params: RouterFunctionParams) {
+        this.router.get('/custom', (req, res) => {
+            res.send('Custom Router');
+        })
+    }
 }

@@ -68,7 +68,7 @@ class ProtonApplicationTest {
             assert.equal(this.app.getRouters().length, 1);
             assert.equal(this.app.getModel("ModelMock1").getModelName(), "ModelMock1");
             assert.equal(this.app.getModel("ModelMock2").getModelName(), "ModelMock2");
-            assert.equal(this.app.getRoutesList().length, 19);
+            assert.equal(this.app.getRoutesList().length, 20);
 
             await this.assertRouteGet("/mocks/blah", this.app.getExpress())
                 .then(() => assert.fail())
