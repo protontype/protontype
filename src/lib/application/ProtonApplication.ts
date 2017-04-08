@@ -56,7 +56,8 @@ export class ProtonApplication {
     }
 
     private startServer(config: GlobalConfig): void {
-        let port: number = this.express.get("port");
+        let port: number = this.config.port;
+        this.express.set("port", port);
         if (config.https && config.https.enabled) {
             const credentials = {
                 key: fs.readFileSync(config.https.key),

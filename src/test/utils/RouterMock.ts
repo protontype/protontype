@@ -1,14 +1,14 @@
-import { RouterFunctionParams } from '../../lib/decorators/RouteConfig';
 import { BaseCrudRouter, Method, Route, RouterClass, UseAuth } from '../../lib';
+import { RouterFunctionParams } from '../../lib/decorators/RouteConfig';
+import { JsonContentMiddleware } from './../../lib/middlewares/JsonContentMiddleware';
 import { GlobalRouterMiddlewareMock, RouterMiddlewareMock } from './MiddlewareMock';
 import { ModelMock1, ModelMock2 } from './ModelMock';
-import * as express from 'express';
 
 @UseAuth()
 @RouterClass({
     baseUrl: "/mocks",
     modelInstances: [new ModelMock1(), new ModelMock2()],
-    middlewares: [new GlobalRouterMiddlewareMock()]
+    middlewares: [new GlobalRouterMiddlewareMock(), new JsonContentMiddleware()]
 })
 export class RouterMock extends BaseCrudRouter {
 
