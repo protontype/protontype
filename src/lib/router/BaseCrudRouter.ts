@@ -38,13 +38,13 @@ export abstract class BaseCrudRouter extends ExpressRouter {
 
     public findAll(params: RouterFunctionParams) {
         params.model.getInstance().findAll({})
-            .then(result => params.res.json(result))
+            .then(result => params.res.send(result))
             .catch(error => super.sendErrorMessage(params.res, error));
     }
 
     public create(params: RouterFunctionParams) {
         params.model.getInstance().create(params.req.body)
-            .then(result => params.res.json(result))
+            .then(result => params.res.send(result))
             .catch(error => this.sendErrorMessage(params.res, error));
     }
 
@@ -52,7 +52,7 @@ export abstract class BaseCrudRouter extends ExpressRouter {
         params.model.getInstance().findOne({ where: params.req.params })
             .then(result => {
                 if (result) {
-                    params.res.json(result);
+                    params.res.send(result);
                 } else {
                     params.res.sendStatus(404);
                 }

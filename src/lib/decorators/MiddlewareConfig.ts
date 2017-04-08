@@ -16,6 +16,6 @@ export interface MiddlewareFunctionParams {
     req: express.Request,
     res: express.Response,
     next: express.NextFunction,
-    model: BaseModel<any>,
+    model?: BaseModel<any>,
     app: ProtonApplication
 }

@@ -64,9 +64,3 @@ export abstract class ExpressRouter {
         return this.routerMiddlewares;
     }
 }
-
-export interface RouteFunctionParams {
-    request: any,
-    response: any,
-    model: any
-}
