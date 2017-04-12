@@ -1,2 +1,15 @@
+/// <reference types="express" />
+import { ProtonApplication } from './../application/ProtonApplication';
 import { ProtonMiddleware } from '../middlewares/ProtonMiddleware';
-export declare function Middleware(): (target: ProtonMiddleware, propertyKey: string, descriptor: PropertyDescriptor) => void;
+import * as express from 'express';
+import { BaseModel } from "../models/BaseModel";
+export declare function Middleware(config?: {
+    modelName: string;
+}): (target: ProtonMiddleware, propertyKey: string, descriptor: PropertyDescriptor) => void;
+export interface MiddlewareFunctionParams {
+    req: express.Request;
+    res: express.Response;
+    next: express.NextFunction;
+    model?: BaseModel<any>;
+    app: ProtonApplication;
+}

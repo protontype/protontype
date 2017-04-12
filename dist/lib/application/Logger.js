@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const winston = require("winston");
 class Logger {
     static createLogger(config) {

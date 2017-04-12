@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * @author Humberto Machado
  * Decorator Route({..})
@@ -22,6 +23,12 @@ exports.Route = Route;
 function RouterClass(config) {
     return function (constructor) {
         constructor.prototype.baseUrl = config.baseUrl;
+        if (config.middlewares) {
+            constructor.prototype.routerMiddlewares = config.middlewares;
+        }
+        else {
+            constructor.prototype.routerMiddlewares = [];
+        }
         if (config.modelInstances) {
             constructor.prototype.modelInstances = config.modelInstances;
         }

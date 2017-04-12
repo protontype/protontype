@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const jsontyped_1 = require("jsontyped");
 class ProtonConfigLoader {
     static loadConfig(filePath) {

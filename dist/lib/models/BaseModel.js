@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const ProtonModelConfig_1 = require("../decorators/ProtonModelConfig");
 const Sequelize = require("sequelize");
 /**

@@ -1,20 +1,18 @@
-/// <reference types="express" />
-import { BaseModel } from '../models/BaseModel';
+import { RouterFunctionParams } from './../decorators/RouteConfig';
 import { ExpressRouter } from '../router/ExpressRouter';
 import { ProtonApplication } from './../application/ProtonApplication';
-import * as express from 'express';
 /**
- * Created by beto_ on 14/08/2016.
+ * Created by Humberto Machado on 14/08/2016.
  */
 export declare abstract class BaseCrudRouter extends ExpressRouter {
     private useAuth;
     init(protonApplication: ProtonApplication): void;
     private addRoute(endpoint, method, routeFunction, useAuth);
-    findAll(req: express.Request, res: express.Response, model: BaseModel<any>): void;
-    create(req: any, res: any, model: BaseModel<any>): void;
-    findOne(req: any, res: any, model: BaseModel<any>): void;
-    update(req: any, res: any, model: BaseModel<any>): void;
-    destroy(req: express.Request, res: express.Response, model: BaseModel<any>): void;
+    findAll(params: RouterFunctionParams): void;
+    create(params: RouterFunctionParams): void;
+    findOne(params: RouterFunctionParams): void;
+    update(params: RouterFunctionParams): void;
+    destroy(params: RouterFunctionParams): void;
 }
 /**
  * Decorator @UseAuth()

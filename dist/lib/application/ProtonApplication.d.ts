@@ -37,6 +37,8 @@ export declare class ProtonApplication {
      */
     private configureRoutes();
     private createRoutesByMethod(config, router);
+    private createRouterFunctionParams(req, res, model, app);
+    private createMiddlewareFunctionParams(req, res, next, model, app);
     /**
      * Add authentication middleware implementations
      */
@@ -45,7 +47,7 @@ export declare class ProtonApplication {
      * Used to route autentication.
      */
     private authenticate(useAuth);
-    private routerConfigMiddlewares(config);
+    private routeConfigMiddlewares(config, router);
     addRouter(router: ExpressRouter): this;
     addMiddleware(middleware: ProtonMiddleware): this;
     getExpress(): Express.Application;
