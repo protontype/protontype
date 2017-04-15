@@ -40,7 +40,7 @@
     "@types/helmet": "0.0.33",
     "@types/node": "^6.0.46",
     "@types/sequelize": "^4.0.38",
-    "@types/winston": "0.0.29",
+    "@types/winston": "0.0.29"
   },
   "devDependencies": {
     "chai": "^3.5.0",
