@@ -2,6 +2,7 @@
 
 # compiled output
 /tmp
+/dist/test
 
 # dependencies
 /node_modules
@@ -13,7 +14,6 @@
 .classpath
 *.launch
 .settings/
-.vscode/
 
 # misc
 /.sass-cache
@@ -23,7 +23,8 @@
 npm-debug.log
 testem.log
 /typings
-test/
+*.log
+*.nyc_output
 
 # e2e
 /e2e/*.js
