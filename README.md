@@ -96,6 +96,9 @@ export class ParticlesMiddleware extends ProtonMiddleware {
 ## Documentação
 https://linck.github.io/protontype-docs
 
+## NPM
+https://www.npmjs.com/package/protontype
+
 ## Exemplos
 <https://github.com/linck/protontype-example>
 
