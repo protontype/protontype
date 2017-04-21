@@ -1,28 +1,20 @@
 "use strict";
-const Middleware_1 = require("./Middleware");
-const bodyParser = require("body-parser");
+Object.defineProperty(exports, "__esModule", { value: true });
+const JsonContentMiddleware_1 = require("./JsonContentMiddleware");
+const ProtonMiddleware_1 = require("./ProtonMiddleware");
 const cors = require("cors");
 const helmet = require("helmet");
 /**
  * @author Humberto Machado
  */
-class DefaultMiddleware extends Middleware_1.Middleware {
-    constructor() {
-        super(...arguments);
-        this.jsonSpaces = 2;
-    }
+class DefaultMiddleware extends ProtonMiddleware_1.ProtonMiddleware {
     configMiddlewares() {
-        this.express.set("port", this.protonApplication.getConfig().port);
-        this.express.set("json spaces", this.jsonSpaces);
         this.express.use(helmet());
         this.express.use(cors(this.protonApplication.getConfig().cors));
-        this.express.use(bodyParser.json());
-        this.express.use((req, res, next) => {
-            delete req.body.id;
-            next();
-        });
         if (this.protonApplication.getConfig().defaultRoutes) {
-            this.express.get('/proton/routes', (req, res) => {
+            this.express.get('/proton/routes', (req, res, next) => {
+                new JsonContentMiddleware_1.JsonContentMiddleware().jsonContentMiddlewareFunc({ req: req, res: res, next: next, app: this.protonApplication });
+            }, (req, res) => {
                 res.json(this.protonApplication.getRoutesList());
             });
         }

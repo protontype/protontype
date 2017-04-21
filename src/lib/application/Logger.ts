@@ -2,6 +2,10 @@ import { LoggerConfig } from '../';
 import * as winston from 'winston';
 
 export class Logger {
+    /**
+     * Logger instance.
+     * @see {@link https://github.com/winstonjs/winston#instantiating-your-own-logger}
+     */
     public static instance: winston.LoggerInstance = new winston.Logger({
         transports: [
             new winston.transports.Console({ level: "info" })

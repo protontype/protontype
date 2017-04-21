@@ -1,8 +1,9 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const ExpressRouter_1 = require("../router/ExpressRouter");
 const Method_1 = require("./Method");
 /**
- * Created by beto_ on 14/08/2016.
+ * Created by Humberto Machado on 14/08/2016.
  */
 class BaseCrudRouter extends ExpressRouter_1.ExpressRouter {
     init(protonApplication) {
@@ -28,44 +29,44 @@ class BaseCrudRouter extends ExpressRouter_1.ExpressRouter {
             });
         });
     }
-    findAll(req, res, model) {
-        model.getInstance().findAll({})
-            .then(result => res.json(result))
-            .catch(error => super.sendErrorMessage(res, error));
+    findAll(params) {
+        params.model.getInstance().findAll({})
+            .then(result => params.res.send(result))
+            .catch(error => super.sendErrorMessage(params.res, error));
     }
-    create(req, res, model) {
-        model.getInstance().create(req.body)
-            .then(result => res.json(result))
-            .catch(error => this.sendErrorMessage(res, error));
+    create(params) {
+        params.model.getInstance().create(params.req.body)
+            .then(result => params.res.send(result))
+            .catch(error => this.sendErrorMessage(params.res, error));
     }
-    findOne(req, res, model) {
-        model.getInstance().findOne({ where: req.params })
+    findOne(params) {
+        params.model.getInstance().findOne({ where: params.req.params })
             .then(result => {
             if (result) {
-                res.json(result);
+                params.res.send(result);
             }
             else {
-                res.sendStatus(404);
+                params.res.sendStatus(404);
             }
         })
-            .catch(error => this.sendErrorMessage(res, error));
+            .catch(error => this.sendErrorMessage(params.res, error));
     }
-    update(req, res, model) {
-        model.getInstance().update(req.body, { where: req.params })
-            .then(result => res.sendStatus(204))
-            .catch(error => this.sendErrorMessage(res, error));
+    update(params) {
+        params.model.getInstance().update(params.req.body, { where: params.req.params })
+            .then(result => params.res.sendStatus(204))
+            .catch(error => this.sendErrorMessage(params.res, error));
     }
-    destroy(req, res, model) {
-        let ids = req.params.id.split(',');
-        model.getInstance().destroy({
+    destroy(params) {
+        let ids = params.req.params.id.split(',');
+        params.model.getInstance().destroy({
             where: {
                 id: {
                     $in: ids
                 }
             }
         })
-            .then(result => res.sendStatus(204))
-            .catch(error => this.sendErrorMessage(res, error));
+            .then(result => params.res.sendStatus(204))
+            .catch(error => this.sendErrorMessage(params.res, error));
     }
 }
 exports.BaseCrudRouter = BaseCrudRouter;

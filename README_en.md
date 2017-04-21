@@ -289,7 +289,7 @@ export class UsersModel extends BaseModel<User> {
             user.password = bcrypt.hashSync(user.password, salt);
         });
 
-        this.getInstance().hasMany(this.sequelizeDB.getModel("Tasks").getInstance());
+        this.getInstance().hasMany(this.ProtonDB.getModel("Tasks").getInstance());
     }
 }
 

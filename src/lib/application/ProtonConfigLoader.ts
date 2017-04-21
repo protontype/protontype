@@ -4,6 +4,11 @@ import * as sequelize from 'sequelize';
 import * as winston from 'winston';
 
 export class ProtonConfigLoader {
+    /**
+     * Load confg file
+     * 
+     * @param filePath Optional configuration file path. Default value is './proton.json'
+     */
     public static loadConfig(filePath?: string): GlobalConfig {
         if (!filePath)
             filePath = './proton.json';

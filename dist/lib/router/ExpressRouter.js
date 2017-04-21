@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const Logger_1 = require("./../application/Logger");
 const Express = require("express");
 /**
@@ -41,6 +42,9 @@ class ExpressRouter {
         if (this.routeConfgs.filter(route => route.method == config.method && route.endpoint == config.endpoint).length == 0) {
             this.routeConfgs.push(config);
         }
+    }
+    getRouterMiddlewares() {
+        return this.routerMiddlewares;
     }
 }
 exports.ExpressRouter = ExpressRouter;

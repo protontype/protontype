@@ -15,7 +15,7 @@
     }
   },
   "cors": {
-    "origin": ["*"],
+    "origin": "*",
     "methods": ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
     "allowedHeaders": ["Content-Type", "Authorization"]
   },
@@ -36,5 +36,10 @@
         "type": "console"
       }
     ]
+  },
+  "https": {
+    "enabled": false,
+    "key": "./src/test/cert/cert.key",
+    "cert": "./src/test/cert/cert.cert"
   }
 }

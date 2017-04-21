@@ -1,5 +1,3 @@
-/// <reference types="cors" />
-/// <reference types="sequelize" />
 import * as cors from 'cors';
 import * as sequelize from 'sequelize';
 import * as winston from 'winston';

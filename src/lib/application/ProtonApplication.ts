@@ -1,14 +1,16 @@
+import { MiddlewareFunctionParams } from './../decorators/MiddlewareConfig';
+import { RouterFunctionParams } from './../decorators/RouteConfig';
 import { AuthMiddleware } from '../middlewares/AuthMiddleware';
 import { DefaultMiddleware } from '../middlewares/DefaultMiddleware';
-import { Middleware } from '../middlewares/Middleware';
+import { ProtonMiddleware } from '../middlewares/ProtonMiddleware';
 import { BaseModel } from '../models/BaseModel';
 import { ExpressRouter } from '../router/ExpressRouter';
 import { Method } from '../router/Method';
-import { RouteConfig } from '../router/RouteConfig';
+import { RouteConfig } from '../decorators/RouteConfig';
 import { Logger } from './Logger';
 import { DEFAULT_CONFIG, GlobalConfig, ProtonConfigLoader } from './ProtonConfigLoader';
-import { SequelizeDB } from './SequelizeDB';
-import { SequelizeModelConfig } from './SequelizeModelConfig';
+import { ProtonDB } from './ProtonDB';
+import { ProtonModelConfig } from '../decorators/ProtonModelConfig';
 import * as Express from 'express';
 import * as fs from 'fs';
 import * as https from 'https';
@@ -16,34 +18,35 @@ import * as winston from 'winston';
 
 /**
  * @author Humberto Machado
+ * Protontype main class. Configure and start Routers, Middlewares and bootstrap application
  */
 export class ProtonApplication {
     private express: Express.Application;
-    private middlewares: Middleware[] = [];
-    private sequelizeDB: SequelizeDB;
+    private middlewares: ProtonMiddleware[] = [];
+    private protonDB: ProtonDB;
     private routers: ExpressRouter[] = [];
     private authMiddleware: AuthMiddleware;
     private config: GlobalConfig;
     private logger: winston.LoggerInstance;
 
     /**
-     * Create express application instance and middlewares
+     * Create Protontype aplication
      */
     constructor(config?: GlobalConfig) {
         this.config = this.loadConfig(config);
         this.logger = Logger.createLogger(this.config.logger);
         this.express = Express();
-        this.sequelizeDB = new SequelizeDB(this.config.database).loadModels(SequelizeModelConfig.modelsList);
+        this.protonDB = new ProtonDB(this.config.database).loadModels(ProtonModelConfig.modelsList);
     }
 
     /**
-     * Initialize express application and load middlewares
+     * Start up Protontype application.
      * @return express instance
      */
     public bootstrap(): Promise<ProtonApplication> {
         return new Promise<ProtonApplication>((resolve, reject) => {
             this.configMiddlewares();
-            this.sequelizeDB.getInstance().sync().then(() => {
+            this.protonDB.start().then(() => {
                 this.configureRoutes();
                 this.startServer(this.config);
                 resolve(this);
@@ -54,7 +57,8 @@ export class ProtonApplication {
     }
 
     private startServer(config: GlobalConfig): void {
-        let port: number = this.express.get("port");
+        let port: number = this.config.port;
+        this.express.set("port", port);
         if (config.https && config.https.enabled) {
             const credentials = {
                 key: fs.readFileSync(config.https.key),
@@ -79,14 +83,13 @@ export class ProtonApplication {
         }
     }
 
-    /**
-     * Initilize all configured middlewares
-     */
     private configMiddlewares(): void {
         new DefaultMiddleware().init(this).configMiddlewares();
         this.middlewares.forEach(middleware => {
             middleware.init(this);
             middleware.configMiddlewares();
+            this.express.use((req, res, next) => 
+                middleware.middlewareFuntion.call(middleware, this.createMiddlewareFunctionParams(req, res, next, this.getModel(middleware.modelName), this)));
         });
     }
 
@@ -113,46 +116,58 @@ export class ProtonApplication {
     private createRoutesByMethod(config: RouteConfig, router: ExpressRouter): void {
         switch (config.method) {
             case Method.GET:
-                this.express.get(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
-                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                this.express.get(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.routeConfigMiddlewares(config, router), (req, res) => {
+                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
                 });
                 break;
             case Method.POST:
-                this.express.post(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
-                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
-                });
+                this.express.post(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.routeConfigMiddlewares(config, router), (req, res) => {
+                        config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
+                    });
                 break;
             case Method.PUT:
-                this.express.put(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
-                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                this.express.put(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.routeConfigMiddlewares(config, router), (req, res) => {
+                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
                 });
                 break;
             case Method.DELETE:
-                this.express.delete(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
-                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                this.express.delete(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.routeConfigMiddlewares(config, router), (req, res) => {
+                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
                 });
                 break;
             case Method.PATCH:
-                this.express.patch(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
-                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                this.express.patch(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.routeConfigMiddlewares(config, router), (req, res) => {
+                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
                 });
                 break;
             case Method.OPTIONS:
-                this.express.options(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
-                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                this.express.options(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.routeConfigMiddlewares(config, router), (req, res) => {
+                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
                 });
                 break;
             case Method.HEAD:
                 this.express.head(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), (req, res) => {
-                    config.routeFunction.call(router, req, res, this.getModel(config.modelName));
+                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
                 });
                 break;
         }
     }
 
-    /**
-     * Add authentication middleware implementations
-     */
+    private createRouterFunctionParams(req: Express.Request, res: Express.Response,
+        model: BaseModel<any>, app: ProtonApplication): RouterFunctionParams {
+        return { req: req, res: res, model: model, app: app }
+    }
+
+    private createMiddlewareFunctionParams(req: Express.Request, res: Express.Response,
+        next: Express.NextFunction, model: BaseModel<any>, app: ProtonApplication): MiddlewareFunctionParams {
+        return { req: req, res: res, next: next, model: model, app: app }
+    }
+
+   /**
+    * Add Authentication Middleware
+
+    * @param authMiddleware AuthMiddleware implementation
+    */
     public withAuthMiddleware(authMiddleware: AuthMiddleware): this {
         this.authMiddleware = authMiddleware;
         this.authMiddleware.init(this).configMiddlewares();
@@ -170,38 +185,82 @@ export class ProtonApplication {
         }
     }
 
+    private routeConfigMiddlewares(config: RouteConfig, router: ExpressRouter): Express.Handler[] {
+        let middlewares: Express.Handler[] = [];
+        let protonMiddlewares: ProtonMiddleware[] = router.getRouterMiddlewares().concat(config.middlewares);
+        if (protonMiddlewares) {
+            protonMiddlewares.forEach(middleware => {
+                if (middleware && middleware.middlewareFuntion) {
+                    middlewares.push((req, res, next) => {
+                        middleware.middlewareFuntion.call(middleware, this.createMiddlewareFunctionParams(req, res, next, this.getModel(middleware.modelName), this));
+                    });
+                } else {
+                    middlewares.push((req, res, next) => { next() });
+                }
+            })
+        } else {
+            middlewares.push((req, res, next) => { next() });
+        }
+        return middlewares;
+    }
+
+    /**
+     * Add Router to application
+     * @param router Router implementation
+     */
     public addRouter(router: ExpressRouter): this {
         this.routers.push(router);
         return this;
     }
 
-    public addMiddleware(middleware: Middleware): this {
+    /**
+     * Add Global Middleware. A middleware added here, will act for all routers of the application
+     * @param middleware Middleware implementation
+     */
+    public addMiddleware(middleware: ProtonMiddleware): this {
         this.middlewares.push(middleware);
         return this;
     }
 
+    /**
+     * Return a express instance 
+     * @see {@link http://expressjs.com/en/4x/api.html}
+     */
     public getExpress(): Express.Application {
         return this.express;
     }
 
-    public getSequelizeDB(): SequelizeDB {
-        return this.sequelizeDB;
+    /**
+     * Return a ProtonDB instance. This object provides database acess and Models
+     */
+    public getProtonDB(): ProtonDB {
+        return this.protonDB;
     }
 
+    /**
+     * Return a instance of model by name
+     * @param modelName Model name, defined in {@link @Model()} decotator
+     */
     public getModel<T extends BaseModel<any>>(modelName: string): T {
-        return <T>this.sequelizeDB.getModel(modelName);
+        return <T>this.protonDB.getModel(modelName);
     }
 
+    /**
+     * Return a list of Confugured routers 
+     */
     public getRouters(): ExpressRouter[] {
         return this.routers;
     }
 
+    /**
+     * Return {@link GlobalConfig} object. Content of proton.json file
+     */
     public getConfig(): GlobalConfig {
         return this.config;
     }
 
     /**
-     * @return list of all configured routes in ProtonApplication
+     * @return list of all endpoints loaded in ProtonApplication
      */
     public getRoutesList(): { method: string, path: string }[] {
         let routeList: any[] = [];

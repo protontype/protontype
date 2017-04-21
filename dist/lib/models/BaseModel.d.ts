@@ -1,6 +1,5 @@
-/// <reference types="sequelize" />
-import { SequelizeDB } from '../application/SequelizeDB';
-import { AssociationsConfig } from '../application/SequelizeModelConfig';
+import { ProtonDB } from '../application/ProtonDB';
+import { AssociationsConfig } from '../decorators/ProtonModelConfig';
 import * as Sequelize from 'sequelize';
 /**
  * @author Humberto Machado
@@ -9,7 +8,7 @@ export declare abstract class BaseModel<ModelAttrinutes extends SequelizeBaseMod
     protected model: Sequelize.Model<ModelInstance<ModelAttrinutes>, ModelAttrinutes>;
     protected name: string;
     protected definition: Sequelize.DefineAttributes;
-    protected sequelizeDB: SequelizeDB;
+    protected ProtonDB: ProtonDB;
     protected associations: AssociationsConfig[];
     getModelName(): string;
     defineModel(sequelize: Sequelize.Sequelize): BaseModel<ModelAttrinutes>;
@@ -20,7 +19,7 @@ export declare abstract class BaseModel<ModelAttrinutes extends SequelizeBaseMod
     hasOne(modelName: string, options?: Sequelize.AssociationOptionsHasOne): void;
     belongsToMany(modelName: string, options: Sequelize.AssociationOptionsBelongsToMany): void;
     getInstance(): Sequelize.Model<ModelInstance<ModelAttrinutes>, ModelAttrinutes>;
-    setSequelizeDB(sequelizeDB: SequelizeDB): void;
+    setProtonDB(ProtonDB: ProtonDB): void;
 }
 export declare var DataTypes: Sequelize.DataTypes;
 export interface SequelizeBaseModelAttr {

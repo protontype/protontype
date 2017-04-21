@@ -1,7 +1,7 @@
-/// <reference types="express" />
+import { ProtonMiddleware } from '../middlewares/ProtonMiddleware';
 import { BaseModel } from '../models/BaseModel';
 import { ProtonApplication } from './../application/ProtonApplication';
-import { RouteConfig } from './RouteConfig';
+import { RouteConfig } from '../decorators/RouteConfig';
 import * as Express from 'express';
 /**
  * @author Humberto Machado
@@ -14,6 +14,7 @@ export declare abstract class ExpressRouter {
     protected routeConfgs: RouteConfig[];
     protected baseUrl: string;
     protected modelInstances: BaseModel<any>[];
+    protected routerMiddlewares: ProtonMiddleware[];
     private logger;
     init(protonApplication: ProtonApplication): void;
     getBaseUrl(): string;
@@ -23,9 +24,5 @@ export declare abstract class ExpressRouter {
     getRouter(): Express.Router;
     getRouteConfigs(): RouteConfig[];
     addRouteConfig(config: RouteConfig): void;
-}
-export interface RouteFunctionParams {
-    request: any;
-    response: any;
-    model: any;
+    getRouterMiddlewares(): ProtonMiddleware[];
 }

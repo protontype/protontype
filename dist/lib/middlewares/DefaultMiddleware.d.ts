@@ -1,8 +1,7 @@
-import { Middleware } from './Middleware';
+import { ProtonMiddleware } from './ProtonMiddleware';
 /**
  * @author Humberto Machado
  */
-export declare class DefaultMiddleware extends Middleware {
-    private jsonSpaces;
+export declare class DefaultMiddleware extends ProtonMiddleware {
     configMiddlewares(): void;
 }

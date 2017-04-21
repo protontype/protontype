@@ -1,5 +1,6 @@
 "use strict";
-const SequelizeModelConfig_1 = require("../application/SequelizeModelConfig");
+Object.defineProperty(exports, "__esModule", { value: true });
+const ProtonModelConfig_1 = require("../decorators/ProtonModelConfig");
 const Sequelize = require("sequelize");
 /**
  * @author Humberto Machado
@@ -19,16 +20,16 @@ class BaseModel {
         if (this.associations) {
             this.associations.forEach(assoc => {
                 switch (assoc.type) {
-                    case SequelizeModelConfig_1.AssociationType.HAS_MANY:
+                    case ProtonModelConfig_1.AssociationType.HAS_MANY:
                         this.hasMany(assoc.modelName, assoc.options);
                         break;
-                    case SequelizeModelConfig_1.AssociationType.BELONGS_TO:
+                    case ProtonModelConfig_1.AssociationType.BELONGS_TO:
                         this.belongsTo(assoc.modelName, assoc.options);
                         break;
-                    case SequelizeModelConfig_1.AssociationType.HAS_ONE:
+                    case ProtonModelConfig_1.AssociationType.HAS_ONE:
                         this.hasOne(assoc.modelName, assoc.options);
                         break;
-                    case SequelizeModelConfig_1.AssociationType.BELONGS_TO_MANY:
+                    case ProtonModelConfig_1.AssociationType.BELONGS_TO_MANY:
                         this.belongsToMany(assoc.modelName, assoc.options);
                         break;
                 }
@@ -36,22 +37,22 @@ class BaseModel {
         }
     }
     belongsTo(modelName, options) {
-        this.model.belongsTo(this.sequelizeDB.getModel(modelName).getInstance(), options);
+        this.model.belongsTo(this.ProtonDB.getModel(modelName).getInstance(), options);
     }
     hasMany(modelName, options) {
-        this.model.hasMany(this.sequelizeDB.getModel(modelName).getInstance(), options);
+        this.model.hasMany(this.ProtonDB.getModel(modelName).getInstance(), options);
     }
     hasOne(modelName, options) {
-        this.model.hasOne(this.sequelizeDB.getModel(modelName).getInstance(), options);
+        this.model.hasOne(this.ProtonDB.getModel(modelName).getInstance(), options);
     }
     belongsToMany(modelName, options) {
-        this.model.belongsToMany(this.sequelizeDB.getModel(modelName).getInstance(), options);
+        this.model.belongsToMany(this.ProtonDB.getModel(modelName).getInstance(), options);
     }
     getInstance() {
         return this.model;
     }
-    setSequelizeDB(sequelizeDB) {
-        this.sequelizeDB = sequelizeDB;
+    setProtonDB(ProtonDB) {
+        this.ProtonDB = ProtonDB;
     }
 }
 exports.BaseModel = BaseModel;

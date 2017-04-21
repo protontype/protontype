@@ -1,10 +1,9 @@
-/// <reference types="express" />
 import { AuthMiddleware } from '../middlewares/AuthMiddleware';
-import { Middleware } from '../middlewares/Middleware';
+import { ProtonMiddleware } from '../middlewares/ProtonMiddleware';
 import { BaseModel } from '../models/BaseModel';
 import { ExpressRouter } from '../router/ExpressRouter';
 import { GlobalConfig } from './ProtonConfigLoader';
-import { SequelizeDB } from './SequelizeDB';
+import { ProtonDB } from './ProtonDB';
 import * as Express from 'express';
 /**
  * @author Humberto Machado
@@ -12,7 +11,7 @@ import * as Express from 'express';
 export declare class ProtonApplication {
     private express;
     private middlewares;
-    private sequelizeDB;
+    private protonDB;
     private routers;
     private authMiddleware;
     private config;
@@ -37,6 +36,8 @@ export declare class ProtonApplication {
      */
     private configureRoutes();
     private createRoutesByMethod(config, router);
+    private createRouterFunctionParams(req, res, model, app);
+    private createMiddlewareFunctionParams(req, res, next, model, app);
     /**
      * Add authentication middleware implementations
      */
@@ -45,10 +46,11 @@ export declare class ProtonApplication {
      * Used to route autentication.
      */
     private authenticate(useAuth);
+    private routeConfigMiddlewares(config, router);
     addRouter(router: ExpressRouter): this;
-    addMiddleware(middleware: Middleware): this;
+    addMiddleware(middleware: ProtonMiddleware): this;
     getExpress(): Express.Application;
-    getSequelizeDB(): SequelizeDB;
+    getProtonDB(): ProtonDB;
     getModel<T extends BaseModel<any>>(modelName: string): T;
     getRouters(): ExpressRouter[];
     getConfig(): GlobalConfig;
