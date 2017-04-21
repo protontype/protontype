@@ -224,7 +224,7 @@ export class ProtonApplication {
 
     /**
      * Return a express instance 
-     * @see <http://expressjs.com/en/4x/api.html>
+     * @see {@link http://expressjs.com/en/4x/api.html}
      */
     public getExpress(): Express.Application {
         return this.express;
