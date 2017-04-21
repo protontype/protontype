@@ -1,4 +1,3 @@
-/// <reference types="express" />
 import { AuthMiddleware } from '../middlewares/AuthMiddleware';
 import { ProtonMiddleware } from '../middlewares/ProtonMiddleware';
 import { BaseModel } from '../models/BaseModel';

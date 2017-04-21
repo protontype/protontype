@@ -18,6 +18,7 @@ import * as winston from 'winston';
 
 /**
  * @author Humberto Machado
+ * Protontype main class. Configure and start Routers, Middlewares and bootstrap application
  */
 export class ProtonApplication {
     private express: Express.Application;
@@ -29,7 +30,7 @@ export class ProtonApplication {
     private logger: winston.LoggerInstance;
 
     /**
-     * Create express application instance and middlewares
+     * Create Protontype aplication
      */
     constructor(config?: GlobalConfig) {
         this.config = this.loadConfig(config);
@@ -39,7 +40,7 @@ export class ProtonApplication {
     }
 
     /**
-     * Initialize express application and load middlewares
+     * Start up Protontype application.
      * @return express instance
      */
     public bootstrap(): Promise<ProtonApplication> {
@@ -82,9 +83,6 @@ export class ProtonApplication {
         }
     }
 
-    /**
-     * Initilize all configured middlewares
-     */
     private configMiddlewares(): void {
         new DefaultMiddleware().init(this).configMiddlewares();
         this.middlewares.forEach(middleware => {
@@ -165,9 +163,11 @@ export class ProtonApplication {
         return { req: req, res: res, next: next, model: model, app: app }
     }
 
-    /**
-     * Add authentication middleware implementations
-     */
+   /**
+    * Add Authentication Middleware
+
+    * @param authMiddleware AuthMiddleware implementation
+    */
     public withAuthMiddleware(authMiddleware: AuthMiddleware): this {
         this.authMiddleware = authMiddleware;
         this.authMiddleware.init(this).configMiddlewares();
@@ -204,38 +204,63 @@ export class ProtonApplication {
         return middlewares;
     }
 
+    /**
+     * Add Router to application
+     * @param router Router implementation
+     */
     public addRouter(router: ExpressRouter): this {
         this.routers.push(router);
         return this;
     }
 
+    /**
+     * Add Global Middleware. A middleware added here, will act for all routers of the application
+     * @param middleware Middleware implementation
+     */
     public addMiddleware(middleware: ProtonMiddleware): this {
         this.middlewares.push(middleware);
         return this;
     }
 
+    /**
+     * Return a express instance 
+     * @see <http://expressjs.com/en/4x/api.html>
+     */
     public getExpress(): Express.Application {
         return this.express;
     }
 
+    /**
+     * Return a ProtonDB instance. This object provides database acess and Models
+     */
     public getProtonDB(): ProtonDB {
         return this.protonDB;
     }
 
+    /**
+     * Return a instance of model by name
+     * @param modelName Model name, defined in {@link @Model()} decotator
+     */
     public getModel<T extends BaseModel<any>>(modelName: string): T {
         return <T>this.protonDB.getModel(modelName);
     }
 
+    /**
+     * Return a list of Confugured routers 
+     */
     public getRouters(): ExpressRouter[] {
         return this.routers;
     }
 
+    /**
+     * Return {@link GlobalConfig} object. Content of proton.json file
+     */
     public getConfig(): GlobalConfig {
         return this.config;
     }
 
     /**
-     * @return list of all configured routes in ProtonApplication
+     * @return list of all endpoints loaded in ProtonApplication
      */
     public getRoutesList(): { method: string, path: string }[] {
         let routeList: any[] = [];

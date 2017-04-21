@@ -1,4 +1,3 @@
-/// <reference types="express" />
 import { ProtonApplication } from './../application/ProtonApplication';
 import { ExpressRouter } from '../router/ExpressRouter';
 import { Method } from '../router/Method';

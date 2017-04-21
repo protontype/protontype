@@ -1,4 +1,3 @@
-/// <reference types="sequelize" />
 import { ProtonDB } from '../application/ProtonDB';
 import { AssociationsConfig } from '../decorators/ProtonModelConfig';
 import * as Sequelize from 'sequelize';

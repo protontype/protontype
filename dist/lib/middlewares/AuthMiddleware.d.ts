@@ -1,4 +1,3 @@
-/// <reference types="express" />
 import { ProtonMiddleware } from './ProtonMiddleware';
 import * as express from 'express';
 /**
