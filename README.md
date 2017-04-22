@@ -1,5 +1,7 @@
 # ProtonType
 
+[![NPM](https://nodei.co/npm/protontype.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/protontype/)
+
 Um simples web framework feito em TypeScript.
 
 O ProtonType tem como objetivo tornar simples e agradável o desenvolvimento de APIs REST e criação de modelos de banco de dados. Utilizando [Express](http://expressjs.com/ "") e [Sequelize ORM](http://docs.sequelizejs.com/ "") ajuda na criação de aplicações web robustas.
