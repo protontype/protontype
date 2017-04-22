@@ -1,6 +1,6 @@
-[![NPM](https://nodei.co/npm/protontype.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/protontype/)
-
 # ProtonType
+
+[![NPM](https://nodei.co/npm/protontype.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/protontype/)
 
 Um simples web framework feito em TypeScript.
 
