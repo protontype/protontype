@@ -1,6 +1,7 @@
 # ProtonType
 
 [![Build Status](https://travis-ci.org/linck/protontype.svg?branch=master)](https://travis-ci.org/linck/protontype)
+
 [![NPM](https://nodei.co/npm/protontype.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/protontype/)
 
 Um simples web framework feito em TypeScript.
