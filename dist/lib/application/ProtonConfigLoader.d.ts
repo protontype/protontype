@@ -2,6 +2,11 @@ import * as cors from 'cors';
 import * as sequelize from 'sequelize';
 import * as winston from 'winston';
 export declare class ProtonConfigLoader {
+    /**
+     * Load confg file
+     *
+     * @param filePath Optional configuration file path. Default value is './proton.json'
+     */
     static loadConfig(filePath?: string): GlobalConfig;
 }
 export interface GlobalConfig {

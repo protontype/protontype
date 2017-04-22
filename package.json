@@ -20,7 +20,9 @@
     "typescript",
     "express",
     "sequelize",
-    "rest"
+    "API",
+    "REST",
+    "RESTFul"
   ],
   "author": "Humberto Machado <betolinck@gmail.com>",
   "license": "MIT",
