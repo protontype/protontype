@@ -36,7 +36,7 @@ export class ProtonApplication {
         this.config = this.loadConfig(config);
         this.logger = Logger.createLogger(this.config.logger);
         this.express = Express();
-        this.protonDB = new ProtonDB(this.config.database).loadModels(ProtonModelConfig.modelsList);
+        this.protonDB = new ProtonDB(this.config.database).loadModels();
     }
 
     /**

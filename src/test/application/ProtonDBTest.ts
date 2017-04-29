@@ -32,8 +32,7 @@ class ProtonDBtest {
             new ModelMock2();
             new ModelMock3();
             new ModelMock4();
-            this.db = new ProtonDB(this.config.database)
-                .loadModels(ProtonModelConfig.modelsList);
+            this.db = new ProtonDB(this.config.database).loadModels();
             await this.db.getInstance().sync();
             assert.equal(this.db.getModels().size(), 4);
             done();

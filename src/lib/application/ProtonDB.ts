@@ -1,3 +1,4 @@
+import { ProtonModelConfig } from './../decorators/ProtonModelConfig';
 import { BaseModel } from '../models/BaseModel';
 import { Logger } from './Logger';
 import { DatabaseConfig } from './ProtonConfigLoader';
@@ -21,7 +22,11 @@ export class ProtonDB {
         }
     }
 
-    public loadModels(modelsList: BaseModel<any>[]): this {
+    public loadModels(modelsList?: BaseModel<any>[]): this {
+        if(!modelsList) {
+            modelsList = ProtonModelConfig.modelsList;
+        }
+        
         if (modelsList && this.sequelize) {
             modelsList.forEach((model: BaseModel<any>) => {
                 if (!this.getModel(model.getModelName())) {
