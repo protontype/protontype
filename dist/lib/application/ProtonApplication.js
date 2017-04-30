@@ -5,7 +5,6 @@ const Method_1 = require("../router/Method");
 const Logger_1 = require("./Logger");
 const ProtonConfigLoader_1 = require("./ProtonConfigLoader");
 const ProtonDB_1 = require("./ProtonDB");
-const ProtonModelConfig_1 = require("../decorators/ProtonModelConfig");
 const Express = require("express");
 const fs = require("fs");
 const https = require("https");
@@ -23,7 +22,7 @@ class ProtonApplication {
         this.config = this.loadConfig(config);
         this.logger = Logger_1.Logger.createLogger(this.config.logger);
         this.express = Express();
-        this.protonDB = new ProtonDB_1.ProtonDB(this.config.database).loadModels(ProtonModelConfig_1.ProtonModelConfig.modelsList);
+        this.protonDB = new ProtonDB_1.ProtonDB(this.config.database).loadModels();
     }
     /**
      * Start up Protontype application.

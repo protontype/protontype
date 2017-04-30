@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const ProtonModelConfig_1 = require("./../decorators/ProtonModelConfig");
 const Logger_1 = require("./Logger");
 const Sequelize = require("sequelize");
 const typescript_collections_1 = require("typescript-collections");
@@ -24,6 +25,9 @@ class ProtonDB {
         }
     }
     loadModels(modelsList) {
+        if (!modelsList) {
+            modelsList = ProtonModelConfig_1.ProtonModelConfig.modelsList;
+        }
         if (modelsList && this.sequelize) {
             modelsList.forEach((model) => {
                 if (!this.getModel(model.getModelName())) {
