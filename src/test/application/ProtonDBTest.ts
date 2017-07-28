@@ -55,7 +55,7 @@ class ProtonDBtest {
             await modelMock1Instance.build({ mockCol1: "record1", mockCol2: 1 }).save();
             await modelMock1Instance.build({ mockCol1: "record2", mockCol2: 2 }).save();
             await modelMock1Instance.build({ mockCol1: "record3", mockCol2: 3 }).save();
-            let records: ModelInstance<Mock>[] = await modelMock1Instance.findAll({ order: 'mockCol2 asc' });
+            let records: ModelInstance<Mock>[] = await modelMock1Instance.findAll({ order: [ ['mockCol2', 'ASC']] });
             assert.equal(records.length, 3);
             assert.equal(records[0].toJSON().mockCol2, 1);
             assert.equal(records[1].toJSON().mockCol2, 2);
