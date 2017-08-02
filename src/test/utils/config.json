@@ -29,7 +29,7 @@
       {
         "type": "file",
         "options": {
-          "filename": "./test/logs.log"
+          "filename": "./src/test/logs.log"
         }
       },
       {

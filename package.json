@@ -59,5 +59,11 @@
     "touch-cli": "0.0.1",
     "typedoc": "^0.5.10",
     "typescript": "^2.4.2"
+  },
+  "nyc": {
+    "exclude": [
+      "src/test/**/*.ts",
+      "dist/test/**/*.js"
+    ]
   }
 }
