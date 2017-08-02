@@ -200,6 +200,8 @@ export class ProtonApplication {
         if (protonMiddlewares) {
             protonMiddlewares.forEach(middleware => {
                 if (middleware && middleware.middlewareFuntion) {
+                    middleware.init(this);
+                    middleware.configMiddlewares();
                     middlewares.push((req, res, next) => {
                         middleware.middlewareFuntion.call(middleware, this.createMiddlewareFunctionParams(req, res, next, this.getModel(middleware.modelName), this));
                     });
