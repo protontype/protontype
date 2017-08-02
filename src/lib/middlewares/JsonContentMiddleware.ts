@@ -6,12 +6,20 @@ export class JsonContentMiddleware extends ProtonMiddleware {
 
     @Middleware()
     jsonContentMiddlewareFunc(params: MiddlewareFunctionParams) {
-        params.app.getExpress().set("json spaces", 2);
-        params.app.getExpress().use(bodyParser.json());
-        params.app.getExpress().use((req, res, next) => {
+        this.configureJsonProperties(params.app.getExpress());
+        params.next();
+    }
+
+    configMiddlewares() {
+        this.configureJsonProperties(this.express);
+    }
+
+    configureJsonProperties(express: Express.Application) {
+        this.express.set("json spaces", 2);
+        this.express.use(bodyParser.json());
+        this.express.use((req, res, next) => {
             delete req.body.id;
             next();
         });
-        params.next();
     }
 }
