@@ -33,6 +33,10 @@ class Logger {
         return Logger.instance;
     }
 }
+/**
+ * Logger instance.
+ * @see {@link https://github.com/winstonjs/winston#instantiating-your-own-logger}
+ */
 Logger.instance = new winston.Logger({
     transports: [
         new winston.transports.Console({ level: "info" })

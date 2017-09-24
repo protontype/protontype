@@ -25,6 +25,7 @@ testem.log
 /typings
 *.log
 *.nyc_output
+docs
 
 # e2e
 /e2e/*.js

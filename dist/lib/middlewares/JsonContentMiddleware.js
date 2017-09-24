@@ -14,13 +14,19 @@ const ProtonMiddleware_1 = require("./ProtonMiddleware");
 const bodyParser = require("body-parser");
 class JsonContentMiddleware extends ProtonMiddleware_1.ProtonMiddleware {
     jsonContentMiddlewareFunc(params) {
-        params.app.getExpress().set("json spaces", 2);
-        params.app.getExpress().use(bodyParser.json());
-        params.app.getExpress().use((req, res, next) => {
+        this.configureJsonProperties(params.app.getExpress());
+        params.next();
+    }
+    configMiddlewares() {
+        this.configureJsonProperties(this.express);
+    }
+    configureJsonProperties(express) {
+        this.express.set("json spaces", 2);
+        this.express.use(bodyParser.json());
+        this.express.use((req, res, next) => {
             delete req.body.id;
             next();
         });
-        params.next();
     }
 }
 __decorate([

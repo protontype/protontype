@@ -10,7 +10,7 @@ export declare class ProtonDB {
     private models;
     private logger;
     constructor(config: DatabaseConfig);
-    loadModels(modelsList: BaseModel<any>[]): this;
+    loadModels(modelsList?: BaseModel<any>[]): this;
     start(): Promise<any>;
     getInstance(): Sequelize.Sequelize;
     getModels(): Dictionary<string, BaseModel<any>>;

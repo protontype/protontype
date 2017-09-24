@@ -2,6 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsontyped_1 = require("jsontyped");
 class ProtonConfigLoader {
+    /**
+     * Load confg file
+     *
+     * @param filePath Optional configuration file path. Default value is './proton.json'
+     */
     static loadConfig(filePath) {
         if (!filePath)
             filePath = './proton.json';

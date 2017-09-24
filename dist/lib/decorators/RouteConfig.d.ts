@@ -13,12 +13,16 @@ import * as express from 'express';
  */
 export declare function Route(config?: RouteDecoratorParams): (target: ExpressRouter, propertyKey: string, descriptor: PropertyDescriptor) => void;
 export declare function RouterClass(config: RouterConfig): (constructor: Function) => void;
+/**
+ *@RouterClass decorator configs
+ */
 export interface RouterConfig {
     baseUrl: string;
     modelInstances?: BaseModel<any>[];
     middlewares?: ProtonMiddleware[];
 }
 /**
+ * @Router method decorator config
  * @param endpoint Route endpoint
  * @param method HTTP method (POST, GET, PUT ...
  * @param modelName Model's name used in route. Optional
@@ -32,6 +36,9 @@ export interface RouteDecoratorParams {
     middlewares?: ProtonMiddleware[];
 }
 /**
+ * Object that contains information of one route method.
+ * Used to define routes array in ExpressRouter
+ *
  * @param endpoint Route endpoint
  * @param method HTTP method (POST, GET, PUT ...
  * @param routeFunction Function that contains business rules of route

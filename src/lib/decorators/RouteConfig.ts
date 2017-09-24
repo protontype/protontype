@@ -43,6 +43,9 @@ export function RouterClass(config: RouterConfig) {
     }
 }
 
+/**
+ *@RouterClass decorator configs
+ */
 export interface RouterConfig {
     baseUrl: string;
     modelInstances?: BaseModel<any>[];
@@ -50,6 +53,7 @@ export interface RouterConfig {
 }
 
 /**
+ * @Router method decorator config
  * @param endpoint Route endpoint
  * @param method HTTP method (POST, GET, PUT ...
  * @param modelName Model's name used in route. Optional
@@ -64,6 +68,9 @@ export interface RouteDecoratorParams {
 }
 
 /**
+ * Object that contains information of one route method.
+ * Used to define routes array in ExpressRouter
+ * 
  * @param endpoint Route endpoint
  * @param method HTTP method (POST, GET, PUT ...
  * @param routeFunction Function that contains business rules of route
