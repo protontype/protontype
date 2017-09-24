@@ -28,6 +28,9 @@ export declare class ProtonApplication {
     bootstrap(): Promise<ProtonApplication>;
     private startServer(config);
     private loadConfig(config?);
+    /**
+     * Configure global Middlewares. Application scope
+     */
     private configMiddlewares();
     /**
      * Initialize all configured routes annotated with @Route
@@ -46,7 +49,13 @@ export declare class ProtonApplication {
      * Used to route autentication.
      */
     private authenticate(useAuth);
-    private routeConfigMiddlewares(config, router);
+    /**
+     * Configures the Route Scope Middlewares and Router Scope Middlewares
+     *
+     * @param config
+     * @param router
+     */
+    private configRouteMiddlewares(config, router);
     /**
      * Add Router to application
      * @param router Router implementation
