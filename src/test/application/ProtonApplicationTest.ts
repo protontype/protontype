@@ -1,4 +1,4 @@
-import { JsonContentMiddleware } from './../../lib/middlewares/JsonContentMiddleware';
+/*import { JsonContentMiddleware } from './../../lib/middlewares/JsonContentMiddleware';
 import { Mock, Mock2 } from './../utils/ModelMock';
 import { ProtonApplication } from '../../lib';
 import { GlobalConfig } from '../../lib';
@@ -147,4 +147,4 @@ class ProtonApplicationTest {
                 });
         });
     }
-}
+}*/

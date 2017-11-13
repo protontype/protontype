@@ -1,4 +1,4 @@
-import { ModelMock3, ModelMock4 } from './../utils/ModelMock';
+/*import { ModelMock3, ModelMock4 } from './../utils/ModelMock';
 import { ProtonDB } from '../../lib';
 import { GlobalConfig } from '../../lib';
 import { ProtonModelConfig } from '../../lib';
@@ -77,4 +77,4 @@ class ProtonDBtest {
         let db: ProtonDB = new ProtonDB(null);
         assert.equal(db.getModels().size(), 0);
     }
-}
+}*/

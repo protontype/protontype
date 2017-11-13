@@ -1,4 +1,4 @@
-import {
+/*import {
     BaseModel,
     BelongsTo,
     BelongsToMany,
@@ -11,7 +11,7 @@ import {
 /**
  * @author Humberto Machado
  *
- */
+ *
 @Model({
     name: "ModelMock1",
     definition: {
@@ -119,4 +119,4 @@ export class ModelMock4 extends BaseModel<Mock4> {
 export interface Mock4 extends SequelizeBaseModelAttr {
     mock4Col1: string;
     mock4Col2: number;
-}
+}*/

@@ -1,4 +1,4 @@
-import { create } from 'domain';
+/*import { create } from 'domain';
 import { BaseCrudRouter, Method, Route, RouterClass, UseAuth } from '../../lib';
 import { RouterFunctionParams } from '../../lib/decorators/RouteConfig';
 import { JsonContentMiddleware } from './../../lib/middlewares/JsonContentMiddleware';
@@ -94,4 +94,4 @@ export class RouterMock extends BaseCrudRouter {
             res.send('Custom Router');
         })
     }
-}
+}*/
