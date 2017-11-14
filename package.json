@@ -34,6 +34,7 @@
     "@types/node": "^6.0.68",
     "@types/winston": "0.0.29",
     "body-parser": "^1.15.2",
+    "class-transformer": "^0.1.8",
     "cors": "^2.8.1",
     "express": "^4.14.1",
     "helmet": "^3.8.0",

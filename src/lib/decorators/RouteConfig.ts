@@ -27,6 +27,7 @@ export function Route(config?: RouteDecoratorParams) {
 export function RouterClass(config: RouterConfig) {
     return function (constructor: Function) {
         constructor.prototype.baseUrl = config.baseUrl;
+        constructor.prototype.crudModel = config.model;
         if (config.middlewares) {
             constructor.prototype.routerMiddlewares = config.middlewares;
         } else {
@@ -41,6 +42,7 @@ export function RouterClass(config: RouterConfig) {
 export interface RouterConfig {
     baseUrl: string;
     middlewares?: ProtonMiddleware[];
+    model?: Function;
 }
 
 /**

@@ -10,3 +10,4 @@ export * from "./middlewares/JsonContentMiddleware";
 
 export * from "./router/ExpressRouter";
 export * from "./router/Method";
+export * from "./router/BaseCrudRouter";
