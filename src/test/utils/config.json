@@ -2,22 +2,29 @@
   "port": "3000",
   "defaultRoutes": true,
   "database": {
-    "name": "proton-example",
-    "username": "",
-    "password": "",
-    "options": {
-      "dialect": "sqlite",
-      "storage": "./src/test/proton.sqlite",
-      "define": {
-        "underscored": "true"
-      },
-      "logging": false
-    }
+    "name": "defaultTestConnection",
+    "type": "sqlite",
+    "database": "./src/test/proton.sqlite",
+    "synchronize": true,
+    "logging": false,
+    "entities": [
+      "./dist/test/utils/**/*.js"
+    ]
   },
   "cors": {
     "origin": "*",
-    "methods": ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
-    "allowedHeaders": ["Content-Type", "Authorization"]
+    "methods": [
+      "GET",
+      "POST",
+      "OPTIONS",
+      "PUT",
+      "PATCH",
+      "DELETE"
+    ],
+    "allowedHeaders": [
+      "Content-Type",
+      "Authorization"
+    ]
   },
   "jwtSecret": "secret",
   "jwtSession": {

@@ -1,9 +1,9 @@
-/*import { create } from 'domain';
+import { create } from 'domain';
 import { BaseCrudRouter, Method, Route, RouterClass, UseAuth } from '../../lib';
 import { RouterFunctionParams } from '../../lib/decorators/RouteConfig';
-import { JsonContentMiddleware } from './../../lib/middlewares/JsonContentMiddleware';
+import { BodyParserMiddleware } from './../../lib/middlewares/BodyParserMiddleware';
 import { GlobalRouterMiddlewareMock, RouterMiddlewareMock } from './MiddlewareMock';
-import { ModelMock1, ModelMock2 } from './ModelMock';
+import { ModelMock } from './ModelMock';
 
 @UseAuth({
     create: false,
@@ -13,8 +13,8 @@ import { ModelMock1, ModelMock2 } from './ModelMock';
 })
 @RouterClass({
     baseUrl: "/mocks",
-    modelInstances: [new ModelMock1(), new ModelMock2()],
-    middlewares: [new GlobalRouterMiddlewareMock(), new JsonContentMiddleware()]
+    middlewares: [new GlobalRouterMiddlewareMock(), new BodyParserMiddleware()],
+    model: ModelMock
 })
 export class RouterMock extends BaseCrudRouter {
 
@@ -94,4 +94,4 @@ export class RouterMock extends BaseCrudRouter {
             res.send('Custom Router');
         })
     }
-}*/
+}
