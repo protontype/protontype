@@ -40,7 +40,7 @@
     "helmet": "^3.8.0",
     "jsontyped": "^1.2.0",
     "reflect-metadata": "^0.1.10",
-    "sqlite3": "^3.1.4",
+    "sqlite3": "^3.1.13",
     "typeorm": "^0.1.2",
     "typescript-collections": "^1.2.3",
     "winston": "^2.2.0",
@@ -59,7 +59,7 @@
     "supertest": "^3.0.0",
     "touch-cli": "0.0.1",
     "typedoc": "^0.5.10",
-    "typescript": "^2.5.2"
+    "typescript": "^2.6.1"
   },
   "nyc": {
     "exclude": [
