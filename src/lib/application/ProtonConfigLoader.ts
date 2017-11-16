@@ -1,6 +1,5 @@
 import * as cors from 'cors';
 import { JsonLoader } from 'jsontyped';
-import * as sequelize from 'sequelize';
 import * as winston from 'winston';
 import { ConnectionOptions } from 'typeorm';
 
@@ -24,13 +23,6 @@ export interface GlobalConfig {
     logger?: LoggerConfig;
     https?: HTTPSConfig;
     defaultRoutes?: boolean;
-}
-
-export interface DatabaseConfig {
-    name: string;
-    username: string;
-    password: string;
-    options: sequelize.Options;
 }
 
 export interface DBDefine {
