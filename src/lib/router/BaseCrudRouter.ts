@@ -57,9 +57,8 @@ export abstract class BaseCrudRouter extends ExpressRouter {
     }
 
     public update(params: RouterFunctionParams) {
-        console.log("Meu params: ", params.req.params);
         params.app.db.getRepository(this.crudModel).update(params.req.params, JSON.parse(params.req.body))
-            .then(result => params.res.sendStatus(204))
+            .then(result => { params.res.sendStatus(204); })
             .catch(error => this.sendErrorMessage(params.res, error));
     }
 

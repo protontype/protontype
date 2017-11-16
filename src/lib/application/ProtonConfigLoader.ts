@@ -52,6 +52,7 @@ export interface LoggerConfig {
 export const DEFAULT_CONFIG: GlobalConfig = {
     "port": 3000,
     "database": {
+        "name": "protontypeConnection",
         "type": "sqlite",
         "database": "proton.db",
         "synchronize": true,
