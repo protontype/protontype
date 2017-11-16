@@ -1,7 +1,6 @@
 import { ProtonMiddleware } from '../middlewares/ProtonMiddleware';
 import { Logger } from './../application/Logger';
 import * as winston from 'winston';
-import { BaseModel } from '../models/BaseModel';
 import { ProtonApplication } from './../application/ProtonApplication';
 import { RouteConfig } from '../decorators/RouteConfig';
 import * as Express from 'express';
@@ -15,7 +14,6 @@ export abstract class ExpressRouter {
     protected router: Express.Router;
     protected routeConfgs: RouteConfig[];
     protected baseUrl: string;
-    protected modelInstances: BaseModel<any>[];
     protected routerMiddlewares: ProtonMiddleware[];
     private logger: winston.LoggerInstance = Logger.instance;
     
@@ -31,16 +29,8 @@ export abstract class ExpressRouter {
         return this.baseUrl;
     }
 
-    public getModelInstances(): BaseModel<any>[] {
-        return this.modelInstances;
-    }
-
     public sendErrorMessage(res: any, error: any): void {
         res.status(412).json({ msg: error.message })
-    }
-
-    public getModel<T extends BaseModel<any>>(modelName: string): T {
-        return this.protonApplication.getModel<T>(modelName);
     }
 
     public getRouter(): Express.Router {

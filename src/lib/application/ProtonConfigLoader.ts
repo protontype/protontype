@@ -2,6 +2,7 @@ import * as cors from 'cors';
 import { JsonLoader } from 'jsontyped';
 import * as sequelize from 'sequelize';
 import * as winston from 'winston';
+import { ConnectionOptions } from 'typeorm';
 
 export class ProtonConfigLoader {
     /**
@@ -18,7 +19,7 @@ export class ProtonConfigLoader {
 
 export interface GlobalConfig {
     port: number;
-    database: DatabaseConfig;
+    database: ConnectionOptions;
     cors?: cors.CorsOptions;
     logger?: LoggerConfig;
     https?: HTTPSConfig;
@@ -51,15 +52,24 @@ export interface LoggerConfig {
 export const DEFAULT_CONFIG: GlobalConfig = {
     "port": 3000,
     "database": {
-        "name": "proton-example",
-        "username": "",
-        "password": "",
-        "options": {
-            "dialect": "sqlite",
-            "storage": "proton.sqlite",
-            "define": {
-                "underscored": true
-            }
+        "name": "protontypeConnection",
+        "type": "sqlite",
+        "database": "proton.db",
+        "synchronize": true,
+        "logging": false,
+        "entities": [
+            "dist/model/**/*.js"
+        ],
+        "migrations": [
+            "dist/migration/**/*.ts"
+        ],
+        "subscribers": [
+            "dist/subscriber/**/*.ts"
+        ],
+        "cli": {
+            "entitiesDir": "dist/model",
+            "migrationsDir": "dist/migration",
+            "subscribersDir": "dist/subscriber"
         }
     }
 }

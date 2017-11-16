@@ -6,6 +6,7 @@ export class JsonContentMiddleware extends ProtonMiddleware {
 
     @Middleware()
     jsonContentMiddlewareFunc(params: MiddlewareFunctionParams) {
+        params.res.header('Content-type', 'application/json');
         this.configureJsonProperties(params.app.getExpress());
         params.next();
     }

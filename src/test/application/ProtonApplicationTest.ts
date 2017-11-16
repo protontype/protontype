@@ -1,6 +1,4 @@
-import { JsonContentMiddleware } from './../../lib/middlewares/JsonContentMiddleware';
-import { Mock, Mock2 } from './../utils/ModelMock';
-import { ProtonApplication } from '../../lib';
+import { JsonContentMiddleware, ProtonApplication } from '../../lib';
 import { GlobalConfig } from '../../lib';
 import {
     GLOBAL_MIDDLEWARE_MSG,
@@ -14,6 +12,7 @@ import * as express from 'express';
 import { JsonLoader } from 'jsontyped';
 import { suite, test } from 'mocha-typescript';
 import * as request from 'supertest';
+import { createConnections } from "typeorm";
 
 @suite('ProtonApplicationTest')
 class ProtonApplicationTest {
@@ -30,11 +29,15 @@ class ProtonApplicationTest {
     }
 
     after(done: Function) {
-        this.app.getProtonDB().getInstance().drop()
-            .then(() => done())
-            .catch((err) => {
-                done(err);
-            });
+        if (this.app && this.app.db) {
+            this.app.db.dropDatabase()
+                .then(() => done())
+                .catch((err) => {
+                    done(err);
+                });
+        } else {
+            done();
+        }
     }
 
     @test('basicTest')
@@ -42,12 +45,14 @@ class ProtonApplicationTest {
         this.testApplication(done);
     }
 
+    /**/
     @test('httpsTest')
     httpsTest(done: Function) {
         this.config.https.enabled = true;
-        new ProtonApplication(this.config)
+        ((this.config.database) as any).name = "httpsTestConnection";
+        let app = new ProtonApplication(this.config)
             .addRouter(new RouterMock())
-            .bootstrap().then(() => {
+            .bootstrap().then(async app => {
                 done();
             }).catch((err) => {
                 done(err);
@@ -58,7 +63,7 @@ class ProtonApplicationTest {
     globalConfigTest(done: Function) {
         new ProtonApplication()
             .addRouter(new RouterMock())
-            .bootstrap().then(() => {
+            .bootstrap().then(async app => {
                 done();
             }).catch((err) => {
                 done(err);
@@ -69,9 +74,7 @@ class ProtonApplicationTest {
         try {
             await this.app.bootstrap()
             assert.equal(this.app.getRouters().length, 1);
-            assert.equal(this.app.getModel("ModelMock1").getModelName(), "ModelMock1");
-            assert.equal(this.app.getModel("ModelMock2").getModelName(), "ModelMock2");
-            assert.equal(this.app.getRoutesList().length, 20);
+            assert.equal(this.app.getRoutesList().length, 15);
 
             await this.assertRouteGet("/mocks/blah", this.app.getExpress())
                 .then(() => assert.fail())
@@ -86,8 +89,7 @@ class ProtonApplicationTest {
 
             await this.populateMocks();
             await this.updateMocks();
-            await this.assertModelMock1Routes();
-            await this.assertModelMock2Routes();
+            await this.assertModelMockRoutes();
             done();
         } catch (err) {
             done(err);
@@ -96,9 +98,9 @@ class ProtonApplicationTest {
 
     private async populateMocks(): Promise<any> {
         return new Promise<ProtonApplication>((resolve, reject) => {
-            request(this.app.getExpress()).post('/mocks/modelmock1/').send({ id: 1, mockCol1: 'mockCol1', mockCol2: 1 }).expect(200).end((err, res) => {
-                request(this.app.getExpress()).post('/mocks/modelmock2/').send({ id: 1, mock2Col1: 'mock2Col1', mock2Col2: 2 } as Mock2).expect(200).end((err, res) => {
-                    request(this.app.getExpress()).post('/mocks/modelmock2/').send({ id: 1, mock2Col1: 'mock2Col1', mock2Col2: 2 } as Mock2).expect(200).end((err, res) => {
+            request(this.app.getExpress()).post('/mocks/').send(JSON.stringify({ id: 1, mockCol1: "mockCol1", mockCol2: 1 })).expect(200).end((err, res) => {
+                request(this.app.getExpress()).post('/mocks/').send(JSON.stringify({ id: 2, mockCol1: "mock2Col1", mockCol2: 2 })).expect(200).end((err, res) => {
+                    request(this.app.getExpress()).post('/mocks/').send(JSON.stringify({ id: 3, mockCol1: "mock2Col1", mockCol2: 2 })).expect(200).end((err, res) => {
                         resolve();
                     });
                 });
@@ -108,27 +110,19 @@ class ProtonApplicationTest {
 
     private async updateMocks(): Promise<any> {
         return new Promise<ProtonApplication>((resolve, reject) => {
-            request(this.app.getExpress()).put('/mocks/modelmock1/1').send({ mockCol1: 'mockCol1Updated' }).expect(200).end((err, res) => {
-                request(this.app.getExpress()).delete('/mocks/modelmock2/2').expect(200).end((err, res) => {
+            request(this.app.getExpress()).put('/mocks/1').send(JSON.stringify({ mockCol1: "mockCol1Updated" })).expect(200).end((err, res) => {
+                request(this.app.getExpress()).delete('/mocks/2').expect(200).end((err, res) => {
                     resolve();
                 });
             });
         });
     }
 
-    private async assertModelMock1Routes() {
-        await this.assertRouteGet("/mocks/modelmock1/", this.app.getExpress(), (err, res) => { assert.isNull(err); });
-        await this.assertRouteGet("/mocks/modelmock1/1", this.app.getExpress(), (err, res) => {
+    private async assertModelMockRoutes() {
+        await this.assertRouteGet("/mocks/", this.app.getExpress(), (err, res) => { assert.isNull(err); });
+        await this.assertRouteGet("/mocks/1", this.app.getExpress(), (err, res) => {
             assert.isNull(err);
             assert.equal(res.body.mockCol1, 'mockCol1Updated');
-        });
-    }
-
-    private async assertModelMock2Routes() {
-        await this.assertRouteGet("/mocks/modelmock2/", this.app.getExpress(), (err, res) => { assert.isNull(err); });
-        await this.assertRouteGet("/mocks/modelmock2/1", this.app.getExpress(), (err, res) => {
-            assert.isNull(err);
-            assert.equal(res.body.mock2Col1, 'mock2Col1');
         });
     }
 
