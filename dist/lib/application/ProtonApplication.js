@@ -4,10 +4,11 @@ const DefaultMiddleware_1 = require("../middlewares/DefaultMiddleware");
 const Method_1 = require("../router/Method");
 const Logger_1 = require("./Logger");
 const ProtonConfigLoader_1 = require("./ProtonConfigLoader");
-const ProtonDB_1 = require("./ProtonDB");
 const Express = require("express");
 const fs = require("fs");
 const https = require("https");
+require("reflect-metadata");
+const typeorm_1 = require("typeorm");
 /**
  * @author Humberto Machado
  * Protontype main class. Configure and start Routers, Middlewares and bootstrap application
@@ -22,7 +23,6 @@ class ProtonApplication {
         this.config = this.loadConfig(config);
         this.logger = Logger_1.Logger.createLogger(this.config.logger);
         this.express = Express();
-        this.protonDB = new ProtonDB_1.ProtonDB(this.config.database).loadModels();
     }
     /**
      * Start up Protontype application.
@@ -31,13 +31,12 @@ class ProtonApplication {
     bootstrap() {
         return new Promise((resolve, reject) => {
             this.configMiddlewares();
-            this.protonDB.start().then(() => {
+            typeorm_1.createConnection(this.config.database).then(connection => {
+                this.db = connection;
                 this.configureRoutes();
                 this.startServer(this.config);
                 resolve(this);
-            }).catch((err) => {
-                reject(err);
-            });
+            }).catch(error => reject(error));
         });
     }
     startServer(config) {
@@ -75,7 +74,7 @@ class ProtonApplication {
         this.middlewares.forEach(middleware => {
             middleware.init(this);
             middleware.configMiddlewares();
-            this.express.use((req, res, next) => middleware.middlewareFuntion.call(middleware, this.createMiddlewareFunctionParams(req, res, next, this.getModel(middleware.modelName), this)));
+            this.express.use((req, res, next) => middleware.middlewareFuntion.call(middleware, this.createMiddlewareFunctionParams(req, res, next, this)));
         });
     }
     /**
@@ -101,46 +100,46 @@ class ProtonApplication {
         switch (config.method) {
             case Method_1.Method.GET:
                 this.express.get(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.configRouteMiddlewares(config, router), (req, res) => {
-                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
+                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
             case Method_1.Method.POST:
                 this.express.post(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.configRouteMiddlewares(config, router), (req, res) => {
-                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
+                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
             case Method_1.Method.PUT:
                 this.express.put(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.configRouteMiddlewares(config, router), (req, res) => {
-                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
+                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
             case Method_1.Method.DELETE:
                 this.express.delete(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.configRouteMiddlewares(config, router), (req, res) => {
-                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
+                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
             case Method_1.Method.PATCH:
                 this.express.patch(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.configRouteMiddlewares(config, router), (req, res) => {
-                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
+                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
             case Method_1.Method.OPTIONS:
                 this.express.options(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.configRouteMiddlewares(config, router), (req, res) => {
-                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
+                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
             case Method_1.Method.HEAD:
                 this.express.head(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.configRouteMiddlewares(config, router), (req, res) => {
-                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this.getModel(config.modelName), this));
+                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
         }
     }
-    createRouterFunctionParams(req, res, model, app) {
-        return { req: req, res: res, model: model, app: app };
+    createRouterFunctionParams(req, res, app) {
+        return { req: req, res: res, app: app };
     }
-    createMiddlewareFunctionParams(req, res, next, model, app) {
-        return { req: req, res: res, next: next, model: model, app: app };
+    createMiddlewareFunctionParams(req, res, next, app) {
+        return { req: req, res: res, next: next, app: app };
     }
     /**
      * Add Authentication Middleware
@@ -178,7 +177,7 @@ class ProtonApplication {
                     middleware.init(this);
                     middleware.configMiddlewares();
                     middlewares.push((req, res, next) => {
-                        middleware.middlewareFuntion.call(middleware, this.createMiddlewareFunctionParams(req, res, next, this.getModel(middleware.modelName), this));
+                        middleware.middlewareFuntion.call(middleware, this.createMiddlewareFunctionParams(req, res, next, this));
                     });
                 }
                 else {
@@ -213,19 +212,6 @@ class ProtonApplication {
      */
     getExpress() {
         return this.express;
-    }
-    /**
-     * Return a ProtonDB instance. This object provides database acess and Models
-     */
-    getProtonDB() {
-        return this.protonDB;
-    }
-    /**
-     * Return a instance of model by name
-     * @param modelName Model name, defined in {@link @Model()} decotator
-     */
-    getModel(modelName) {
-        return this.protonDB.getModel(modelName);
     }
     /**
      * Return a list of Confugured routers

@@ -1,7 +1,6 @@
 import { ProtonApplication } from './../application/ProtonApplication';
 import { ExpressRouter } from '../router/ExpressRouter';
 import { Method } from '../router/Method';
-import { BaseModel } from "../models/BaseModel";
 import { ProtonMiddleware } from "../middlewares/ProtonMiddleware";
 import * as express from 'express';
 /**
@@ -18,8 +17,8 @@ export declare function RouterClass(config: RouterConfig): (constructor: Functio
  */
 export interface RouterConfig {
     baseUrl: string;
-    modelInstances?: BaseModel<any>[];
     middlewares?: ProtonMiddleware[];
+    model?: Function;
 }
 /**
  * @Router method decorator config
@@ -31,7 +30,6 @@ export interface RouterConfig {
 export interface RouteDecoratorParams {
     endpoint: string;
     method: Method;
-    modelName?: string;
     useAuth?: boolean;
     middlewares?: ProtonMiddleware[];
 }
@@ -49,13 +47,11 @@ export interface RouteConfig {
     endpoint?: string;
     method?: Method;
     routeFunction: Function;
-    modelName?: string;
     useAuth?: boolean;
     middlewares?: ProtonMiddleware[];
 }
 export interface RouterFunctionParams {
     req: express.Request;
     res: express.Response;
-    model: BaseModel<any>;
     app: ProtonApplication;
 }

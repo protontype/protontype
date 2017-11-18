@@ -1,6 +1,6 @@
 import * as cors from 'cors';
-import * as sequelize from 'sequelize';
 import * as winston from 'winston';
+import { ConnectionOptions } from 'typeorm';
 export declare class ProtonConfigLoader {
     /**
      * Load confg file
@@ -11,17 +11,11 @@ export declare class ProtonConfigLoader {
 }
 export interface GlobalConfig {
     port: number;
-    database: DatabaseConfig;
+    database: ConnectionOptions;
     cors?: cors.CorsOptions;
     logger?: LoggerConfig;
     https?: HTTPSConfig;
     defaultRoutes?: boolean;
-}
-export interface DatabaseConfig {
-    name: string;
-    username: string;
-    password: string;
-    options: sequelize.Options;
 }
 export interface DBDefine {
     underscored: boolean;

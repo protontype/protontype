@@ -6,6 +6,7 @@ import { ProtonApplication } from './../application/ProtonApplication';
  */
 export declare abstract class BaseCrudRouter extends ExpressRouter {
     private useAuth;
+    private crudModel;
     init(protonApplication: ProtonApplication): void;
     private addRoute(endpoint, method, routeFunction, useAuth);
     findAll(params: RouterFunctionParams): void;

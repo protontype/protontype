@@ -1,10 +1,10 @@
 import { AuthMiddleware } from '../middlewares/AuthMiddleware';
 import { ProtonMiddleware } from '../middlewares/ProtonMiddleware';
-import { BaseModel } from '../models/BaseModel';
 import { ExpressRouter } from '../router/ExpressRouter';
 import { GlobalConfig } from './ProtonConfigLoader';
-import { ProtonDB } from './ProtonDB';
 import * as Express from 'express';
+import 'reflect-metadata';
+import { Connection } from "typeorm";
 /**
  * @author Humberto Machado
  * Protontype main class. Configure and start Routers, Middlewares and bootstrap application
@@ -12,11 +12,11 @@ import * as Express from 'express';
 export declare class ProtonApplication {
     private express;
     private middlewares;
-    private protonDB;
     private routers;
     private authMiddleware;
     private config;
     private logger;
+    db: Connection;
     /**
      * Create Protontype aplication
      */
@@ -37,8 +37,8 @@ export declare class ProtonApplication {
      */
     private configureRoutes();
     private createRoutesByMethod(config, router);
-    private createRouterFunctionParams(req, res, model, app);
-    private createMiddlewareFunctionParams(req, res, next, model, app);
+    private createRouterFunctionParams(req, res, app);
+    private createMiddlewareFunctionParams(req, res, next, app);
     /**
      * Add Authentication Middleware
  
@@ -71,15 +71,6 @@ export declare class ProtonApplication {
      * @see {@link http://expressjs.com/en/4x/api.html}
      */
     getExpress(): Express.Application;
-    /**
-     * Return a ProtonDB instance. This object provides database acess and Models
-     */
-    getProtonDB(): ProtonDB;
-    /**
-     * Return a instance of model by name
-     * @param modelName Model name, defined in {@link @Model()} decotator
-     */
-    getModel<T extends BaseModel<any>>(modelName: string): T;
     /**
      * Return a list of Confugured routers
      */

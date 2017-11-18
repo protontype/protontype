@@ -20,14 +20,8 @@ class ExpressRouter {
     getBaseUrl() {
         return this.baseUrl;
     }
-    getModelInstances() {
-        return this.modelInstances;
-    }
     sendErrorMessage(res, error) {
         res.status(412).json({ msg: error.message });
-    }
-    getModel(modelName) {
-        return this.protonApplication.getModel(modelName);
     }
     getRouter() {
         return this.router;

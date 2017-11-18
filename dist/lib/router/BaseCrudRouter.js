@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const ExpressRouter_1 = require("../router/ExpressRouter");
 const Method_1 = require("./Method");
+const class_transformer_1 = require("class-transformer");
 /**
  * Created by Humberto Machado on 14/08/2016.
  */
@@ -15,35 +16,28 @@ class BaseCrudRouter extends ExpressRouter_1.ExpressRouter {
         this.addRoute('/:id', Method_1.Method.DELETE, this.destroy, this.useAuth ? this.useAuth.delete : false);
     }
     addRoute(endpoint, method, routeFunction, useAuth) {
-        this.modelInstances.forEach(modelInstance => {
-            let formatedEndpoint = endpoint;
-            if (this.modelInstances.length > 1) {
-                formatedEndpoint = '/' + modelInstance.getModelName().toLowerCase() + endpoint;
-            }
-            this.addRouteConfig({
-                endpoint: formatedEndpoint,
-                method: method,
-                routeFunction: routeFunction,
-                modelName: modelInstance.getModelName(),
-                useAuth: useAuth
-            });
+        this.addRouteConfig({
+            endpoint: endpoint,
+            method: method,
+            routeFunction: routeFunction,
+            useAuth: useAuth
         });
     }
     findAll(params) {
-        params.model.getInstance().findAll({})
-            .then(result => params.res.send(result))
+        params.app.db.getRepository(this.crudModel)
+            .find().then(result => params.res.send(JSON.stringify(result)))
             .catch(error => super.sendErrorMessage(params.res, error));
     }
     create(params) {
-        params.model.getInstance().create(params.req.body)
-            .then(result => params.res.send(result))
+        params.app.db.getRepository(this.crudModel).save(class_transformer_1.plainToClass(this.crudModel, JSON.parse(params.req.body)))
+            .then(result => params.res.send(JSON.stringify(result)))
             .catch(error => this.sendErrorMessage(params.res, error));
     }
     findOne(params) {
-        params.model.getInstance().findOne({ where: params.req.params })
+        params.app.db.getRepository(this.crudModel).findOne({ where: params.req.params })
             .then(result => {
             if (result) {
-                params.res.send(result);
+                params.res.send(JSON.stringify(result));
             }
             else {
                 params.res.sendStatus(404);
@@ -52,19 +46,13 @@ class BaseCrudRouter extends ExpressRouter_1.ExpressRouter {
             .catch(error => this.sendErrorMessage(params.res, error));
     }
     update(params) {
-        params.model.getInstance().update(params.req.body, { where: params.req.params })
-            .then(result => params.res.sendStatus(204))
+        params.app.db.getRepository(this.crudModel).update(params.req.params, JSON.parse(params.req.body))
+            .then(result => { params.res.sendStatus(204); })
             .catch(error => this.sendErrorMessage(params.res, error));
     }
     destroy(params) {
         let ids = params.req.params.id.split(',');
-        params.model.getInstance().destroy({
-            where: {
-                id: {
-                    $in: ids
-                }
-            }
-        })
+        params.app.db.getRepository(this.crudModel).removeByIds(ids)
             .then(result => params.res.sendStatus(204))
             .catch(error => this.sendErrorMessage(params.res, error));
     }

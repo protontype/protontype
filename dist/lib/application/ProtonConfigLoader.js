@@ -17,15 +17,24 @@ exports.ProtonConfigLoader = ProtonConfigLoader;
 exports.DEFAULT_CONFIG = {
     "port": 3000,
     "database": {
-        "name": "proton-example",
-        "username": "",
-        "password": "",
-        "options": {
-            "dialect": "sqlite",
-            "storage": "proton.sqlite",
-            "define": {
-                "underscored": true
-            }
+        "name": "protontypeConnection",
+        "type": "sqlite",
+        "database": "proton.db",
+        "synchronize": true,
+        "logging": false,
+        "entities": [
+            "dist/model/**/*.js"
+        ],
+        "migrations": [
+            "dist/migration/**/*.ts"
+        ],
+        "subscribers": [
+            "dist/subscriber/**/*.ts"
+        ],
+        "cli": {
+            "entitiesDir": "dist/model",
+            "migrationsDir": "dist/migration",
+            "subscribersDir": "dist/subscriber"
         }
     }
 };

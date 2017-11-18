@@ -9,24 +9,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const MiddlewareConfig_1 = require("./../decorators/MiddlewareConfig");
 const ProtonMiddleware_1 = require("./ProtonMiddleware");
-const bodyParser = require("body-parser");
-class JsonContentMiddleware extends ProtonMiddleware_1.ProtonMiddleware {
-    jsonContentMiddlewareFunc(params) {
-        params.res.header('Content-type', 'application/json');
-        this.configureJsonProperties(params.app.getExpress());
-        params.next();
-    }
-    configMiddlewares() {
-        this.configureJsonProperties(this.express);
-    }
-    configureJsonProperties(express) {
-        this.express.set("json spaces", 2);
-        this.express.use(bodyParser.json());
-        this.express.use((req, res, next) => {
-            delete req.body.id;
-            next();
+const MiddlewareConfig_1 = require("../decorators/MiddlewareConfig");
+class BodyParserMiddleware extends ProtonMiddleware_1.ProtonMiddleware {
+    bodyParser(params) {
+        var data = '';
+        params.req.setEncoding('utf8');
+        params.req.on('data', (rawData) => data += rawData);
+        params.req.on('end', () => {
+            params.req.body = data;
+            params.next();
         });
     }
 }
@@ -35,6 +27,6 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
-], JsonContentMiddleware.prototype, "jsonContentMiddlewareFunc", null);
-exports.JsonContentMiddleware = JsonContentMiddleware;
-//# sourceMappingURL=JsonContentMiddleware.js.map
+], BodyParserMiddleware.prototype, "bodyParser", null);
+exports.BodyParserMiddleware = BodyParserMiddleware;
+//# sourceMappingURL=BodyParserMiddleware.js.map
