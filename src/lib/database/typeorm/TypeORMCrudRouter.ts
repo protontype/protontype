@@ -1,13 +1,15 @@
-import { RouterFunctionParams } from './../decorators/RouteConfig';
-import { ExpressRouter } from '../router/ExpressRouter';
-import { ProtonApplication } from './../application/ProtonApplication';
-import { Method } from './Method';
-import * as express from 'express';
-import {plainToClass} from "class-transformer";
+import { plainToClass } from 'class-transformer';
+
+import { ProtonApplication } from '../../application/ProtonApplication';
+import { ExpressRouter } from '../../router/ExpressRouter';
+import { Method } from '../../router/Method';
+import { RouterFunctionParams } from './../../decorators/RouteConfig';
+import { TypeORMDB } from './TypeORMDBConnector';
+
 /**
  * Created by Humberto Machado on 14/08/2016.
  */
-export abstract class BaseCrudRouter extends ExpressRouter {
+export class TypeORMCrudRouter extends ExpressRouter {
     private useAuth: UseAuthOptions;
     private crudModel: {
         new(...args: any[]);
@@ -33,19 +35,19 @@ export abstract class BaseCrudRouter extends ExpressRouter {
     }
 
     public findAll(params: RouterFunctionParams) {
-        params.app.db.getRepository(this.crudModel)
+        TypeORMDB.getBD().getRepository(this.crudModel)
             .find().then(result => params.res.send(JSON.stringify(result)))
             .catch(error => super.sendErrorMessage(params.res, error));
     }
 
     public create(params: RouterFunctionParams) {
-        params.app.db.getRepository(this.crudModel).save(plainToClass(this.crudModel, JSON.parse(params.req.body)))
+        TypeORMDB.getBD().getRepository(this.crudModel).save(plainToClass(this.crudModel, JSON.parse(params.req.body)))
             .then(result => params.res.send(JSON.stringify(result)))
             .catch(error => this.sendErrorMessage(params.res, error));
     }
 
     public findOne(params: RouterFunctionParams) {
-        params.app.db.getRepository(this.crudModel).findOne({ where: params.req.params })
+        TypeORMDB.getBD().getRepository(this.crudModel).findOne({ where: params.req.params })
             .then(result => {
                 if (result) {
                     params.res.send(JSON.stringify(result));
@@ -57,14 +59,14 @@ export abstract class BaseCrudRouter extends ExpressRouter {
     }
 
     public update(params: RouterFunctionParams) {
-        params.app.db.getRepository(this.crudModel).update(params.req.params, JSON.parse(params.req.body))
+        TypeORMDB.getBD().getRepository(this.crudModel).update(params.req.params, JSON.parse(params.req.body))
             .then(result => { params.res.sendStatus(204); })
             .catch(error => this.sendErrorMessage(params.res, error));
     }
 
     public destroy(params: RouterFunctionParams) {
         let ids: string[] = (params.req.params.id as string).split(',');
-        params.app.db.getRepository(this.crudModel).removeByIds(ids)
+        TypeORMDB.getBD().getRepository(this.crudModel).removeByIds(ids)
             .then(result => params.res.sendStatus(204))
             .catch(error => this.sendErrorMessage(params.res, error));
     }

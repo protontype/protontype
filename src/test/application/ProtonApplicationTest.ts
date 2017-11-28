@@ -1,4 +1,4 @@
-import { JsonContentMiddleware, ProtonApplication } from '../../lib';
+import { JsonContentMiddleware, ProtonApplication, TypeORMDB } from '../../lib';
 import { GlobalConfig } from '../../lib';
 import {
     GLOBAL_MIDDLEWARE_MSG,
@@ -29,8 +29,8 @@ class ProtonApplicationTest {
     }
 
     after(done: Function) {
-        if (this.app && this.app.db) {
-            this.app.db.dropDatabase()
+        if (this.app && TypeORMDB.getBD()) {
+            TypeORMDB.getBD().dropDatabase()
                 .then(() => done())
                 .catch((err) => {
                     done(err);

@@ -1,7 +1,7 @@
 import * as cors from 'cors';
 import { JsonLoader } from 'jsontyped';
-import * as winston from 'winston';
 import { ConnectionOptions } from 'typeorm';
+import * as winston from 'winston';
 
 export class ProtonConfigLoader {
     /**
@@ -18,7 +18,7 @@ export class ProtonConfigLoader {
 
 export interface GlobalConfig {
     port: number;
-    database: ConnectionOptions;
+    database: ConnectionOptions|any;
     cors?: cors.CorsOptions;
     logger?: LoggerConfig;
     https?: HTTPSConfig;

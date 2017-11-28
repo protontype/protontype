@@ -1,6 +1,10 @@
 export * from "./application/ProtonConfigLoader";
 export * from "./application/ProtonApplication";
 
+export * from "./database/DBConnector";
+export * from "./database/typeorm/TypeORMDBConnector";
+export * from "./database/typeorm/TypeORMCrudRouter";
+
 export * from "./decorators/RouteConfig";
 export * from "./decorators/MiddlewareConfig";
 
@@ -11,4 +15,3 @@ export * from "./middlewares/BodyParserMiddleware";
 
 export * from "./router/ExpressRouter";
 export * from "./router/Method";
-export * from "./router/BaseCrudRouter";

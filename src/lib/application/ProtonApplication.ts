@@ -1,32 +1,35 @@
-import { MiddlewareFunctionParams } from './../decorators/MiddlewareConfig';
-import { RouterFunctionParams } from './../decorators/RouteConfig';
+import 'reflect-metadata';
+
+import * as Express from 'express';
+import * as fs from 'fs';
+import * as https from 'https';
+import * as winston from 'winston';
+
+import { DBConnector, ProtonDB } from '../database/DBConnector';
+import { TypeORMDBConnector } from '../database/typeorm/TypeORMDBConnector';
+import { RouteConfig } from '../decorators/RouteConfig';
 import { AuthMiddleware } from '../middlewares/AuthMiddleware';
 import { DefaultMiddleware } from '../middlewares/DefaultMiddleware';
 import { ProtonMiddleware } from '../middlewares/ProtonMiddleware';
 import { ExpressRouter } from '../router/ExpressRouter';
 import { Method } from '../router/Method';
-import { RouteConfig } from '../decorators/RouteConfig';
+import { MiddlewareFunctionParams } from './../decorators/MiddlewareConfig';
+import { RouterFunctionParams } from './../decorators/RouteConfig';
 import { Logger } from './Logger';
 import { DEFAULT_CONFIG, GlobalConfig, ProtonConfigLoader } from './ProtonConfigLoader';
-import * as Express from 'express';
-import * as fs from 'fs';
-import * as https from 'https';
-import * as winston from 'winston';
-import 'reflect-metadata';
-import {createConnection, Connection} from "typeorm";
 
 /**
  * @author Humberto Machado
  * Protontype main class. Configure and start Routers, Middlewares and bootstrap application
  */
-export class ProtonApplication {
+export class ProtonApplication{
     private express: Express.Application;
     private middlewares: ProtonMiddleware[] = [];
     private routers: ExpressRouter[] = [];
     private authMiddleware: AuthMiddleware;
     private config: GlobalConfig;
     private logger: winston.LoggerInstance;
-    public db: Connection;
+    private dbConnector: DBConnector<any, any>;
 
     /**
      * Create Protontype aplication
@@ -44,13 +47,21 @@ export class ProtonApplication {
     public bootstrap(): Promise<ProtonApplication> {
         return new Promise<ProtonApplication>((resolve, reject) => {
             this.configMiddlewares();
-            createConnection(this.config.database).then(connection => {
-                this.db = connection;
+            this.connectDB().then(connection => {
+                ProtonDB.dbConnection = connection;
                 this.configureRoutes();
                 this.startServer(this.config);
                 resolve(this);
             }).catch(error => reject(error));
         });
+    }
+
+    private connectDB(): Promise<any> {
+        if (this.dbConnector) {
+            return this.dbConnector.createConnection(this.config.database);
+        } else {
+            return new TypeORMDBConnector().createConnection(this.config.database);
+        }
     }
 
     private startServer(config: GlobalConfig): void {

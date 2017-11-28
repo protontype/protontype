@@ -33,7 +33,6 @@ export class Logger {
                 });
             }
 
-
             if (config.enabled) {
                 Logger.instance = new winston.Logger({
                     transports: configuredTransports

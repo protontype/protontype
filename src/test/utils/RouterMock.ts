@@ -1,5 +1,4 @@
-import { create } from 'domain';
-import { BaseCrudRouter, Method, Route, RouterClass, UseAuth } from '../../lib';
+import { Method, Route, RouterClass, TypeORMCrudRouter, UseAuth } from '../../lib';
 import { RouterFunctionParams } from '../../lib/decorators/RouteConfig';
 import { BodyParserMiddleware } from './../../lib/middlewares/BodyParserMiddleware';
 import { GlobalRouterMiddlewareMock, RouterMiddlewareMock } from './MiddlewareMock';
@@ -16,7 +15,7 @@ import { ModelMock } from './ModelMock';
     middlewares: [new GlobalRouterMiddlewareMock(), new BodyParserMiddleware()],
     model: ModelMock
 })
-export class RouterMock extends BaseCrudRouter {
+export class RouterMock extends TypeORMCrudRouter {
 
     @Route({
         endpoint: '/test/msg',
