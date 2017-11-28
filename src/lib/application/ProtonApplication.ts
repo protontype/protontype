@@ -184,6 +184,11 @@ export class ProtonApplication{
         return this;
     }
 
+    public withDBConnector(dbConnector: DBConnector<any, any>): this {
+        this.dbConnector = dbConnector;
+        return this;
+    }
+
     /**
      * Used to route autentication.
      */
