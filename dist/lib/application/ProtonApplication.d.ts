@@ -1,10 +1,10 @@
+import 'reflect-metadata';
+import * as Express from 'express';
+import { DBConnector } from '../database/DBConnector';
 import { AuthMiddleware } from '../middlewares/AuthMiddleware';
 import { ProtonMiddleware } from '../middlewares/ProtonMiddleware';
 import { ExpressRouter } from '../router/ExpressRouter';
 import { GlobalConfig } from './ProtonConfigLoader';
-import * as Express from 'express';
-import 'reflect-metadata';
-import { Connection } from "typeorm";
 /**
  * @author Humberto Machado
  * Protontype main class. Configure and start Routers, Middlewares and bootstrap application
@@ -16,7 +16,7 @@ export declare class ProtonApplication {
     private authMiddleware;
     private config;
     private logger;
-    db: Connection;
+    private dbConnector;
     /**
      * Create Protontype aplication
      */
@@ -26,6 +26,7 @@ export declare class ProtonApplication {
      * @return express instance
      */
     bootstrap(): Promise<ProtonApplication>;
+    private connectDB();
     private startServer(config);
     private loadConfig(config?);
     /**
@@ -45,6 +46,7 @@ export declare class ProtonApplication {
      * @param authMiddleware AuthMiddleware implementation
      */
     withAuthMiddleware(authMiddleware: AuthMiddleware): this;
+    withDBConnector(dbConnector: DBConnector<any, any>): this;
     /**
      * Used to route autentication.
      */

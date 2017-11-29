@@ -1,14 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+require("reflect-metadata");
+const Express = require("express");
+const fs = require("fs");
+const https = require("https");
+const DBConnector_1 = require("../database/DBConnector");
+const TypeORMDBConnector_1 = require("../database/typeorm/TypeORMDBConnector");
 const DefaultMiddleware_1 = require("../middlewares/DefaultMiddleware");
 const Method_1 = require("../router/Method");
 const Logger_1 = require("./Logger");
 const ProtonConfigLoader_1 = require("./ProtonConfigLoader");
-const Express = require("express");
-const fs = require("fs");
-const https = require("https");
-require("reflect-metadata");
-const typeorm_1 = require("typeorm");
 /**
  * @author Humberto Machado
  * Protontype main class. Configure and start Routers, Middlewares and bootstrap application
@@ -31,13 +32,21 @@ class ProtonApplication {
     bootstrap() {
         return new Promise((resolve, reject) => {
             this.configMiddlewares();
-            typeorm_1.createConnection(this.config.database).then(connection => {
-                this.db = connection;
+            this.connectDB().then(connection => {
+                DBConnector_1.ProtonDB.dbConnection = connection;
                 this.configureRoutes();
                 this.startServer(this.config);
                 resolve(this);
             }).catch(error => reject(error));
         });
+    }
+    connectDB() {
+        if (this.dbConnector) {
+            return this.dbConnector.createConnection(this.config.database);
+        }
+        else {
+            return new TypeORMDBConnector_1.TypeORMDBConnector().createConnection(this.config.database);
+        }
     }
     startServer(config) {
         let port = this.config.port;
@@ -149,6 +158,10 @@ class ProtonApplication {
     withAuthMiddleware(authMiddleware) {
         this.authMiddleware = authMiddleware;
         this.authMiddleware.init(this).configMiddlewares();
+        return this;
+    }
+    withDBConnector(dbConnector) {
+        this.dbConnector = dbConnector;
         return this;
     }
     /**

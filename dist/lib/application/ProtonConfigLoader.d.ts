@@ -1,6 +1,6 @@
 import * as cors from 'cors';
-import * as winston from 'winston';
 import { ConnectionOptions } from 'typeorm';
+import * as winston from 'winston';
 export declare class ProtonConfigLoader {
     /**
      * Load confg file
@@ -11,7 +11,7 @@ export declare class ProtonConfigLoader {
 }
 export interface GlobalConfig {
     port: number;
-    database: ConnectionOptions;
+    database: ConnectionOptions | any;
     cors?: cors.CorsOptions;
     logger?: LoggerConfig;
     https?: HTTPSConfig;
