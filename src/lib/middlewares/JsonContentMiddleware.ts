@@ -1,6 +1,7 @@
 import { Middleware, MiddlewareFunctionParams } from './../decorators/MiddlewareConfig';
 import { ProtonMiddleware } from './ProtonMiddleware';
 import * as bodyParser from 'body-parser';
+import * as express from 'express';
 
 export class JsonContentMiddleware extends ProtonMiddleware {
 
@@ -15,7 +16,7 @@ export class JsonContentMiddleware extends ProtonMiddleware {
         this.configureJsonProperties(this.express);
     }
 
-    configureJsonProperties(express: Express.Application) {
+    configureJsonProperties(express: express.Application) {
         this.express.set("json spaces", 2);
         this.express.use(bodyParser.json());
         this.express.use((req, res, next) => {
