@@ -11,7 +11,6 @@ __export(require("./database/typeorm/TypeORMCrudRouter"));
 __export(require("./decorators/RouteConfig"));
 __export(require("./decorators/MiddlewareConfig"));
 __export(require("./middlewares/ProtonMiddleware"));
-__export(require("./middlewares/AuthMiddleware"));
 __export(require("./middlewares/JsonContentMiddleware"));
 __export(require("./middlewares/BodyParserMiddleware"));
 __export(require("./router/ExpressRouter"));

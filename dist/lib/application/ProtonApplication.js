@@ -31,9 +31,9 @@ class ProtonApplication {
      */
     bootstrap() {
         return new Promise((resolve, reject) => {
-            this.configMiddlewares();
             this.connectDB().then(connection => {
                 DBConnector_1.ProtonDB.dbConnection = connection;
+                this.configMiddlewares();
                 this.configureRoutes();
                 this.startServer(this.config);
                 resolve(this);
@@ -108,37 +108,37 @@ class ProtonApplication {
     createRoutesByMethod(config, router) {
         switch (config.method) {
             case Method_1.Method.GET:
-                this.express.get(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.configRouteMiddlewares(config, router), (req, res) => {
+                this.express.get(router.getBaseUrl() + config.endpoint, this.configRouteMiddlewares(config, router), (req, res) => {
                     config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
             case Method_1.Method.POST:
-                this.express.post(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.configRouteMiddlewares(config, router), (req, res) => {
+                this.express.post(router.getBaseUrl() + config.endpoint, this.configRouteMiddlewares(config, router), (req, res) => {
                     config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
             case Method_1.Method.PUT:
-                this.express.put(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.configRouteMiddlewares(config, router), (req, res) => {
+                this.express.put(router.getBaseUrl() + config.endpoint, this.configRouteMiddlewares(config, router), (req, res) => {
                     config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
             case Method_1.Method.DELETE:
-                this.express.delete(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.configRouteMiddlewares(config, router), (req, res) => {
+                this.express.delete(router.getBaseUrl() + config.endpoint, this.configRouteMiddlewares(config, router), (req, res) => {
                     config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
             case Method_1.Method.PATCH:
-                this.express.patch(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.configRouteMiddlewares(config, router), (req, res) => {
+                this.express.patch(router.getBaseUrl() + config.endpoint, this.configRouteMiddlewares(config, router), (req, res) => {
                     config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
             case Method_1.Method.OPTIONS:
-                this.express.options(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.configRouteMiddlewares(config, router), (req, res) => {
+                this.express.options(router.getBaseUrl() + config.endpoint, this.configRouteMiddlewares(config, router), (req, res) => {
                     config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
             case Method_1.Method.HEAD:
-                this.express.head(router.getBaseUrl() + config.endpoint, this.authenticate(config.useAuth), this.configRouteMiddlewares(config, router), (req, res) => {
+                this.express.head(router.getBaseUrl() + config.endpoint, this.configRouteMiddlewares(config, router), (req, res) => {
                     config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
@@ -150,30 +150,9 @@ class ProtonApplication {
     createMiddlewareFunctionParams(req, res, next, app) {
         return { req: req, res: res, next: next, app: app };
     }
-    /**
-     * Add Authentication Middleware
- 
-     * @param authMiddleware AuthMiddleware implementation
-     */
-    withAuthMiddleware(authMiddleware) {
-        this.authMiddleware = authMiddleware;
-        this.authMiddleware.init(this).configMiddlewares();
-        return this;
-    }
     withDBConnector(dbConnector) {
         this.dbConnector = dbConnector;
         return this;
-    }
-    /**
-     * Used to route autentication.
-     */
-    authenticate(useAuth) {
-        if (this.authMiddleware != null && useAuth) {
-            return this.authMiddleware.authenticate();
-        }
-        else {
-            return (req, res, next) => next();
-        }
     }
     /**
      * Configures the Route Scope Middlewares and Router Scope Middlewares

@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 import * as Express from 'express';
 import { DBConnector } from '../database/DBConnector';
-import { AuthMiddleware } from '../middlewares/AuthMiddleware';
 import { ProtonMiddleware } from '../middlewares/ProtonMiddleware';
 import { ExpressRouter } from '../router/ExpressRouter';
 import { GlobalConfig } from './ProtonConfigLoader';
@@ -13,7 +12,6 @@ export declare class ProtonApplication {
     private express;
     private middlewares;
     private routers;
-    private authMiddleware;
     private config;
     private logger;
     private dbConnector;
@@ -40,17 +38,7 @@ export declare class ProtonApplication {
     private createRoutesByMethod(config, router);
     private createRouterFunctionParams(req, res, app);
     private createMiddlewareFunctionParams(req, res, next, app);
-    /**
-     * Add Authentication Middleware
- 
-     * @param authMiddleware AuthMiddleware implementation
-     */
-    withAuthMiddleware(authMiddleware: AuthMiddleware): this;
     withDBConnector(dbConnector: DBConnector<any, any>): this;
-    /**
-     * Used to route autentication.
-     */
-    private authenticate(useAuth);
     /**
      * Configures the Route Scope Middlewares and Router Scope Middlewares
      *
