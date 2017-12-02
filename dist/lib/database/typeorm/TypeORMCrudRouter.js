@@ -4,6 +4,7 @@ const class_transformer_1 = require("class-transformer");
 const ExpressRouter_1 = require("../../router/ExpressRouter");
 const Method_1 = require("../../router/Method");
 const TypeORMDBConnector_1 = require("./TypeORMDBConnector");
+const BodyParserMiddleware_1 = require("./../../middlewares/BodyParserMiddleware");
 /**
  * Created by Humberto Machado on 14/08/2016.
  */
@@ -21,7 +22,8 @@ class TypeORMCrudRouter extends ExpressRouter_1.ExpressRouter {
             endpoint: endpoint,
             method: method,
             routeFunction: routeFunction,
-            useAuth: useAuth
+            useAuth: useAuth,
+            middlewares: [new BodyParserMiddleware_1.BodyParserMiddleware()]
         });
     }
     findAll(params) {
