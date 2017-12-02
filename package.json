@@ -13,9 +13,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/linck/protontype"
+    "url": "https://github.com/protontype/protontype.git"
   },
-  "homepage": "https://github.com/linck/protontype",
+  "homepage": "https://github.com/protontype/protontype.git",
   "keywords": [
     "typescript",
     "express",
