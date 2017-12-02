@@ -14,98 +14,94 @@ npm install protontype --save
 ```
  
 ## Models
+Usa [TypeORM](http://typeorm.io/#/) por padrão para acesso a banco de dados
 
 ```javascript
-    import { BaseModel, SequelizeBaseModelAttr, Model, DataTypes } from 'protontype';
-    
-    @Model({
-        name: "Particles",
-        definition: {
-            name: {
-                type: DataTypes.STRING
-            },
-            symbol: {
-                type: DataTypes.STRING
-            },
-            mass: {
-                type: DataTypes.BIGINT
-            }
-    
-        }
-    })
-    @HasMany('SubatomicParticles')
-    @BelongsTo('Atoms')
-    export class ParticlesModel extends BaseModel<Particle> {
-    
-    }
-    
-    export interface Particle extends SequelizeBaseModelAttr {
-        name: string;
-        symbol: string;
-        mass: number;
-    }
+@Entity()
+export class TasksModel {
+    @PrimaryGeneratedColumn()
+    id: number;
+    @Column({ nullable: true })
+    title: string;
+    @Column()
+    done: boolean;
+    @Column()
+    userId: number;
+}
 ```
-
-## Router
-
-```javascript
-    import { ParticlesModel } from './ParticlesModel';
-    import { BaseCrudRouter, RouterClass } from 'protontype';
-    
-    @RouterClass({
-        baseUrl: '/particles',
-        modelInstances: [new ParticlesModel()],
-        middlewares: [new ParticlesMiddleware()]
-    })
-    export class ParticlesRouter extends BaseCrudRouter {
-
-        @Route({
-            endpoint: '/list',
-            method: Method.GET,
-            modelName: 'Particles',
-            middlewares: [ new AccelerateParticlesMiddleware() ]
-        })
-        separateOneParticle(params: RouterFunctionParams) {
-            params.res.send('Próton');
-        }
-    
-    }
-```
-
 ## Middlewares
+Suporta implementação de middlewares
 
 ```javascript
-import { Middleware, MiddlewareFunctionParams, ProtonMiddleware } from 'protontype';
-export class ParticlesMiddleware extends ProtonMiddleware {
-
+export class TasksMiddleware extends ProtonMiddleware {
     @Middleware()
-    printParticleName(params: MiddlewareFunctionParams) {
-        cosole.log('Próton');
+    printTaskTitle(params: MiddlewareFunctionParams) {
+        cosole.log(params.req.body.title);
         params.next();
     }
 }
 ```
 
+## Router
+Rotas básicas de CRUD já implementadas CrudRouters
+
+```javascript
+ @RouterClass({
+    baseUrl: "/tasks",
+    model: TasksModel,
+    middlewares: [new TasksMiddleware()]
+})
+export class TasksRouter extends TypeORMCrudRouter {
+    /*
+    GET / - Lista todos registros
+    POST / - Cria um registro
+    GET /:id - Consulta um registro
+    PUT /:id - Atualiza um registro
+    DELETE /:id - Remove um registro
+    */
+
+    //Novas rotas customizadas ....
+}
+```
+
+Ou pode implementar rotas customizadas
+```javascript
+ @RouterClass({
+    baseUrl: "/tasks",
+    model: TasksModel,
+    middlewares: [new TasksMiddleware()]
+})
+export class TasksRouter extends ExpressRouter {
+    @Route({
+        endpoint: '/test/msg',
+        method: Method.GET,
+        middlewares: [new OtherMiddleware()]
+    })
+    routeTest(params: RouterFunctionParams) {
+        console.log("Hello!");
+    }
+}
+```
+
+
+
 ## Bootstraping
 
 ```javascript
-    import { ParticlesRouter } from './ParticlesRouter';
-    import { ProtonApplication } from 'protontype';
-    
     new ProtonApplication()
-        .addRouter(new ParticlesRouter())
-        .addMiddleware(new ParticlesMiddleware())
+        .addRouter(new TasksRouter())
+        .addMiddleware(new SomeoneGlobalMiddleware())
         .bootstrap();
 ```
 ## Documentação
-https://linck.github.io/protontype-docs
+<https://protontype.github.io/protontype-docs>
 
 ## NPM
-https://www.npmjs.com/package/protontype
+<https://www.npmjs.com/package/protontype>
 
 ## Exemplos
-<https://github.com/linck/protontype-example>
+<https://github.com/protontype/protontype-sample>
+<https://github.com/protontype/protontype-sequelize-sample>
 
-<https://github.com/linck/proton-quickstart>
 
 [English](https://github.com/linck/protontype/blob/develop/README_en.md "") / [Português](https://github.com/linck/protontype/blob/develop/README.md "")
