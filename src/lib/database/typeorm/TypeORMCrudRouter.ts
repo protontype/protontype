@@ -5,6 +5,7 @@ import { ExpressRouter } from '../../router/ExpressRouter';
 import { Method } from '../../router/Method';
 import { RouterFunctionParams } from './../../decorators/RouteConfig';
 import { TypeORMDB } from './TypeORMDBConnector';
+import { BodyParserMiddleware } from './../../middlewares/BodyParserMiddleware';
 
 /**
  * Created by Humberto Machado on 14/08/2016.
@@ -30,7 +31,8 @@ export class TypeORMCrudRouter extends ExpressRouter {
                 endpoint: endpoint,
                 method: method,
                 routeFunction: routeFunction,
-                useAuth: useAuth
+                useAuth: useAuth,
+                middlewares: [new BodyParserMiddleware()]
             });
     }
 
