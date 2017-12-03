@@ -2,7 +2,7 @@
 # ProtonType 
 
 <div align="center">
-  <a href="https://typeorm.io/">
+  <a href="https://protontype.github.io/protontype-docs/">
     <img src="https://avatars1.githubusercontent.com/u/34164645?s=200&v=4">
   </a>
   <br>
