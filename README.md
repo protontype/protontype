@@ -2,7 +2,7 @@
 # ProtonType 
 
 <div align="center">
-  <a href="https://protontype.github.io/protontype-docs/">
+  <a href="https://protontype.github.io/">
     <img src="https://avatars1.githubusercontent.com/u/34164645?s=200&v=4">
   </a>
   <br>
@@ -22,7 +22,7 @@ Um simples web framework feito em TypeScript.
 O ProtonType tem como objetivo tornar simples e agradável o desenvolvimento de APIs REST e criação de modelos de banco de dados usando [TypeORM](http://typeorm.io/#/) por padrão. 
 
 ## Documentação
-- [Documentação completa](https://protontype.github.io/protontype-docs)
+- [Documentação completa](https://protontype.github.io/)
 - [API reference](https://protontype.github.io/protontype-api-reference/)
 
 ## Instalação
