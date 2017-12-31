@@ -38,3 +38,4 @@ Thumbs.db
 #Database
 *.sqlite
 *.db
+package-lock.json
