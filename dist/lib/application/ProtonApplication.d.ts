@@ -23,6 +23,12 @@ export declare class ProtonApplication {
      * Start up Protontype application.
      * @return express instance
      */
+    start(): Promise<ProtonApplication>;
+    /**
+     * Start up Protontype application.
+     * @deprecated use start()
+     * @return express instance
+     */
     bootstrap(): Promise<ProtonApplication>;
     private connectDB();
     private startServer(config);

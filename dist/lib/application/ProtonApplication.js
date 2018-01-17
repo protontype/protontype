@@ -29,7 +29,7 @@ class ProtonApplication {
      * Start up Protontype application.
      * @return express instance
      */
-    bootstrap() {
+    start() {
         return new Promise((resolve, reject) => {
             this.connectDB().then(connection => {
                 DBConnector_1.ProtonDB.dbConnection = connection;
@@ -39,6 +39,14 @@ class ProtonApplication {
                 resolve(this);
             }).catch(error => reject(error));
         });
+    }
+    /**
+     * Start up Protontype application.
+     * @deprecated use start()
+     * @return express instance
+     */
+    bootstrap() {
+        return this.start();
     }
     connectDB() {
         if (this.dbConnector) {
