@@ -1,7 +1,7 @@
 {
   "name": "protontype",
   "version": "2.1.1",
-  "description": "",
+  "description": "A simple REST framework make in TypeScript",
   "main": "dist/lib/index.js",
   "typings": "dist/lib/index.d.ts",
   "scripts": {
