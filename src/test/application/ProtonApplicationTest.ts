@@ -48,11 +48,10 @@ class ProtonApplicationTest {
     /**/
     @test('httpsTest')
     httpsTest(done: Function) {
-        this.config.https.enabled = true;
         ((this.config.database) as any).name = "httpsTestConnection";
         let app = new ProtonApplication(this.config)
             .addRouter(new RouterMock())
-            .bootstrap().then(async app => {
+            .start(3001, true).then(async app => {
                 done();
             }).catch((err) => {
                 done(err);
@@ -63,7 +62,7 @@ class ProtonApplicationTest {
     globalConfigTest(done: Function) {
         new ProtonApplication()
             .addRouter(new RouterMock())
-            .bootstrap().then(async app => {
+            .start(3002).then(async app => {
                 done();
             }).catch((err) => {
                 done(err);
@@ -72,7 +71,7 @@ class ProtonApplicationTest {
 
     private async testApplication(done: Function) {
         try {
-            await this.app.bootstrap()
+            await this.app.start()
             assert.equal(this.app.getRouters().length, 1);
             assert.equal(this.app.getRoutesList().length, 15);
 

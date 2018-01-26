@@ -10,6 +10,6 @@ export class TypeORMDBConnector implements DBConnector<ConnectionOptions, Connec
 
 export class TypeORMDB {
     public static getBD(): Connection {
-        return <Connection>ProtonDB.dbConnection;
+        return <Connection>ProtonDB.getBD();
     }
 }

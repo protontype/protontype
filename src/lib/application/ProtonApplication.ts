@@ -42,25 +42,21 @@ export class ProtonApplication{
      * Start up Protontype application.
      * @return express instance
      */
-    public start(): Promise<ProtonApplication> {
+    public start(port?: number, forceHttps?: boolean): Promise<ProtonApplication> {
         return new Promise<ProtonApplication>((resolve, reject) => {
-            this.connectDB().then(connection => {
-                ProtonDB.dbConnection = connection;
-                this.configMiddlewares();
-                this.configureRoutes();
-                this.startServer(this.config);
+            if(!ProtonDB.dbConnection) {
+                this.connectDB().then(connection => {
+                    ProtonDB.dbConnection = connection;
+                    this.configMiddlewares();
+                    this.configureRoutes();
+                    this.startServer(this.config, port, forceHttps);
+                    resolve(this);
+                }).catch(error => reject(error));
+            } else {
+                this.startServer(this.config, port, forceHttps);
                 resolve(this);
-            }).catch(error => reject(error));
+            }
         });
-    }
-
-    /**
-     * Start up Protontype application.
-     * @deprecated use start()
-     * @return express instance
-     */
-    public bootstrap(): Promise<ProtonApplication> {
-        return this.start();
     }
 
     private connectDB(): Promise<any> {
@@ -71,10 +67,12 @@ export class ProtonApplication{
         }
     }
 
-    private startServer(config: GlobalConfig): void {
+    private startServer(config: GlobalConfig, forcedPort?: number, forceHttps?: boolean): void {
         let port: number = this.config.port;
-        this.express.set("port", port);
-        if (config.https && config.https.enabled) {
+        if (forcedPort) {
+            port = forcedPort
+        }
+        if ((config.https && config.https.enabled) || forceHttps) {
             const credentials = {
                 key: fs.readFileSync(config.https.key),
                 cert: fs.readFileSync(config.https.cert)
@@ -182,6 +180,11 @@ export class ProtonApplication{
 
     public withDBConnector(dbConnector: DBConnector<any, any>): this {
         this.dbConnector = dbConnector;
+        return this;
+    }
+
+    public withConfig(config: any) : this {
+        this.config = config;
         return this;
     }
 
