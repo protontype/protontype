@@ -183,6 +183,11 @@ export class ProtonApplication{
         return this;
     }
 
+    public withDBConnectorAs(dbConnector: { new(...args: any[]) }): this {
+        this.withDBConnector(new dbConnector());
+        return this;
+    }
+
     public withConfig(config: any) : this {
         this.config = config;
         return this;
@@ -224,12 +229,22 @@ export class ProtonApplication{
         return this;
     }
 
+    public addRouterAs(router: { new(...args: any[]) }): this {
+        this.addRouter(new router());
+        return this;
+    }
+
     /**
      * Add Global Middleware. A middleware added here, will act for all routers of the application
      * @param middleware Middleware implementation
      */
     public addMiddleware(middleware: ProtonMiddleware): this {
         this.middlewares.push(middleware);
+        return this;
+    }
+
+    public addMiddlewareAs(middleware: { new(...args: any[]) }): this {
+        this.addMiddleware(new middleware());
         return this;
     }
 
