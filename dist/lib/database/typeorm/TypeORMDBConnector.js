@@ -10,7 +10,7 @@ class TypeORMDBConnector {
 exports.TypeORMDBConnector = TypeORMDBConnector;
 class TypeORMDB {
     static getBD() {
-        return DBConnector_1.ProtonDB.dbConnection;
+        return DBConnector_1.ProtonDB.getBD();
     }
 }
 exports.TypeORMDB = TypeORMDB;
