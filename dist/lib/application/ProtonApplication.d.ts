@@ -23,15 +23,9 @@ export declare class ProtonApplication {
      * Start up Protontype application.
      * @return express instance
      */
-    start(): Promise<ProtonApplication>;
-    /**
-     * Start up Protontype application.
-     * @deprecated use start()
-     * @return express instance
-     */
-    bootstrap(): Promise<ProtonApplication>;
+    start(port?: number, forceHttps?: boolean): Promise<ProtonApplication>;
     private connectDB();
-    private startServer(config);
+    private startServer(config, forcedPort?, forceHttps?);
     private loadConfig(config?);
     /**
      * Configure global Middlewares. Application scope
@@ -45,6 +39,10 @@ export declare class ProtonApplication {
     private createRouterFunctionParams(req, res, app);
     private createMiddlewareFunctionParams(req, res, next, app);
     withDBConnector(dbConnector: DBConnector<any, any>): this;
+    withDBConnectorAs(dbConnector: {
+        new (...args: any[]);
+    }): this;
+    withConfig(config: any): this;
     /**
      * Configures the Route Scope Middlewares and Router Scope Middlewares
      *
@@ -57,11 +55,17 @@ export declare class ProtonApplication {
      * @param router Router implementation
      */
     addRouter(router: ExpressRouter): this;
+    addRouterAs(router: {
+        new (...args: any[]);
+    }): this;
     /**
      * Add Global Middleware. A middleware added here, will act for all routers of the application
      * @param middleware Middleware implementation
      */
     addMiddleware(middleware: ProtonMiddleware): this;
+    addMiddlewareAs(middleware: {
+        new (...args: any[]);
+    }): this;
     /**
      * Return a express instance
      * @see {@link http://expressjs.com/en/4x/api.html}

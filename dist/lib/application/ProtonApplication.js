@@ -29,24 +29,22 @@ class ProtonApplication {
      * Start up Protontype application.
      * @return express instance
      */
-    start() {
+    start(port, forceHttps) {
         return new Promise((resolve, reject) => {
-            this.connectDB().then(connection => {
-                DBConnector_1.ProtonDB.dbConnection = connection;
-                this.configMiddlewares();
-                this.configureRoutes();
-                this.startServer(this.config);
+            if (!DBConnector_1.ProtonDB.dbConnection) {
+                this.connectDB().then(connection => {
+                    DBConnector_1.ProtonDB.dbConnection = connection;
+                    this.configMiddlewares();
+                    this.configureRoutes();
+                    this.startServer(this.config, port, forceHttps);
+                    resolve(this);
+                }).catch(error => reject(error));
+            }
+            else {
+                this.startServer(this.config, port, forceHttps);
                 resolve(this);
-            }).catch(error => reject(error));
+            }
         });
-    }
-    /**
-     * Start up Protontype application.
-     * @deprecated use start()
-     * @return express instance
-     */
-    bootstrap() {
-        return this.start();
     }
     connectDB() {
         if (this.dbConnector) {
@@ -56,10 +54,12 @@ class ProtonApplication {
             return new TypeORMDBConnector_1.TypeORMDBConnector().createConnection(this.config.database);
         }
     }
-    startServer(config) {
+    startServer(config, forcedPort, forceHttps) {
         let port = this.config.port;
-        this.express.set("port", port);
-        if (config.https && config.https.enabled) {
+        if (forcedPort) {
+            port = forcedPort;
+        }
+        if ((config.https && config.https.enabled) || forceHttps) {
             const credentials = {
                 key: fs.readFileSync(config.https.key),
                 cert: fs.readFileSync(config.https.cert)
@@ -162,6 +162,14 @@ class ProtonApplication {
         this.dbConnector = dbConnector;
         return this;
     }
+    withDBConnectorAs(dbConnector) {
+        this.withDBConnector(new dbConnector());
+        return this;
+    }
+    withConfig(config) {
+        this.config = config;
+        return this;
+    }
     /**
      * Configures the Route Scope Middlewares and Router Scope Middlewares
      *
@@ -198,12 +206,20 @@ class ProtonApplication {
         this.routers.push(router);
         return this;
     }
+    addRouterAs(router) {
+        this.addRouter(new router());
+        return this;
+    }
     /**
      * Add Global Middleware. A middleware added here, will act for all routers of the application
      * @param middleware Middleware implementation
      */
     addMiddleware(middleware) {
         this.middlewares.push(middleware);
+        return this;
+    }
+    addMiddlewareAs(middleware) {
+        this.addMiddleware(new middleware());
         return this;
     }
     /**
