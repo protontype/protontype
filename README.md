@@ -103,10 +103,10 @@ export class TasksRouter extends ExpressRouter {
 ## Iniciando a aplicação
 
 ```javascript
-    new ProtonApplication()
-        .addRouter(new TasksRouter())
-        .addMiddleware(new SomeoneGlobalMiddleware())
-        .bootstrap();
+new ProtonApplication()
+    .addRouterAs(TasksRouter)
+    .addMiddlewareAs(SomeoneGlobalMiddleware)
+    .start();
 ```
 
 ## Exemplos
