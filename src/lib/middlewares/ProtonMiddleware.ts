@@ -1,5 +1,5 @@
 import { ProtonApplication } from '../application/ProtonApplication';
-import * as Express from 'express';
+import Express from 'express';
 /**
  * @author Humberto Machado
  */

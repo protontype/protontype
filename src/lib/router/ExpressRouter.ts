@@ -1,9 +1,9 @@
 import { ProtonMiddleware } from '../middlewares/ProtonMiddleware';
 import { Logger } from './../application/Logger';
-import * as winston from 'winston';
+import winston from 'winston';
 import { ProtonApplication } from './../application/ProtonApplication';
 import { RouteConfig } from '../decorators/RouteConfig';
-import * as Express from 'express';
+import Express from 'express';
 /**
  * @author Humberto Machado
  * Express routes configurations

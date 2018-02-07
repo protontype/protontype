@@ -1,6 +1,6 @@
 import { ProtonApplication } from './../application/ProtonApplication';
 import { ProtonMiddleware } from '../middlewares/ProtonMiddleware';
-import * as express from 'express';
+import express from 'express';
 
 export function Middleware() {
     return function (target: ProtonMiddleware, propertyKey: string, descriptor: PropertyDescriptor) {

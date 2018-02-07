@@ -1,7 +1,7 @@
 import { Middleware, MiddlewareFunctionParams } from './../decorators/MiddlewareConfig';
 import { ProtonMiddleware } from './ProtonMiddleware';
-import * as bodyParser from 'body-parser';
-import * as express from 'express';
+import bodyParser from 'body-parser';
+import express from 'express';
 
 export class JsonContentMiddleware extends ProtonMiddleware {
 

@@ -1,7 +1,7 @@
-import * as cors from 'cors';
+import cors from 'cors';
 import { JsonLoader } from 'jsontyped';
 import { ConnectionOptions } from 'typeorm';
-import * as winston from 'winston';
+import winston from 'winston';
 
 export class ProtonConfigLoader {
     /**
