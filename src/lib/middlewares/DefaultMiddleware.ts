@@ -1,8 +1,8 @@
 import { JsonContentMiddleware } from './JsonContentMiddleware';
 import { ProtonMiddleware } from './ProtonMiddleware';
 import * as bodyParser from 'body-parser';
-import * as cors from 'cors';
-import * as helmet from 'helmet';
+import cors from 'cors';
+import helmet from 'helmet';
 /**
  * @author Humberto Machado
  */

@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 
-import * as Express from 'express';
-import * as fs from 'fs';
-import * as https from 'https';
-import * as winston from 'winston';
+import Express from 'express';
+import fs from 'fs';
+import https from 'https';
+import winston from 'winston';
 
 import { DBConnector, ProtonDB } from '../database/DBConnector';
 import { TypeORMDBConnector } from '../database/typeorm/TypeORMDBConnector';
