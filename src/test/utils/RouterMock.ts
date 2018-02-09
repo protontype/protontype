@@ -68,7 +68,7 @@ export class RouterMock extends TypeORMCrudRouter {
         method: Method.HEAD
     })
     routeHead(params: RouterFunctionParams) {
-        params.res.json({ method: 'head' });
+        params.res.end();
     }
 
     @Route({
@@ -76,7 +76,7 @@ export class RouterMock extends TypeORMCrudRouter {
         method: Method.OPTIONS
     })
     routeOptions(params: RouterFunctionParams) {
-        params.res.json({ method: 'options' });
+        params.res.end();
     }
 
     @Route({

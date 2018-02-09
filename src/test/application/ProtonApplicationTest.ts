@@ -1,4 +1,4 @@
-import { JsonContentMiddleware, ProtonApplication, TypeORMDB } from '../../lib';
+import { JsonContentMiddleware, ProtonApplication, TypeORMDB, TypeORMDBConnector } from '../../lib';
 import { GlobalConfig } from '../../lib';
 import {
     GLOBAL_MIDDLEWARE_MSG,
@@ -49,7 +49,8 @@ class ProtonApplicationTest {
     @test('httpsTest')
     httpsTest(done: Function) {
         ((this.config.database) as any).name = "httpsTestConnection";
-        let app = new ProtonApplication(this.config)
+        let app = new ProtonApplication().withConfig(this.config)
+            .withDBConnectorAs(TypeORMDBConnector)
             .addRouter(new RouterMock())
             .start(3001, true).then(async app => {
                 done();
@@ -89,6 +90,7 @@ class ProtonApplicationTest {
             await this.populateMocks();
             await this.updateMocks();
             await this.assertModelMockRoutes();
+            await this.testHTTPMethods();
             done();
         } catch (err) {
             done(err);
@@ -112,6 +114,22 @@ class ProtonApplicationTest {
             request(this.app.getExpress()).put('/mocks/1').send(JSON.stringify({ mockCol1: "mockCol1Updated" })).expect(200).end((err, res) => {
                 request(this.app.getExpress()).delete('/mocks/2').expect(200).end((err, res) => {
                     resolve();
+                });
+            });
+        });
+    }
+
+    private async testHTTPMethods(): Promise<any> {
+        return new Promise<ProtonApplication>((resolve, reject) => {
+            request(this.app.getExpress()).head('/mocks/test/method').expect(200).end((err, res) => {
+                if (err) reject(err);
+                request(this.app.getExpress()).patch('/mocks/test/method').expect(200).end((err, res) => {
+                    if (err) reject(err);
+                    assert.equal(res.body.method, 'patch');
+                    request(this.app.getExpress()).options('/mocks/test/method').expect(204).end((err, res) => {
+                        if (err) reject(err);
+                        resolve();
+                    });
                 });
             });
         });
