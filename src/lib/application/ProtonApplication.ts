@@ -104,8 +104,12 @@ export class ProtonApplication{
         this.middlewares.forEach(middleware => {
             middleware.init(this);
             middleware.configMiddlewares();
-            this.express.use((req, res, next) => 
-                middleware.middlewareFuntion.call(middleware, this.createMiddlewareFunctionParams(req, res, next, this)));
+            this.express.use((req, res, next) => {
+                middleware.middlewareFuntion.call(middleware, this.createMiddlewareFunctionParams(req, res, next, this))
+                if (middleware.autoNext) {
+                    next();
+                }
+            });
         });
     }
 
@@ -138,8 +142,8 @@ export class ProtonApplication{
                 break;
             case Method.POST:
                 this.express.post(router.getBaseUrl() + config.endpoint, this.configRouteMiddlewares(config, router), (req, res) => {
-                        config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
-                    });
+                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
+                });
                 break;
             case Method.PUT:
                 this.express.put(router.getBaseUrl() + config.endpoint, this.configRouteMiddlewares(config, router), (req, res) => {
@@ -162,7 +166,7 @@ export class ProtonApplication{
                 });
                 break;
             case Method.HEAD:
-                this.express.head(router.getBaseUrl() + config.endpoint,  this.configRouteMiddlewares(config, router), (req, res) => {
+                this.express.head(router.getBaseUrl() + config.endpoint, this.configRouteMiddlewares(config, router), (req, res) => {
                     config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
@@ -209,6 +213,9 @@ export class ProtonApplication{
                     middleware.configMiddlewares();
                     middlewares.push((req, res, next) => {
                         middleware.middlewareFuntion.call(middleware, this.createMiddlewareFunctionParams(req, res, next, this));
+                        if(middleware.autoNext) {
+                            next();
+                        }
                     });
                 } else {
                     middlewares.push((req, res, next) => { next() });

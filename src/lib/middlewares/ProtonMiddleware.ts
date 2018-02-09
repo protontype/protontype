@@ -7,6 +7,13 @@ export abstract class ProtonMiddleware {
     protected express: Express.Application;
     protected protonApplication: ProtonApplication;
     public middlewareFuntion: Express.RequestHandler;
+    public autoNext:boolean;
+
+    constructor(autoNext?: boolean) {
+        if (autoNext) {
+            this.autoNext = autoNext;
+        }
+    }
 
     public init(protonApplication: ProtonApplication): ProtonMiddleware {
         this.express = protonApplication.getExpress();
