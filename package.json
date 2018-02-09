@@ -5,7 +5,7 @@
   "main": "dist/lib/index.js",
   "typings": "dist/lib/index.d.ts",
   "scripts": {
-    "build": "tsc -w",
+    "build": "tsc",
     "start": "npm run build",
     "test": "tsc && mocha -t 30000 dist/test/**/*.js",
     "coverage": "tsc && nyc --reporter=html --reporter=text mocha -t 30000 dist/test/**/*.js",
