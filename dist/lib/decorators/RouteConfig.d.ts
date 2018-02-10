@@ -2,7 +2,7 @@ import { ProtonApplication } from './../application/ProtonApplication';
 import { ExpressRouter } from '../router/ExpressRouter';
 import { Method } from '../router/Method';
 import { ProtonMiddleware } from "../middlewares/ProtonMiddleware";
-import * as express from 'express';
+import express from 'express';
 /**
  * @author Humberto Machado
  * Decorator Route({..})

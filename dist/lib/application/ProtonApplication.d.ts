@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import * as Express from 'express';
+import Express from 'express';
 import { DBConnector } from '../database/DBConnector';
 import { ProtonMiddleware } from '../middlewares/ProtonMiddleware';
 import { ExpressRouter } from '../router/ExpressRouter';

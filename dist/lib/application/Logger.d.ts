@@ -1,5 +1,5 @@
 import { LoggerConfig } from '../';
-import * as winston from 'winston';
+import winston from 'winston';
 export declare class Logger {
     /**
      * Logger instance.

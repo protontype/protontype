@@ -1,7 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+}
 Object.defineProperty(exports, "__esModule", { value: true });
 const Logger_1 = require("./../application/Logger");
-const Express = require("express");
+const express_1 = __importDefault(require("express"));
 /**
  * @author Humberto Machado
  * Express routes configurations
@@ -12,7 +15,7 @@ class ExpressRouter {
     }
     init(protonApplication) {
         this.express = protonApplication.getExpress();
-        this.router = Express.Router();
+        this.router = express_1.default.Router();
         this.express.use(this.getBaseUrl(), this.router);
         this.protonApplication = protonApplication;
         this.logger.info(`>>>> Configured routes to ${this.getBaseUrl()} <<<<`);

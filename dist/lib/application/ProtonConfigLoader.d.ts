@@ -1,6 +1,6 @@
-import * as cors from 'cors';
+import cors from 'cors';
 import { ConnectionOptions } from 'typeorm';
-import * as winston from 'winston';
+import winston from 'winston';
 export declare class ProtonConfigLoader {
     /**
      * Load confg file

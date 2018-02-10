@@ -1,9 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+}
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
-const Express = require("express");
-const fs = require("fs");
-const https = require("https");
+const express_1 = __importDefault(require("express"));
+const fs_1 = __importDefault(require("fs"));
+const https_1 = __importDefault(require("https"));
 const DBConnector_1 = require("../database/DBConnector");
 const TypeORMDBConnector_1 = require("../database/typeorm/TypeORMDBConnector");
 const DefaultMiddleware_1 = require("../middlewares/DefaultMiddleware");
@@ -23,7 +26,7 @@ class ProtonApplication {
         this.routers = [];
         this.config = this.loadConfig(config);
         this.logger = Logger_1.Logger.createLogger(this.config.logger);
-        this.express = Express();
+        this.express = express_1.default();
     }
     /**
      * Start up Protontype application.
@@ -61,10 +64,10 @@ class ProtonApplication {
         }
         if ((config.https && config.https.enabled) || forceHttps) {
             const credentials = {
-                key: fs.readFileSync(config.https.key),
-                cert: fs.readFileSync(config.https.cert)
+                key: fs_1.default.readFileSync(config.https.key),
+                cert: fs_1.default.readFileSync(config.https.cert)
             };
-            https.createServer(credentials, this.express)
+            https_1.default.createServer(credentials, this.express)
                 .listen(port, () => this.logger.info(`Application listen port ${port} (HTTPS)`));
         }
         else {
@@ -91,7 +94,12 @@ class ProtonApplication {
         this.middlewares.forEach(middleware => {
             middleware.init(this);
             middleware.configMiddlewares();
-            this.express.use((req, res, next) => middleware.middlewareFuntion.call(middleware, this.createMiddlewareFunctionParams(req, res, next, this)));
+            this.express.use((req, res, next) => {
+                middleware.middlewareFuntion.call(middleware, this.createMiddlewareFunctionParams(req, res, next, this));
+                if (middleware.autoNext) {
+                    next();
+                }
+            });
         });
     }
     /**
@@ -186,6 +194,9 @@ class ProtonApplication {
                     middleware.configMiddlewares();
                     middlewares.push((req, res, next) => {
                         middleware.middlewareFuntion.call(middleware, this.createMiddlewareFunctionParams(req, res, next, this));
+                        if (middleware.autoNext) {
+                            next();
+                        }
                     });
                 }
                 else {
