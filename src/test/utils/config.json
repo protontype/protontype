@@ -1,5 +1,14 @@
 {
-  "port": "3000",
+  "servers": [
+    {
+      "port": 3001,
+      "useHttps": false
+    },
+    {
+      "port": 3002,
+      "useHttps": true
+    }
+  ],
   "defaultRoutes": true,
   "database": {
     "name": "defaultTestConnection",
@@ -45,8 +54,7 @@
     ]
   },
   "https": {
-    "enabled": false,
-    "key": "./src/test/cert/cert.key",
-    "cert": "./src/test/cert/cert.cert"
+    "key": "./src/test/utils/cert/cert.key",
+    "cert": "./src/test/utils/cert/cert.cert"
   }
 }

@@ -15,7 +15,7 @@ import { Method } from '../router/Method';
 import { MiddlewareFunctionParams } from './../decorators/MiddlewareConfig';
 import { RouterFunctionParams } from './../decorators/RouteConfig';
 import { Logger } from './Logger';
-import { DEFAULT_CONFIG, GlobalConfig, ProtonConfigLoader } from './ProtonConfigLoader';
+import { DEFAULT_CONFIG, GlobalConfig, ProtonConfigLoader, ServerConfig } from './ProtonConfigLoader';
 
 /**
  * @author Humberto Machado
@@ -42,24 +42,19 @@ export class ProtonApplication{
      * Start up Protontype application.
      * @return express instance
      */
-    public start(port?: number, forceHttps?: boolean): Promise<ProtonApplication> {
+    public start(): Promise<ProtonApplication> {
         return new Promise<ProtonApplication>((resolve, reject) => {
-            if(!ProtonDB.dbConnection) {
-                this.connectDB().then(connection => {
-                    ProtonDB.dbConnection = connection;
-                    this.configMiddlewares();
-                    this.configureRoutes();
-                    this.startServer(this.config, port, forceHttps);
-                    resolve(this);
-                }).catch(error => reject(error));
-            } else {
-                this.startServer(this.config, port, forceHttps);
+            this.connectDB().then(connection => {
+                ProtonDB.dbConnection = connection;
+                this.configMiddlewares();
+                this.configureRoutes();
+                this.startServers();
                 resolve(this);
-            }
+            }).catch(error => reject(error));
         });
     }
 
-    private connectDB(): Promise<any> {
+    public connectDB(): Promise<any> {
         if (this.dbConnector) {
             return this.dbConnector.createConnection(this.config.database);
         } else {
@@ -67,19 +62,27 @@ export class ProtonApplication{
         }
     }
 
-    private startServer(config: GlobalConfig, forcedPort?: number, forceHttps?: boolean): void {
-        let port: number = this.config.port;
-        if (forcedPort) {
-            port = forcedPort
+    private startServers(): void {
+        let servers: ServerConfig[] = this.config.servers;
+        if (servers && servers.length > 0) {
+            servers.forEach(server => {
+                this.startServer(server.port, server.useHttps);
+            });
+        } else {
+            this.logger.error('No server found');
         }
-        if ((config.https && config.https.enabled) || forceHttps) {
+    }
+
+    private startServer(port: number, useHttps: boolean) {
+        if (this.config.https && useHttps) {
             const credentials = {
-                key: fs.readFileSync(config.https.key),
-                cert: fs.readFileSync(config.https.cert)
-            }
+                key: fs.readFileSync(this.config.https.key),
+                cert: fs.readFileSync(this.config.https.cert)
+            };
             https.createServer(credentials, this.express)
                 .listen(port, () => this.logger.info(`Application listen port ${port} (HTTPS)`));
-        } else {
+        }
+        else {
             this.express.listen(port, () => this.logger.info(`Application listen port ${port} (HTTP)`));
         }
     }

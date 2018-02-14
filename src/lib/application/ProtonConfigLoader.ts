@@ -17,7 +17,7 @@ export class ProtonConfigLoader {
 }
 
 export interface GlobalConfig {
-    port: number;
+    servers: ServerConfig[];
     database: ConnectionOptions|any;
     cors?: cors.CorsOptions;
     logger?: LoggerConfig;
@@ -25,12 +25,12 @@ export interface GlobalConfig {
     defaultRoutes?: boolean;
 }
 
-export interface DBDefine {
-    underscored: boolean;
+export interface ServerConfig {
+    port: number,
+    useHttps: boolean
 }
 
 export interface HTTPSConfig {
-    enabled: boolean;
     key: string;
     cert: string;
 }
@@ -42,7 +42,12 @@ export interface LoggerConfig {
 
 
 export const DEFAULT_CONFIG: GlobalConfig = {
-    "port": 3000,
+    "servers": [
+        {
+            port: 3000,
+            useHttps: false
+        }
+    ],
     "database": {
         "name": "protontypeConnection",
         "type": "sqlite",
