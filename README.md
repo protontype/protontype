@@ -23,7 +23,6 @@ O ProtonType tem como objetivo tornar simples e agradável o desenvolvimento de 
 
 ## Documentação
 - [Documentação completa](https://protontype.github.io/)
-- [API reference](https://protontype.github.io/protontype-api-reference/)
 
 ## Instalação
 ```bash
@@ -31,9 +30,9 @@ npm install protontype --save
 ```
  
 ## Models
-Usa [TypeORM](http://typeorm.io/#/) por padrão para acesso a banco de dados. Mas pode ser usado qualquer estratégia.
+Usa [TypeORM](http://typeorm.io/#/) por padrão para acesso a banco de dados. Mas pode ser usado qualquer framework.
 
-```javascript
+```typescript
 @Entity()
 export class TasksModel {
     @PrimaryGeneratedColumn()
@@ -49,7 +48,7 @@ export class TasksModel {
 ## Middlewares
 Suporta implementação de middlewares
 
-```javascript
+```typescript
 export class TasksMiddleware extends ProtonMiddleware {
     @Middleware()
     printTaskTitle(params: MiddlewareFunctionParams) {
@@ -62,7 +61,7 @@ export class TasksMiddleware extends ProtonMiddleware {
 ## Router
 Rotas básicas de CRUD já implementadas nos CrudRouters
 
-```javascript
+```typescript
  @RouterClass({
     baseUrl: "/tasks",
     model: TasksModel,
@@ -82,7 +81,7 @@ export class TasksRouter extends TypeORMCrudRouter {
 ```
 
 Ou pode implementar rotas customizadas
-```javascript
+```typescript
  @RouterClass({
     baseUrl: "/tasks",
     model: TasksModel,
@@ -102,7 +101,7 @@ export class TasksRouter extends ExpressRouter {
 
 ## Iniciando a aplicação
 
-```javascript
+```typescript
 new ProtonApplication()
     .addRouterAs(TasksRouter)
     .addMiddlewareAs(SomeoneGlobalMiddleware)
@@ -114,5 +113,7 @@ new ProtonApplication()
 
 - [Exemplo com o módulo do Sequelize](https://github.com/protontype/protontype-sequelize-sample)
 
-
-[English](https://github.com/linck/protontype/blob/develop/README_en.md "") / [Português](https://github.com/linck/protontype/blob/develop/README.md "")
+## Versão de desenvolvimento
+```bash
+npm install protontype@next --save
+```
