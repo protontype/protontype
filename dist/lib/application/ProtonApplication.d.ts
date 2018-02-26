@@ -23,9 +23,10 @@ export declare class ProtonApplication {
      * Start up Protontype application.
      * @return express instance
      */
-    start(port?: number, forceHttps?: boolean): Promise<ProtonApplication>;
-    private connectDB();
-    private startServer(config, forcedPort?, forceHttps?);
+    start(): Promise<ProtonApplication>;
+    connectDB(): Promise<any>;
+    private startServers();
+    private startServer(port, useHttps);
     private loadConfig(config?);
     /**
      * Configure global Middlewares. Application scope

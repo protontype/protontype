@@ -15,7 +15,12 @@ class ProtonConfigLoader {
 }
 exports.ProtonConfigLoader = ProtonConfigLoader;
 exports.DEFAULT_CONFIG = {
-    "port": 3000,
+    "servers": [
+        {
+            port: 3000,
+            useHttps: false
+        }
+    ],
     "database": {
         "name": "protontypeConnection",
         "type": "sqlite",

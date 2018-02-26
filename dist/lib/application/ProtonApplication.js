@@ -32,21 +32,15 @@ class ProtonApplication {
      * Start up Protontype application.
      * @return express instance
      */
-    start(port, forceHttps) {
+    start() {
         return new Promise((resolve, reject) => {
-            if (!DBConnector_1.ProtonDB.dbConnection) {
-                this.connectDB().then(connection => {
-                    DBConnector_1.ProtonDB.dbConnection = connection;
-                    this.configMiddlewares();
-                    this.configureRoutes();
-                    this.startServer(this.config, port, forceHttps);
-                    resolve(this);
-                }).catch(error => reject(error));
-            }
-            else {
-                this.startServer(this.config, port, forceHttps);
+            this.connectDB().then(connection => {
+                DBConnector_1.ProtonDB.dbConnection = connection;
+                this.configMiddlewares();
+                this.configureRoutes();
+                this.startServers();
                 resolve(this);
-            }
+            }).catch(error => reject(error));
         });
     }
     connectDB() {
@@ -57,15 +51,22 @@ class ProtonApplication {
             return new TypeORMDBConnector_1.TypeORMDBConnector().createConnection(this.config.database);
         }
     }
-    startServer(config, forcedPort, forceHttps) {
-        let port = this.config.port;
-        if (forcedPort) {
-            port = forcedPort;
+    startServers() {
+        let servers = this.config.servers;
+        if (servers && servers.length > 0) {
+            servers.forEach(server => {
+                this.startServer(server.port, server.useHttps);
+            });
         }
-        if ((config.https && config.https.enabled) || forceHttps) {
+        else {
+            this.logger.error('No server found');
+        }
+    }
+    startServer(port, useHttps) {
+        if (this.config.https && useHttps) {
             const credentials = {
-                key: fs_1.default.readFileSync(config.https.key),
-                cert: fs_1.default.readFileSync(config.https.cert)
+                key: fs_1.default.readFileSync(this.config.https.key),
+                cert: fs_1.default.readFileSync(this.config.https.cert)
             };
             https_1.default.createServer(credentials, this.express)
                 .listen(port, () => this.logger.info(`Application listen port ${port} (HTTPS)`));

@@ -8,7 +8,6 @@ export declare abstract class ProtonMiddleware {
     protected protonApplication: ProtonApplication;
     middlewareFuntion: Express.RequestHandler;
     autoNext: boolean;
-    constructor(autoNext?: boolean);
     init(protonApplication: ProtonApplication): ProtonMiddleware;
     configMiddlewares(): void;
 }

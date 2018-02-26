@@ -10,18 +10,18 @@ export declare class ProtonConfigLoader {
     static loadConfig(filePath?: string): GlobalConfig;
 }
 export interface GlobalConfig {
-    port: number;
+    servers: ServerConfig[];
     database: ConnectionOptions | any;
     cors?: cors.CorsOptions;
     logger?: LoggerConfig;
     https?: HTTPSConfig;
     defaultRoutes?: boolean;
 }
-export interface DBDefine {
-    underscored: boolean;
+export interface ServerConfig {
+    port: number;
+    useHttps: boolean;
 }
 export interface HTTPSConfig {
-    enabled: boolean;
     key: string;
     cert: string;
 }
