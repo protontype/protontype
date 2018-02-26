@@ -26,8 +26,8 @@ export interface GlobalConfig {
 }
 
 export interface ServerConfig {
-    port: number,
-    useHttps: boolean
+    port: number;
+    useHttps: boolean;
 }
 
 export interface HTTPSConfig {
