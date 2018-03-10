@@ -55,18 +55,18 @@ export const DEFAULT_CONFIG: GlobalConfig = {
         "synchronize": true,
         "logging": false,
         "entities": [
-            "dist/model/**/*.js"
+            "./dist/model/**/*.js"
         ],
         "migrations": [
-            "dist/migration/**/*.ts"
+            "./dist/migration/**/*.ts"
         ],
         "subscribers": [
-            "dist/subscriber/**/*.ts"
+            "./dist/subscriber/**/*.ts"
         ],
         "cli": {
-            "entitiesDir": "dist/model",
-            "migrationsDir": "dist/migration",
-            "subscribersDir": "dist/subscriber"
+            "entitiesDir": "./dist/model",
+            "migrationsDir": "./dist/migration",
+            "subscribersDir": "./dist/subscriber"
         }
     }
 }
