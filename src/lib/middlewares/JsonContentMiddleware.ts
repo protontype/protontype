@@ -17,9 +17,9 @@ export class JsonContentMiddleware extends ProtonMiddleware {
     }
 
     configureJsonProperties(express: express.Application) {
-        this.express.set("json spaces", 2);
-        this.express.use(bodyParser.json());
-        this.express.use((req, res, next) => {
+        express.set("json spaces", 2);
+        express.use(bodyParser.json());
+        express.use((req, res, next) => {
             delete req.body.id;
             next();
         });
