@@ -4,8 +4,8 @@ import { ProtonApplication } from '../../application/ProtonApplication';
 import { ExpressRouter } from '../../router/ExpressRouter';
 import { Method } from '../../router/Method';
 import { RouterFunctionParams } from './../../decorators/RouteConfig';
-import { TypeORMDB } from './TypeORMDBConnector';
 import { BodyParserMiddleware } from './../../middlewares/BodyParserMiddleware';
+import { TypeORMDB } from './TypeORMDBConnector';
 
 /**
  * Created by Humberto Machado on 14/08/2016.
@@ -38,13 +38,13 @@ export class TypeORMCrudRouter extends ExpressRouter {
 
     public findAll(params: RouterFunctionParams) {
         TypeORMDB.getBD().getRepository(this.crudModel)
-            .find().then(result => params.res.send(JSON.stringify(result)))
+            .find().then(result => params.res.send(result))
             .catch(error => super.sendErrorMessage(params.res, error));
     }
 
     public create(params: RouterFunctionParams) {
         TypeORMDB.getBD().getRepository(this.crudModel).save(plainToClass(this.crudModel, JSON.parse(params.req.body)))
-            .then(result => params.res.send(JSON.stringify(result)))
+            .then(result => params.res.send(result))
             .catch(error => this.sendErrorMessage(params.res, error));
     }
 
@@ -52,7 +52,7 @@ export class TypeORMCrudRouter extends ExpressRouter {
         TypeORMDB.getBD().getRepository(this.crudModel).findOne({ where: params.req.params })
             .then(result => {
                 if (result) {
-                    params.res.send(JSON.stringify(result));
+                    params.res.send(result);
                 } else {
                     params.res.sendStatus(404);
                 }

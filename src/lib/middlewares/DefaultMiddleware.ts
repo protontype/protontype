@@ -15,6 +15,7 @@ export class DefaultMiddleware extends ProtonMiddleware {
         if (this.protonApplication.getConfig().defaultRoutes) {
             this.express.get('/proton/routes', (req, res, next) => {
                 new JsonContentMiddleware().jsonContentMiddlewareFunc({req: req, res: res, next: next, app: this.protonApplication});
+                next();
             }, (req, res) => {
                 res.json(this.protonApplication.getRoutesList());
             });

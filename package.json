@@ -1,6 +1,6 @@
 {
   "name": "protontype",
-  "version": "2.3.4",
+  "version": "2.3.4-dev1803211122",
   "description": "A simple REST framework make in TypeScript",
   "main": "dist/lib/index.js",
   "typings": "dist/lib/index.d.ts",
@@ -22,7 +22,8 @@
     "sequelize",
     "API",
     "REST",
-    "RESTFul"
+    "RESTFul",
+    "Nodejs"
   ],
   "author": "Humberto Machado <betolinck@gmail.com>",
   "license": "MIT",
