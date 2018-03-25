@@ -69,6 +69,9 @@ class ProtonApplicationTest {
                 assert.equal(res.body.globalRouterMidMsg, GLOBAL_ROUTER_MIDDLEWARE_MSG);
             });
 
+            await this.assertRouteGet("/proton/routes", app.getExpress())
+                .catch((err) => { assert.fail() });
+
             await this.populateMocks(app);
             await this.updateMocks(app);
             await this.assertModelMockRoutes(app);

@@ -8,7 +8,6 @@ export class RouterMiddlewareMock extends ProtonMiddleware {
     @Middleware(true)
     routerMiddlewareTest(params: MiddlewareFunctionParams) {
         params.req.params['routerMidMsg'] = ROUTER_MIDDLEWARE_MSG;
-        //params.next();
     }
 }
 
@@ -16,7 +15,7 @@ export class GlobalRouterMiddlewareMock extends ProtonMiddleware {
     @Middleware(true)
     globalMiddlewareTest(params: MiddlewareFunctionParams) {
         params.req.header['globalRouterMidMsg'] = GLOBAL_ROUTER_MIDDLEWARE_MSG;
-        //params.next();
+        console.log("Meu corpo ", params.req.body);
     }
 }
 

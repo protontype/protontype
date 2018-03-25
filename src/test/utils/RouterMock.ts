@@ -12,7 +12,7 @@ import { ModelMock } from './ModelMock';
 })
 @RouterClass({
     baseUrl: "/mocks",
-    middlewares: [new GlobalRouterMiddlewareMock()],
+    middlewares: [new BodyParserMiddleware(), new GlobalRouterMiddlewareMock()],
     model: ModelMock
 })
 export class RouterMock extends TypeORMCrudRouter {
