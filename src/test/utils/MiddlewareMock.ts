@@ -15,7 +15,6 @@ export class GlobalRouterMiddlewareMock extends ProtonMiddleware {
     @Middleware(true)
     globalMiddlewareTest(params: MiddlewareFunctionParams) {
         params.req.header['globalRouterMidMsg'] = GLOBAL_ROUTER_MIDDLEWARE_MSG;
-        console.log("Meu corpo ", params.req.body);
     }
 }
 
