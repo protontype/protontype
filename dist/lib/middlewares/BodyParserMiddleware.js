@@ -13,13 +13,18 @@ const ProtonMiddleware_1 = require("./ProtonMiddleware");
 const MiddlewareConfig_1 = require("../decorators/MiddlewareConfig");
 class BodyParserMiddleware extends ProtonMiddleware_1.ProtonMiddleware {
     bodyParser(params) {
-        var data = '';
-        params.req.setEncoding('utf8');
-        params.req.on('data', (rawData) => data += rawData);
-        params.req.on('end', () => {
-            params.req.body = data;
+        if (params.req.body == undefined || params.req.body == null) {
+            var data = '';
+            params.req.setEncoding('utf8');
+            params.req.on('data', (rawData) => data += rawData);
+            params.req.on('end', () => {
+                params.req.body = data;
+                params.next();
+            });
+        }
+        else {
             params.next();
-        });
+        }
     }
 }
 __decorate([

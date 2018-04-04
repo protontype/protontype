@@ -109,11 +109,12 @@ class ProtonApplication {
     configureRoutes() {
         this.routers.forEach(router => {
             router.init(this);
-            var configs = router.getRouteConfigs();
+            let configs = router.getRouteConfigs();
             if (configs != null) {
+                let routerMiddewares = this.configRouterMiddlewares(router);
                 configs.forEach(config => {
                     if (config.method != null && config.endpoint != null) {
-                        this.createRoutesByMethod(config, router);
+                        this.createRoutesByMethod(config, router, routerMiddewares);
                     }
                     else {
                         config.routeFunction.call(router);
@@ -122,41 +123,41 @@ class ProtonApplication {
             }
         });
     }
-    createRoutesByMethod(config, router) {
-        switch (config.method) {
+    createRoutesByMethod(routeConfig, router, routerMiddlewares) {
+        switch (routeConfig.method) {
             case Method_1.Method.GET:
-                this.express.get(router.getBaseUrl() + config.endpoint, this.configRouteMiddlewares(config, router), (req, res) => {
-                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
+                this.express.get(router.getBaseUrl() + routeConfig.endpoint, routerMiddlewares, this.configRouteMiddlewares(routeConfig), (req, res) => {
+                    routeConfig.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
             case Method_1.Method.POST:
-                this.express.post(router.getBaseUrl() + config.endpoint, this.configRouteMiddlewares(config, router), (req, res) => {
-                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
+                this.express.post(router.getBaseUrl() + routeConfig.endpoint, routerMiddlewares, this.configRouteMiddlewares(routeConfig), (req, res) => {
+                    routeConfig.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
             case Method_1.Method.PUT:
-                this.express.put(router.getBaseUrl() + config.endpoint, this.configRouteMiddlewares(config, router), (req, res) => {
-                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
+                this.express.put(router.getBaseUrl() + routeConfig.endpoint, routerMiddlewares, this.configRouteMiddlewares(routeConfig), (req, res) => {
+                    routeConfig.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
             case Method_1.Method.DELETE:
-                this.express.delete(router.getBaseUrl() + config.endpoint, this.configRouteMiddlewares(config, router), (req, res) => {
-                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
+                this.express.delete(router.getBaseUrl() + routeConfig.endpoint, routerMiddlewares, this.configRouteMiddlewares(routeConfig), (req, res) => {
+                    routeConfig.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
             case Method_1.Method.PATCH:
-                this.express.patch(router.getBaseUrl() + config.endpoint, this.configRouteMiddlewares(config, router), (req, res) => {
-                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
+                this.express.patch(router.getBaseUrl() + routeConfig.endpoint, routerMiddlewares, this.configRouteMiddlewares(routeConfig), (req, res) => {
+                    routeConfig.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
             case Method_1.Method.OPTIONS:
-                this.express.options(router.getBaseUrl() + config.endpoint, this.configRouteMiddlewares(config, router), (req, res) => {
-                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
+                this.express.options(router.getBaseUrl() + routeConfig.endpoint, routerMiddlewares, this.configRouteMiddlewares(routeConfig), (req, res) => {
+                    routeConfig.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
             case Method_1.Method.HEAD:
-                this.express.head(router.getBaseUrl() + config.endpoint, this.configRouteMiddlewares(config, router), (req, res) => {
-                    config.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
+                this.express.head(router.getBaseUrl() + routeConfig.endpoint, routerMiddlewares, this.configRouteMiddlewares(routeConfig), (req, res) => {
+                    routeConfig.routeFunction.call(router, this.createRouterFunctionParams(req, res, this));
                 });
                 break;
         }
@@ -180,14 +181,19 @@ class ProtonApplication {
         return this;
     }
     /**
-     * Configures the Route Scope Middlewares and Router Scope Middlewares
-     *
-     * @param config
-     * @param router
+     * Configures the Route Scope Middlewares
      */
-    configRouteMiddlewares(config, router) {
+    configRouteMiddlewares(config) {
+        return this.getExpressMiddlewaresList(config.middlewares);
+    }
+    /**
+     *  Configures the Router Scope Middlewares
+     */
+    configRouterMiddlewares(router) {
+        return this.getExpressMiddlewaresList(router.getRouterMiddlewares());
+    }
+    getExpressMiddlewaresList(protonMiddlewares) {
         let middlewares = [];
-        let protonMiddlewares = router.getRouterMiddlewares().concat(config.middlewares);
         if (protonMiddlewares) {
             protonMiddlewares.forEach(middleware => {
                 if (middleware && middleware.middlewareFuntion) {

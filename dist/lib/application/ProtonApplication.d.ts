@@ -36,7 +36,7 @@ export declare class ProtonApplication {
      * Initialize all configured routes annotated with @Route
      */
     private configureRoutes();
-    private createRoutesByMethod(config, router);
+    private createRoutesByMethod(routeConfig, router, routerMiddlewares);
     private createRouterFunctionParams(req, res, app);
     private createMiddlewareFunctionParams(req, res, next, app);
     withDBConnector(dbConnector: DBConnector<any, any>): this;
@@ -45,12 +45,14 @@ export declare class ProtonApplication {
     }): this;
     withConfig(config: any): this;
     /**
-     * Configures the Route Scope Middlewares and Router Scope Middlewares
-     *
-     * @param config
-     * @param router
+     * Configures the Route Scope Middlewares
      */
-    private configRouteMiddlewares(config, router);
+    private configRouteMiddlewares(config);
+    /**
+     *  Configures the Router Scope Middlewares
+     */
+    private configRouterMiddlewares(router);
+    private getExpressMiddlewaresList(protonMiddlewares);
     /**
      * Add Router to application
      * @param router Router implementation

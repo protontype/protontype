@@ -8,33 +8,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-}
 Object.defineProperty(exports, "__esModule", { value: true });
 const MiddlewareConfig_1 = require("./../decorators/MiddlewareConfig");
 const ProtonMiddleware_1 = require("./ProtonMiddleware");
-const body_parser_1 = __importDefault(require("body-parser"));
 class JsonContentMiddleware extends ProtonMiddleware_1.ProtonMiddleware {
+    constructor(pretty) {
+        super();
+        this.pretty = pretty;
+    }
     jsonContentMiddlewareFunc(params) {
+        if (this.pretty) {
+            params.app.getExpress().set("json spaces", 2);
+        }
         params.res.header('Content-type', 'application/json');
-        this.configureJsonProperties(params.app.getExpress());
-        params.next();
-    }
-    configMiddlewares() {
-        this.configureJsonProperties(this.express);
-    }
-    configureJsonProperties(express) {
-        this.express.set("json spaces", 2);
-        this.express.use(body_parser_1.default.json());
-        this.express.use((req, res, next) => {
-            delete req.body.id;
-            next();
-        });
     }
 }
 __decorate([
-    MiddlewareConfig_1.Middleware(),
+    MiddlewareConfig_1.Middleware(true),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)

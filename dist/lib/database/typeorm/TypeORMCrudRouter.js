@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const class_transformer_1 = require("class-transformer");
 const ExpressRouter_1 = require("../../router/ExpressRouter");
 const Method_1 = require("../../router/Method");
-const TypeORMDBConnector_1 = require("./TypeORMDBConnector");
 const BodyParserMiddleware_1 = require("./../../middlewares/BodyParserMiddleware");
+const TypeORMDBConnector_1 = require("./TypeORMDBConnector");
 /**
  * Created by Humberto Machado on 14/08/2016.
  */
@@ -28,19 +28,19 @@ class TypeORMCrudRouter extends ExpressRouter_1.ExpressRouter {
     }
     findAll(params) {
         TypeORMDBConnector_1.TypeORMDB.getBD().getRepository(this.crudModel)
-            .find().then(result => params.res.send(JSON.stringify(result)))
+            .find().then(result => params.res.send(result))
             .catch(error => super.sendErrorMessage(params.res, error));
     }
     create(params) {
         TypeORMDBConnector_1.TypeORMDB.getBD().getRepository(this.crudModel).save(class_transformer_1.plainToClass(this.crudModel, JSON.parse(params.req.body)))
-            .then(result => params.res.send(JSON.stringify(result)))
+            .then(result => params.res.send(result))
             .catch(error => this.sendErrorMessage(params.res, error));
     }
     findOne(params) {
         TypeORMDBConnector_1.TypeORMDB.getBD().getRepository(this.crudModel).findOne({ where: params.req.params })
             .then(result => {
             if (result) {
-                params.res.send(JSON.stringify(result));
+                params.res.send(result);
             }
             else {
                 params.res.sendStatus(404);
