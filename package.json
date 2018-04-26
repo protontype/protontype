@@ -1,6 +1,6 @@
 {
   "name": "protontype",
-  "version": "2.3.4",
+  "version": "2.4.0-dev201804252135",
   "description": "A simple REST framework make in TypeScript",
   "main": "dist/lib/index.js",
   "typings": "dist/lib/index.d.ts",
@@ -53,7 +53,7 @@
     "mocha-typescript": "^1.0.10",
     "nyc": "^10.1.2",
     "protontype-doc-theme": "^1.0.0-alpha",
-    "sqlite3": "^3.1.13",
+    "sqlite3": "^4.0.0",
     "supertest": "^3.0.0",
     "touch-cli": "0.0.1",
     "typedoc": "^0.5.10",
