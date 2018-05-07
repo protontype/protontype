@@ -6,7 +6,7 @@ import https from 'https';
 import winston from 'winston';
 
 import { DBConnector, ProtonDB } from '../database/DBConnector';
-import { TypeORMDBConnector } from '../database/typeorm/TypeORMDBConnector';
+import { TypeORMDBConnector } from '../database/TypeORMDBConnector';
 import { RouteConfig } from '../decorators/RouteConfig';
 import { DefaultMiddleware } from '../middlewares/DefaultMiddleware';
 import { ProtonMiddleware } from '../middlewares/ProtonMiddleware';

@@ -1,11 +1,11 @@
 import { plainToClass } from 'class-transformer';
 
-import { ProtonApplication } from '../../application/ProtonApplication';
-import { ExpressRouter } from '../../router/ExpressRouter';
-import { Method } from '../../router/Method';
-import { RouterFunctionParams } from './../../decorators/RouteConfig';
-import { BodyParserMiddleware } from './../../middlewares/BodyParserMiddleware';
-import { TypeORMDB } from './TypeORMDBConnector';
+import { ProtonApplication } from '../application/ProtonApplication';
+import { ExpressRouter } from '../router/ExpressRouter';
+import { Method } from '../router/Method';
+import { RouterFunctionParams } from '../decorators/RouteConfig';
+import { BodyParserMiddleware } from '../middlewares/BodyParserMiddleware';
+import { TypeORMDB } from '../database/TypeORMDBConnector';
 
 /**
  * Created by Humberto Machado on 14/08/2016.
