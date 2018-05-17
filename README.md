@@ -49,7 +49,7 @@ export class TasksModel {
 Suporta implementação de middlewares
 
 ```typescript
-export class TasksMiddleware extends ProtonMiddleware {
+export class TasksMiddleware extends BaseMiddleware {
     @Middleware()
     printTaskTitle(params: MiddlewareFunctionParams) {
         cosole.log(params.req.body.title);
@@ -67,7 +67,7 @@ Rotas básicas de CRUD já implementadas nos CrudRouters
     model: TasksModel,
     middlewares: [new TasksMiddleware()]
 })
-export class TasksRouter extends TypeORMCrudRouter {
+export class TasksRouter extends CrudRouter {
     /*
     GET / - Lista todos registros
     POST / - Cria um registro
@@ -87,7 +87,7 @@ Ou pode implementar rotas customizadas
     model: TasksModel,
     middlewares: [new TasksMiddleware()]
 })
-export class TasksRouter extends ExpressRouter {
+export class TasksRouter extends BaseRouter {
     @Route({
         endpoint: '/test/msg',
         method: Method.GET,
@@ -115,5 +115,5 @@ new ProtonApplication()
 
 ## Versão de desenvolvimento
 ```bash
-npm install protontype@next --save
+npm install protontype@dev --save
 ```
