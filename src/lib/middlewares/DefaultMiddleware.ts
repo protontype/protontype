@@ -1,12 +1,12 @@
 import { JsonContentMiddleware } from './JsonContentMiddleware';
-import { ProtonMiddleware } from './ProtonMiddleware';
+import { BaseMiddleware } from './BaseMiddleware';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 /**
  * @author Humberto Machado
  */
-export class DefaultMiddleware extends ProtonMiddleware {
+export class DefaultMiddleware extends BaseMiddleware {
 
     public configMiddlewares(): void {
         this.express.use(helmet());

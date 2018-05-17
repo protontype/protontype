@@ -1,9 +1,9 @@
 import { ProtonApplication } from './../application/ProtonApplication';
-import { ProtonMiddleware } from '../middlewares/ProtonMiddleware';
+import { BaseMiddleware } from '../middlewares/BaseMiddleware';
 import express from 'express';
 
 export function Middleware(autoNext?: boolean) {
-    return function (target: ProtonMiddleware, propertyKey: string, descriptor: PropertyDescriptor) {
+    return function (target: BaseMiddleware, propertyKey: string, descriptor: PropertyDescriptor) {
         target.middlewareFuntion = descriptor.value;
         target.autoNext = autoNext;
     };

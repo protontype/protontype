@@ -6,11 +6,11 @@ import https from 'https';
 import winston from 'winston';
 
 import { DBConnector, ProtonDB } from '../database/DBConnector';
-import { TypeORMDBConnector } from '../database/TypeORMDBConnector';
+import { DefaultDBConnector } from '../database/DefaultDBConnector';
 import { RouteConfig } from '../decorators/RouteConfig';
 import { DefaultMiddleware } from '../middlewares/DefaultMiddleware';
-import { ProtonMiddleware } from '../middlewares/ProtonMiddleware';
-import { ExpressRouter } from '../router/ExpressRouter';
+import { BaseMiddleware } from '../middlewares/BaseMiddleware';
+import { BaseRouter } from '../router/BaseRouter';
 import { Method } from '../router/Method';
 import { MiddlewareFunctionParams } from './../decorators/MiddlewareConfig';
 import { RouterFunctionParams } from './../decorators/RouteConfig';
@@ -23,8 +23,8 @@ import { DEFAULT_CONFIG, GlobalConfig, ProtonConfigLoader, ServerConfig } from '
  */
 export class ProtonApplication{
     private express: Express.Application;
-    private middlewares: ProtonMiddleware[] = [];
-    private routers: ExpressRouter[] = [];
+    private middlewares: BaseMiddleware[] = [];
+    private routers: BaseRouter[] = [];
     private config: GlobalConfig;
     private logger: winston.LoggerInstance;
     private dbConnector: DBConnector<any, any>;
@@ -58,7 +58,7 @@ export class ProtonApplication{
         if (this.dbConnector) {
             return this.dbConnector.createConnection(this.config.database);
         } else {
-            return new TypeORMDBConnector().createConnection(this.config.database);
+            return new DefaultDBConnector().createConnection(this.config.database);
         }
     }
 
@@ -137,7 +137,7 @@ export class ProtonApplication{
         });
     }
 
-    private createRoutesByMethod(routeConfig: RouteConfig, router: ExpressRouter, routerMiddlewares: Express.Handler[]): void {
+    private createRoutesByMethod(routeConfig: RouteConfig, router: BaseRouter, routerMiddlewares: Express.Handler[]): void {
         switch (routeConfig.method) {
             case Method.GET:
                 this.express.get(router.getBaseUrl() + routeConfig.endpoint, routerMiddlewares, this.configRouteMiddlewares(routeConfig), (req, res) => {
@@ -211,14 +211,14 @@ export class ProtonApplication{
     /**
      *  Configures the Router Scope Middlewares
      */
-    private configRouterMiddlewares(router: ExpressRouter): Express.Handler[] {
+    private configRouterMiddlewares(router: BaseRouter): Express.Handler[] {
         return this.getExpressMiddlewaresList(router.getRouterMiddlewares());
     }
     
-    private getExpressMiddlewaresList(protonMiddlewares: ProtonMiddleware[]): Express.Handler[] {
+    private getExpressMiddlewaresList(BaseMiddlewares: BaseMiddleware[]): Express.Handler[] {
         let middlewares: Express.Handler[] = [];
-        if (protonMiddlewares) {
-            protonMiddlewares.forEach(middleware => {
+        if (BaseMiddlewares) {
+            BaseMiddlewares.forEach(middleware => {
                 if (middleware && middleware.middlewareFuntion) {
                     middleware.init(this);
                     middleware.configMiddlewares();
@@ -242,7 +242,7 @@ export class ProtonApplication{
      * Add Router to application
      * @param router Router implementation
      */
-    public addRouter(router: ExpressRouter): this {
+    public addRouter(router: BaseRouter): this {
         this.routers.push(router);
         return this;
     }
@@ -256,7 +256,7 @@ export class ProtonApplication{
      * Add Global Middleware. A middleware added here, will act for all routers of the application
      * @param middleware Middleware implementation
      */
-    public addMiddleware(middleware: ProtonMiddleware): this {
+    public addMiddleware(middleware: BaseMiddleware): this {
         this.middlewares.push(middleware);
         return this;
     }
@@ -277,7 +277,7 @@ export class ProtonApplication{
     /**
      * Return a list of Confugured routers 
      */
-    public getRouters(): ExpressRouter[] {
+    public getRouters(): BaseRouter[] {
         return this.routers;
     }
 

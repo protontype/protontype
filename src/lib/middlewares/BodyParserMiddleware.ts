@@ -1,7 +1,7 @@
-import { ProtonMiddleware } from "./ProtonMiddleware";
+import { BaseMiddleware } from "./BaseMiddleware";
 import { Middleware, MiddlewareFunctionParams } from "../decorators/MiddlewareConfig";
 
-export class BodyParserMiddleware extends ProtonMiddleware {
+export class BodyParserMiddleware extends BaseMiddleware {
     @Middleware()
     public bodyParser(params: MiddlewareFunctionParams): void {
         if (params.req.body == undefined || params.req.body == null) {

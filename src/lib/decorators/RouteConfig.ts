@@ -1,7 +1,7 @@
 import { ProtonApplication } from './../application/ProtonApplication';
-import { ExpressRouter } from '../router/ExpressRouter';
+import { BaseRouter } from '../router/BaseRouter';
 import { Method } from '../router/Method';
-import { ProtonMiddleware } from "../middlewares/ProtonMiddleware";
+import { BaseMiddleware } from "../middlewares/BaseMiddleware";
 import express from 'express';
 
 /**
@@ -12,7 +12,7 @@ import express from 'express';
  *
  */
 export function Route(config?: RouteDecoratorParams) {
-    return function (target: ExpressRouter, propertyKey: string, descriptor: PropertyDescriptor) {
+    return function (target: BaseRouter, propertyKey: string, descriptor: PropertyDescriptor) {
         target.addRouteConfig(
             {
                 endpoint: config != null ? config.endpoint : null,
@@ -41,7 +41,7 @@ export function RouterClass(config: RouterConfig) {
  */
 export interface RouterConfig {
     baseUrl: string;
-    middlewares?: ProtonMiddleware[];
+    middlewares?: BaseMiddleware[];
     model?: Function;
 }
 
@@ -56,12 +56,12 @@ export interface RouteDecoratorParams {
     endpoint: string;
     method: Method;
     useAuth?: boolean;
-    middlewares?: ProtonMiddleware[];
+    middlewares?: BaseMiddleware[];
 }
 
 /**
  * Object that contains information of one route method.
- * Used to define routes array in ExpressRouter
+ * Used to define routes array in BaseRouter
  * 
  * @param endpoint Route endpoint
  * @param method HTTP method (POST, GET, PUT ...
@@ -74,7 +74,7 @@ export interface RouteConfig {
     method?: Method;
     routeFunction: Function;
     useAuth?: boolean;
-    middlewares?: ProtonMiddleware[];
+    middlewares?: BaseMiddleware[];
 }
 
 export interface RouterFunctionParams {

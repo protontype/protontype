@@ -4,7 +4,7 @@ import { JsonLoader } from 'jsontyped';
 import { suite, test } from 'mocha-typescript';
 import request from 'supertest';
 
-import { GlobalConfig, JsonContentMiddleware, ProtonApplication, TypeORMDB, TypeORMDBConnector } from '../../lib';
+import { GlobalConfig, JsonContentMiddleware, ProtonApplication, Database, DefaultDBConnector } from '../../lib';
 import {
     GLOBAL_MIDDLEWARE_MSG,
     GLOBAL_ROUTER_MIDDLEWARE_MSG,
@@ -19,7 +19,7 @@ class ProtonApplicationTest {
     @test('globalConfigTest')
     globalConfigTest(done: Function) {
         new ProtonApplication()
-            .withDBConnectorAs(TypeORMDBConnector)
+            .withDBConnectorAs(DefaultDBConnector)
             .addRouterAs(RouterMock)
             .start().then(app => {
                 this.finalyTest(done);
@@ -31,6 +31,7 @@ class ProtonApplicationTest {
     @test('noServersTest')
     noServersTest(done: Function) {
         let config: GlobalConfig = JsonLoader.loadFile<GlobalConfig>("./src/test/utils/config.json");
+        config.database.name = 'noServersTestDb';
         config.servers = [];
         new ProtonApplication(config)
             .withConfig(config)
@@ -45,6 +46,7 @@ class ProtonApplicationTest {
     @test('basicTest')
     basicTest(done: Function) {
         let config: GlobalConfig = JsonLoader.loadFile<GlobalConfig>("./src/test/utils/config.json");
+        config.database.name = 'basicTestDb';
         let app: ProtonApplication = new ProtonApplication(config)
             .addMiddlewareAs(GlobalMiddlewareMock)
             .addMiddlewareAs(JsonContentMiddleware)
@@ -84,8 +86,8 @@ class ProtonApplicationTest {
 
     private async finalyTest(done: Function) {
         try {
-            await TypeORMDB.getBD().dropDatabase();
-            await TypeORMDB.getBD().close();
+            await Database.getBD().dropDatabase();
+            await Database.getBD().close();
             done();
         } catch (err) {
             done(err);

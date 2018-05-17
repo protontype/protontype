@@ -1,9 +1,9 @@
 import { Middleware, MiddlewareFunctionParams } from './../decorators/MiddlewareConfig';
-import { ProtonMiddleware } from './ProtonMiddleware';
+import { BaseMiddleware } from './BaseMiddleware';
 import bodyParser from 'body-parser';
 import express from 'express';
 
-export class JsonContentMiddleware extends ProtonMiddleware {
+export class JsonContentMiddleware extends BaseMiddleware {
 
     constructor(private pretty?: boolean) {
         super();
