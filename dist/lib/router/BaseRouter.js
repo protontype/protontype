@@ -9,7 +9,7 @@ const express_1 = __importDefault(require("express"));
  * @author Humberto Machado
  * Express routes configurations
  */
-class ExpressRouter {
+class BaseRouter {
     constructor() {
         this.logger = Logger_1.Logger.instance;
     }
@@ -44,5 +44,5 @@ class ExpressRouter {
         return this.routerMiddlewares;
     }
 }
-exports.ExpressRouter = ExpressRouter;
-//# sourceMappingURL=ExpressRouter.js.map
+exports.BaseRouter = BaseRouter;
+//# sourceMappingURL=BaseRouter.js.map

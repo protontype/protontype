@@ -1,16 +1,16 @@
 "use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
-}
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const JsonContentMiddleware_1 = require("./JsonContentMiddleware");
-const ProtonMiddleware_1 = require("./ProtonMiddleware");
+const BaseMiddleware_1 = require("./BaseMiddleware");
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 /**
  * @author Humberto Machado
  */
-class DefaultMiddleware extends ProtonMiddleware_1.ProtonMiddleware {
+class DefaultMiddleware extends BaseMiddleware_1.BaseMiddleware {
     configMiddlewares() {
         this.express.use(helmet_1.default());
         this.express.use(cors_1.default(this.protonApplication.getConfig().cors));

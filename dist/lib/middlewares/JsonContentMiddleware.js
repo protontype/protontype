@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const MiddlewareConfig_1 = require("./../decorators/MiddlewareConfig");
-const ProtonMiddleware_1 = require("./ProtonMiddleware");
-class JsonContentMiddleware extends ProtonMiddleware_1.ProtonMiddleware {
+const BaseMiddleware_1 = require("./BaseMiddleware");
+class JsonContentMiddleware extends BaseMiddleware_1.BaseMiddleware {
     constructor(pretty) {
         super();
         this.pretty = pretty;

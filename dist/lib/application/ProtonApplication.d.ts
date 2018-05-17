@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import Express from 'express';
 import { DBConnector } from '../database/DBConnector';
-import { ProtonMiddleware } from '../middlewares/ProtonMiddleware';
-import { ExpressRouter } from '../router/ExpressRouter';
+import { BaseMiddleware } from '../middlewares/BaseMiddleware';
+import { BaseRouter } from '../router/BaseRouter';
 import { GlobalConfig } from './ProtonConfigLoader';
 /**
  * @author Humberto Machado
@@ -52,12 +52,12 @@ export declare class ProtonApplication {
      *  Configures the Router Scope Middlewares
      */
     private configRouterMiddlewares(router);
-    private getExpressMiddlewaresList(protonMiddlewares);
+    private getExpressMiddlewaresList(BaseMiddlewares);
     /**
      * Add Router to application
      * @param router Router implementation
      */
-    addRouter(router: ExpressRouter): this;
+    addRouter(router: BaseRouter): this;
     addRouterAs(router: {
         new (...args: any[]);
     }): this;
@@ -65,7 +65,7 @@ export declare class ProtonApplication {
      * Add Global Middleware. A middleware added here, will act for all routers of the application
      * @param middleware Middleware implementation
      */
-    addMiddleware(middleware: ProtonMiddleware): this;
+    addMiddleware(middleware: BaseMiddleware): this;
     addMiddlewareAs(middleware: {
         new (...args: any[]);
     }): this;
@@ -77,7 +77,7 @@ export declare class ProtonApplication {
     /**
      * Return a list of Confugured routers
      */
-    getRouters(): ExpressRouter[];
+    getRouters(): BaseRouter[];
     /**
      * Return {@link GlobalConfig} object. Content of proton.json file
      */

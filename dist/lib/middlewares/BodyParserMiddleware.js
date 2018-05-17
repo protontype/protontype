@@ -9,9 +9,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const ProtonMiddleware_1 = require("./ProtonMiddleware");
+const BaseMiddleware_1 = require("./BaseMiddleware");
 const MiddlewareConfig_1 = require("../decorators/MiddlewareConfig");
-class BodyParserMiddleware extends ProtonMiddleware_1.ProtonMiddleware {
+class BodyParserMiddleware extends BaseMiddleware_1.BaseMiddleware {
     bodyParser(params) {
         if (params.req.body == undefined || params.req.body == null) {
             var data = '';

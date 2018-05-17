@@ -1,14 +1,14 @@
 "use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
-}
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 const express_1 = __importDefault(require("express"));
 const fs_1 = __importDefault(require("fs"));
 const https_1 = __importDefault(require("https"));
 const DBConnector_1 = require("../database/DBConnector");
-const TypeORMDBConnector_1 = require("../database/typeorm/TypeORMDBConnector");
+const DefaultDBConnector_1 = require("../database/DefaultDBConnector");
 const DefaultMiddleware_1 = require("../middlewares/DefaultMiddleware");
 const Method_1 = require("../router/Method");
 const Logger_1 = require("./Logger");
@@ -48,7 +48,7 @@ class ProtonApplication {
             return this.dbConnector.createConnection(this.config.database);
         }
         else {
-            return new TypeORMDBConnector_1.TypeORMDBConnector().createConnection(this.config.database);
+            return new DefaultDBConnector_1.DefaultDBConnector().createConnection(this.config.database);
         }
     }
     startServers() {
@@ -192,10 +192,10 @@ class ProtonApplication {
     configRouterMiddlewares(router) {
         return this.getExpressMiddlewaresList(router.getRouterMiddlewares());
     }
-    getExpressMiddlewaresList(protonMiddlewares) {
+    getExpressMiddlewaresList(BaseMiddlewares) {
         let middlewares = [];
-        if (protonMiddlewares) {
-            protonMiddlewares.forEach(middleware => {
+        if (BaseMiddlewares) {
+            BaseMiddlewares.forEach(middleware => {
                 if (middleware && middleware.middlewareFuntion) {
                     middleware.init(this);
                     middleware.configMiddlewares();

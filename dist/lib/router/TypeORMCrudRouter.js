@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const class_transformer_1 = require("class-transformer");
-const ExpressRouter_1 = require("../../router/ExpressRouter");
-const Method_1 = require("../../router/Method");
-const BodyParserMiddleware_1 = require("./../../middlewares/BodyParserMiddleware");
-const TypeORMDBConnector_1 = require("./TypeORMDBConnector");
+const ExpressRouter_1 = require("../router/ExpressRouter");
+const Method_1 = require("../router/Method");
+const BodyParserMiddleware_1 = require("../middlewares/BodyParserMiddleware");
+const TypeORMDBConnector_1 = require("../database/TypeORMDBConnector");
 /**
  * Created by Humberto Machado on 14/08/2016.
  */

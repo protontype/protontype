@@ -1,6 +1,6 @@
-import { ProtonApplication } from '../../application/ProtonApplication';
-import { ExpressRouter } from '../../router/ExpressRouter';
-import { RouterFunctionParams } from './../../decorators/RouteConfig';
+import { ProtonApplication } from '../application/ProtonApplication';
+import { ExpressRouter } from '../router/ExpressRouter';
+import { RouterFunctionParams } from '../decorators/RouteConfig';
 /**
  * Created by Humberto Machado on 14/08/2016.
  */
