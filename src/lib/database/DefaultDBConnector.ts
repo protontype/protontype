@@ -2,7 +2,7 @@ import { Connection, ConnectionOptions, createConnection } from 'typeorm';
 
 import { DBConnector, ProtonDB } from './DBConnector';
 
-export class DefaultDBConnector implements DBConnector<ConnectionOptions, Connection> {
+export class DefaultDBConnector extends DBConnector<ConnectionOptions, Connection> {
     createConnection(options?: ConnectionOptions): Promise<Connection> {
         return createConnection(options);
     }
