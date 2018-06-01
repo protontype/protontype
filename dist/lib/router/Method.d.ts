@@ -8,5 +8,5 @@ export declare enum Method {
     DELETE = 3,
     PATCH = 4,
     OPTIONS = 5,
-    HEAD = 6,
+    HEAD = 6
 }

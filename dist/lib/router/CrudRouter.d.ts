@@ -8,7 +8,7 @@ export declare class CrudRouter extends BaseRouter {
     private useAuth;
     private crudModel;
     init(protonApplication: ProtonApplication): void;
-    private addRoute(endpoint, method, routeFunction, useAuth);
+    private addRoute;
     findAll(params: RouterFunctionParams): void;
     create(params: RouterFunctionParams): void;
     findOne(params: RouterFunctionParams): void;

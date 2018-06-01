@@ -25,41 +25,41 @@ export declare class ProtonApplication {
      */
     start(): Promise<ProtonApplication>;
     connectDB(): Promise<any>;
-    private startServers();
-    private startServer(port, useHttps);
-    private loadConfig(config?);
+    private startServers;
+    private startServer;
+    private loadConfig;
     /**
      * Configure global Middlewares. Application scope
      */
-    private configMiddlewares();
+    private configMiddlewares;
     /**
      * Initialize all configured routes annotated with @Route
      */
-    private configureRoutes();
-    private createRoutesByMethod(routeConfig, router, routerMiddlewares);
-    private createRouterFunctionParams(req, res, app);
-    private createMiddlewareFunctionParams(req, res, next, app);
+    private configureRoutes;
+    private createRoutesByMethod;
+    private createRouterFunctionParams;
+    private createMiddlewareFunctionParams;
     withDBConnector(dbConnector: DBConnector<any, any>): this;
     withDBConnectorAs(dbConnector: {
-        new (...args: any[]);
+        new (...args: any[]): any;
     }): this;
     withConfig(config: any): this;
     /**
      * Configures the Route Scope Middlewares
      */
-    private configRouteMiddlewares(config);
+    private configRouteMiddlewares;
     /**
      *  Configures the Router Scope Middlewares
      */
-    private configRouterMiddlewares(router);
-    private getExpressMiddlewaresList(BaseMiddlewares);
+    private configRouterMiddlewares;
+    private getExpressMiddlewaresList;
     /**
      * Add Router to application
      * @param router Router implementation
      */
     addRouter(router: BaseRouter): this;
     addRouterAs(router: {
-        new (...args: any[]);
+        new (...args: any[]): any;
     }): this;
     /**
      * Add Global Middleware. A middleware added here, will act for all routers of the application
@@ -67,7 +67,7 @@ export declare class ProtonApplication {
      */
     addMiddleware(middleware: BaseMiddleware): this;
     addMiddlewareAs(middleware: {
-        new (...args: any[]);
+        new (...args: any[]): any;
     }): this;
     /**
      * Return a express instance
