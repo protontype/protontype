@@ -98,6 +98,12 @@ export class TasksRouter extends BaseRouter {
 }
 ```
 
+## Database manipulation
+```typescript
+let tasksRepository = TypeORMDB.getBD().getRepository(TasksModel);
+let tasks = await tasksRepository.find();
+``` 
+
 ## Starting application
 
 ```typescript

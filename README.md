@@ -100,6 +100,12 @@ export class TasksRouter extends BaseRouter {
 }
 ```
 
+## Acessando o banco de dados
+```typescript
+let tasksRepository = TypeORMDB.getBD().getRepository(TasksModel);
+let tasks = await tasksRepository.find();
+``` 
+
 ## Iniciando a aplicação
 
 ```typescript
