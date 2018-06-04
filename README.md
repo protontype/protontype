@@ -1,4 +1,5 @@
 
+[Português](README.md) / [English](README_en.md)
 # ProtonType 
 
 <div align="center">
@@ -19,7 +20,7 @@
 
 Um simples web framework feito em TypeScript.
 
-O ProtonType tem como objetivo tornar simples e agradável o desenvolvimento de APIs REST e criação de modelos de banco de dados usando [TypeORM](http://typeorm.io/#/) por padrão. 
+O ProtonType tem como objetivo tornar simples e agradável o desenvolvimento de APIs REST.
 
 ## Documentação
 - [Documentação completa](https://protontype.github.io/)
@@ -30,7 +31,7 @@ npm install protontype --save
 ```
  
 ## Models
-Usa [TypeORM](http://typeorm.io/#/) por padrão para acesso a banco de dados. Mas pode ser usado qualquer framework.
+Usa [TypeORM](http://typeorm.io/#/) por padrão para manipulação de banco de dados. Mas pode ser usado qualquer framework.
 
 ```typescript
 @Entity()
@@ -59,7 +60,7 @@ export class TasksMiddleware extends BaseMiddleware {
 ```
 
 ## Router
-Rotas básicas de CRUD já implementadas nos CrudRouters
+Rotas básicas de CRUD já implementadas nos ```CrudRouter```
 
 ```typescript
  @RouterClass({
