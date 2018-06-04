@@ -1,4 +1,4 @@
-[Português](README.md) / [English](README_en.md)
+[Português](README.md) / **English**
 # ProtonType 
 
 <div align="center">

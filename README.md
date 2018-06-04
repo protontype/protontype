@@ -1,5 +1,5 @@
 
-[Português](README.md) / [English](README_en.md)
+**Português** / [English](README_en.md)
 # ProtonType 
 
 <div align="center">
