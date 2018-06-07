@@ -19,7 +19,7 @@
 
 A simple framework made with TypeScript.
 
-The Protontype have objective make simple APIs REST development.
+The Protontype aims make APIs REST development easy.
 
 ## Documentation
 - [Full documentation](https://protontype.github.io/)
