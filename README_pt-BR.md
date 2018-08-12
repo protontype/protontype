@@ -1,4 +1,5 @@
-[Português](README.md) / **English**
+
+**Português** / [English](README_en.md)
 # ProtonType 
 
 <div align="center">
@@ -17,20 +18,20 @@
   <br>
 </div>
 
-A simple framework made with TypeScript.
+Um simples web framework feito em TypeScript.
 
-The Protontype aims make APIs REST development easy.
+Construa suas APIs NodeJs com Classes, Metodos, Annotations, ORM ...
 
-## Documentation
-- [Full documentation](https://protontype.github.io/)
+## Documentação
+- [Documentação completa](https://protontype.github.io/)
 
-## Instalation
+## Instalação
 ```bash
 npm install protontype --save
 ```
  
 ## Models
-Uses [TypeORM](http://typeorm.io/#/) by default database manipulation. But any framework can be used.
+Usa [TypeORM](http://typeorm.io/#/) por padrão para manipulação de banco de dados. Mas pode ser usado qualquer framework.
 
 ```typescript
 @Entity()
@@ -46,7 +47,7 @@ export class TasksModel {
 }
 ```
 ## Middlewares
-Supports middlewares implementation
+Suporta implementação de middlewares
 
 ```typescript
 export class TasksMiddleware extends BaseMiddleware {
@@ -59,7 +60,7 @@ export class TasksMiddleware extends BaseMiddleware {
 ```
 
 ## Router
-CRUD basic routes already implemented in ```CrudRouter```
+Rotas básicas de CRUD já implementadas nos ```CrudRouter```
 
 ```typescript
  @RouterClass({
@@ -69,17 +70,18 @@ CRUD basic routes already implemented in ```CrudRouter```
 })
 export class TasksRouter extends CrudRouter {
     /*
-    GET / - Lists all records
-    POST / - Creates a records
-    GET /:id - Queries a records
-    PUT /:id - Updates a records
-    DELETE /:id - Removes a records
+    GET / - Lista todos registros
+    POST / - Cria um registro
+    GET /:id - Consulta um registro
+    PUT /:id - Atualiza um registro
+    DELETE /:id - Remove um registro
     */
 
-    //New custom routes ....
+    //Novas rotas customizadas ....
 }
 ```
-Or can implements custom routes
+
+Ou pode implementar rotas customizadas
 ```typescript
  @RouterClass({
     baseUrl: "/tasks",
@@ -98,13 +100,13 @@ export class TasksRouter extends BaseRouter {
 }
 ```
 
-## Database manipulation
+## Acessando o banco de dados
 ```typescript
 let tasksRepository = TypeORMDB.getBD().getRepository(TasksModel);
 let tasks = await tasksRepository.find();
 ``` 
 
-## Starting application
+## Iniciando a aplicação
 
 ```typescript
 new ProtonApplication()
@@ -113,12 +115,12 @@ new ProtonApplication()
     .start();
 ```
 
-## Examples
-- [Basic example](https://github.com/protontype/protontype-sample)
+## Exemplos
+- [Exemplo básico](https://github.com/protontype/protontype-sample)
 
-- [Sequelize module example](https://github.com/protontype/protontype-sequelize-sample)
+- [Exemplo com o módulo do Sequelize](https://github.com/protontype/protontype-sequelize-sample)
 
-## Development version
+## Versão de desenvolvimento
 ```bash
 npm install protontype@dev --save
 ```
