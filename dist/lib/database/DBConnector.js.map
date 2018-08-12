@@ -1,1 +1,1 @@
-{"version":3,"file":"DBConnector.js","sourceRoot":"","sources":["../../../src/lib/database/DBConnector.ts"],"names":[],"mappings":";;AAAA;CAEC;AAFD,kCAEC;AAED;IAEW,MAAM,CAAC,KAAK;QACf,OAAU,IAAI,CAAC,YAAY,CAAC;IAChC,CAAC;CACJ;AALD,4BAKC"}
+{"version":3,"file":"DBConnector.js","sourceRoot":"","sources":["../../../src/lib/database/DBConnector.ts"],"names":[],"mappings":";;AAAA,MAAsB,WAAW;CAEhC;AAFD,kCAEC;AAED,MAAa,QAAQ;IAEV,MAAM,CAAC,KAAK;QACf,OAAU,IAAI,CAAC,YAAY,CAAC;IAChC,CAAC;CACJ;AALD,4BAKC"}
