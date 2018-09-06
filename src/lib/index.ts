@@ -1,5 +1,6 @@
 export * from "./application/ProtonConfigLoader";
 export * from "./application/ProtonApplication";
+export * from "./application/Logger";
 
 export * from "./database/DBConnector";
 export * from "./database/DefaultDBConnector";

@@ -5,6 +5,7 @@ function __export(m) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./application/ProtonConfigLoader"));
 __export(require("./application/ProtonApplication"));
+__export(require("./application/Logger"));
 __export(require("./database/DBConnector"));
 __export(require("./database/DefaultDBConnector"));
 __export(require("./decorators/RouteConfig"));

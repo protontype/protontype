@@ -1,6 +1,6 @@
 {
   "name": "protontype",
-  "version": "2.4.0",
+  "version": "2.4.1-dev1809061112",
   "description": "A simple REST framework make in TypeScript",
   "main": "dist/lib/index.js",
   "typings": "dist/lib/index.d.ts",
@@ -56,7 +56,7 @@
     "supertest": "^3.0.0",
     "touch-cli": "0.0.1",
     "typedoc": "^0.5.10",
-    "typescript": "^3.0.1"
+    "typescript": "^3.0.3"
   },
   "nyc": {
     "exclude": [
